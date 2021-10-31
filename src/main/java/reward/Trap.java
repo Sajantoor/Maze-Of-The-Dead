@@ -3,17 +3,17 @@ package main.java.reward;
 import main.java.utilities.Position;
 
 public class Trap {
-    private int trapType;
+    private TrapType trapType;
 
-    public Trap(Position position, int points, int trapType) {
+    public Trap(Position position, int points, TrapType trapType) {
         // TODO: Implement me!
     }
 
-    public int getTrapType() {
+    public TrapType getTrapType() {
         return trapType;
     }
 
-    public void setTrapType(int trapType) {
+    public void setTrapType(TrapType trapType) {
         this.trapType = trapType;
     }
 }

@@ -4,17 +4,18 @@ import main.java.utilities.Position;
 
 public class Cell {
     private Position position;
-    private int cellType;
+    private CellType cellType;
 
-    public Cell(Position position, int cellType) {
-        // TODO: Implement me!
+    public Cell(Position position, CellType cellType) {
+        this.position = position;
+        this.cellType = cellType;
     }
 
-    public int getCellType() {
+    public CellType getCellType() {
         return cellType;
     }
 
-    public void setCellType(int cellType) {
+    public void setCellType(CellType cellType) {
         this.cellType = cellType;
     }
 
@@ -27,6 +28,6 @@ public class Cell {
     }
 
     public void setPosition(int x, int y) {
-        // TODO: Implement me!
+        position = new Position(x,y);
     }
 }

@@ -1,6 +1,6 @@
 package main.java.character;
 
-import main.java.utilities.Position;
+import main.java.utilities.*;
 
 public class CharacterModel {
     private Position position;
@@ -17,7 +17,7 @@ public class CharacterModel {
         // TODO: Implement me!
     }
 
-    public void Move(int direction) {
+    public void move(Movement direction) {
         // TODO: Implement me!
     }
 }
