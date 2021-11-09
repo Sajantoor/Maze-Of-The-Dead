@@ -23,9 +23,9 @@
 hs_err_pid*
 
 # Editor specific files
-/vscode
-/idea
-/eclipse
+/.vscode
+/.idea
+/.eclipse
 
 # Mac
 .DS_Store
@@ -44,3 +44,11 @@ buildNumber.properties
 .classpath
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
+
+# Some generated files
+*.iml
+*.ipr
+*.iws
+*.iws.bak
+*.core.prefs    
+*.resources.prefs
