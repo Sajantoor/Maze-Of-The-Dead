@@ -1,6 +1,6 @@
-package main.java.reward;
+package reward;
 
-import main.java.utilities.Position;
+import utilities.Position;
 
 public class Reward {
     private Position position;

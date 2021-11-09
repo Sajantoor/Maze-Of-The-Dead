@@ -1,7 +1,7 @@
-package main.java.game;
+package game;
 
-import main.java.cell.Cell;
-import main.java.utilities.Position;
+import cell.Cell;
+import utilities.Position;
 
 public class Maze {
     private Cell[][] maze;

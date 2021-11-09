@@ -1,4 +1,4 @@
-package main.java.leaderboard;
+package leaderboard;
 
 public class Leaderboard {
     private PlayerScore[] playerScores;

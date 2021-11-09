@@ -1,6 +1,6 @@
-package main.java.character;
+package character;
 
-import main.java.utilities.Position;
+import utilities.Position;
 
 public class Player extends CharacterModel {
     private int score;
@@ -9,7 +9,7 @@ public class Player extends CharacterModel {
         // TODO: Implement me!
     }
 
-    public Player getInstance() {
+    public static Player getInstance() {
         // TODO: Implement me!
         return null;
     }

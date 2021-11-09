@@ -1,12 +1,13 @@
-package main.java.game;
+package game;
 
 import java.util.ArrayList;
 import java.util.Timer;
 
-import main.java.character.Player;
-import main.java.character.CharacterModel;
-import main.java.reward.Reward;
-import main.java.reward.Trap;
+import character.Player;
+import character.CharacterModel;
+import reward.Reward;
+import reward.Trap;
+import utilities.Constants;
 
 public class GameController {
     private Maze maze;

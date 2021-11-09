@@ -1,6 +1,6 @@
-package main.java.character;
+package character;
 
-import main.java.utilities.*;
+import utilities.*;
 
 public class CharacterModel {
     private Position position;

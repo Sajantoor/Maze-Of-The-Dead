@@ -1,4 +1,4 @@
-package main.java.utilities;
+package utilities;
 
 public class Position {
     private int x;

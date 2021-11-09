@@ -1,6 +1,6 @@
-package main.java.cell;
+package cell;
 
-import main.java.utilities.Position;
+import utilities.Position;
 
 public class Cell {
     private Position position;
@@ -28,6 +28,6 @@ public class Cell {
     }
 
     public void setPosition(int x, int y) {
-        position = new Position(x,y);
+        position = new Position(x, y);
     }
 }
