@@ -8,6 +8,7 @@ public class Constants {
     // Player related
     public static final int playerStartX = 0;
     public static final int playerStartY = 0;
+    public static final int playerStartScore = 0;
     // Controls related
     public static final String playerMoveUp = "W";
     public static final String playerMoveDown = "S";

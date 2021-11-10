@@ -3,7 +3,6 @@ package game;
 import cell.Cell;
 import utilities.Position;
 import cell.CellType;
-import utilities.Position;
 
 import java.util.ArrayList;
 

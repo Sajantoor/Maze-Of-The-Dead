@@ -80,13 +80,11 @@ public class GameController {
         if (isRunning && !isPaused) {
             switch (playerInput) {
             case Constants.playerMoveUp:
-                // TODO: Refactor forward and up to be the same name
-                movePlayer(Movement.FORWARD);
+                movePlayer(Movement.UP);
                 break;
 
             case Constants.playerMoveDown:
-                // TODO: Same with backwards and down
-                movePlayer(Movement.BACKWARD);
+                movePlayer(Movement.DOWN);
                 break;
 
             case Constants.playerMoveLeft:
@@ -164,8 +162,6 @@ public class GameController {
 
     private void createPlayer() {
         this.player = Player.getInstance();
-        Position pos = new Position(Constants.playerStartX, Constants.playerStartY);
-        player.setPosition(pos);
     }
 
     private void winGame() {

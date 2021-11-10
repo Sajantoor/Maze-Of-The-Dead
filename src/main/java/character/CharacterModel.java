@@ -55,10 +55,10 @@ public class CharacterModel {
 
     public void move(Movement direction) {
         switch (direction) {
-        case FORWARD:
+        case UP:
             position.setY(position.getY() - 1);
             break;
-        case BACKWARD:
+        case DOWN:
             position.setY(position.getY() + 1);
             break;
         case LEFT:
@@ -76,7 +76,7 @@ public class CharacterModel {
      * @see Position
      */
     public void moveForward() {
-        this.move(Movement.FORWARD);
+        this.move(Movement.UP);
     }
 
     /**
@@ -85,7 +85,7 @@ public class CharacterModel {
      * @see Position
      */
     public void moveBackward() {
-        this.move(Movement.BACKWARD);
+        this.move(Movement.DOWN);
     }
 
     /**
