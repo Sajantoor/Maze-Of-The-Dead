@@ -4,28 +4,36 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import character.Player;
+import utilities.Movement;
 import character.CharacterModel;
 import reward.Reward;
 import reward.Trap;
 import utilities.Constants;
+import utilities.Position;
 
 public class GameController {
+    private static GameController instance = null;
     private Maze maze;
     private Player player;
     private ArrayList<CharacterModel> enemies;
-    private ArrayList<Reward> reward;
-    private ArrayList<Trap> trap;
+    private ArrayList<Reward> rewards;
+    private ArrayList<Trap> traps;
     private Timer timer;
     private boolean isRunning;
     private boolean isPaused;
 
     private GameController() {
-        // TODO: Implement me!
+        instance = this;
+        this.maze = new Maze(Constants.mazeHeight, Constants.mazeWidth);
+        this.player = null;
+        this.timer = new Timer();
     }
 
     public static GameController getInstance() {
-        // TODO: Implement me!
-        return null;
+        if (GameController.instance == null)
+            new GameController();
+
+        return GameController.instance;
     }
 
     public void setRunning(boolean isRunning) {
@@ -33,19 +41,19 @@ public class GameController {
     }
 
     public void startGame() {
-        // TODO: Implement me!
+        setRunning(true);
     }
 
     public void endGame() {
-        // TODO: Implement me!
+        setRunning(false);
     }
 
     public void pauseGame() {
-        // TODO: Implement me!
+        this.isPaused = true;
     }
 
     public void unpauseGame() {
-        // TODO: Implement me!
+        this.isPaused = false;
     }
 
     public void updateGame(String playerInput) {
@@ -53,43 +61,69 @@ public class GameController {
     }
 
     public void addEnemy(CharacterModel enemy) {
-        // TODO: Implement me!
+        if (enemy == null)
+            return;
+
+        enemies.add(enemy);
     }
 
     public void removeEnemy(CharacterModel enemy) {
-        // TODO: Implement me!
+        if (enemy == null)
+            return;
+
+        enemies.remove(enemy);
     }
 
     public void addReward(Reward reward) {
-        // TODO: Implement me!
+        if (reward == null)
+            return;
+
+        rewards.add(reward);
     }
 
     public void removeReward(Reward reward) {
-        // TODO: Implement me!
+        if (reward == null)
+            return;
+
+        rewards.remove(reward);
     }
 
     public void addTrap(Trap trap) {
-        // TODO: Implement me!
+        if (trap == null)
+            return;
+
+        traps.add(trap);
     }
 
     public void removeTrap(Trap trap) {
-        // TODO: Implement me!
+        if (trap == null)
+            return;
+
+        traps.remove(trap);
     }
 
     private void clearEnemies() {
-        // TODO: Implement me!
+        enemies.clear();
     }
 
     private void clearTraps() {
-        // TODO: Implement me!
+        traps.clear();
     }
 
     private void clearRewards() {
-        // TODO: Implement me!
+        rewards.clear();
+    }
+
+    private void clearAll() {
+        clearEnemies();
+        clearTraps();
+        clearRewards();
     }
 
     private void createPlayer() {
-        // TODO: Implement me!
+        this.player = Player.getInstance();
+        Position pos = new Position(Constants.playerStartX, Constants.playerStartY);
+        player.setPosition(pos);
     }
 
     private void winGame() {
