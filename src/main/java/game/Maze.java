@@ -16,8 +16,8 @@ public class Maze {
     private Cell[][] maze;
 
     /**
-     * Represents a randomly generated maze that the game will be played on.
-     * This maze will be composed of walls, paths, a start point and an end point.
+     * Represents a randomly generated maze that the game will be played on. This
+     * maze will be composed of walls, paths, a start point and an end point.
      *
      * @param width  the absolute width of the maze
      * @param height the absolute height of the maze
@@ -37,6 +37,11 @@ public class Maze {
      */
     public Cell getCell(int x, int y) {
         return maze[x][y];
+    }
+
+    // TODO: write java doc lmao
+    public Cell getCell(Position position) {
+        return maze[position.getX()][position.getY()];
     }
 
     /**
@@ -64,7 +69,8 @@ public class Maze {
     }
 
     /**
-     * Creates a new maze with walls and start point at the top left corner and end point at bottom right corner
+     * Creates a new maze with walls and start point at the top left corner and end
+     * point at bottom right corner
      *
      * @param width  the absolute width of the maze
      * @param height the absolute height of the maze
@@ -85,8 +91,8 @@ public class Maze {
     }
 
     /**
-     * Creates rooms at random positions, with random heights and widths.
-     * Rooms are large areas with no walls to give the player more freedom to move
+     * Creates rooms at random positions, with random heights and widths. Rooms are
+     * large areas with no walls to give the player more freedom to move
      *
      * @param numRooms the number of rooms that will be generated in the maze
      */

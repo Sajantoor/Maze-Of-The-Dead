@@ -8,7 +8,9 @@ import utilities.Movement;
 import character.CharacterModel;
 import reward.Reward;
 import reward.Trap;
+import cell.Cell;
 import utilities.Constants;
+import utilities.Functions;
 import utilities.Position;
 
 public class GameController {
@@ -24,7 +26,7 @@ public class GameController {
 
     private GameController() {
         instance = this;
-        this.maze = new Maze(Constants.mazeHeight, Constants.mazeWidth);
+        this.maze = new Maze(Constants.mazeHeight, Constants.mazeWidth, Constants.mazeRooms);
         this.player = null;
         this.timer = new Timer();
     }
@@ -56,8 +58,48 @@ public class GameController {
         this.isPaused = false;
     }
 
+    public void movePlayer(Movement movement) {
+        // check if there is a wall in the way that would stop movement
+        Position position = this.player.getPosition();
+
+        // update the player's position based on the movement
+        Position nextPosition = Functions.updatePosition(position, movement);
+
+        // check if the next position is a valid position, ie is there a wall
+        Cell cell = this.maze.getCell(nextPosition);
+
+        // if there is a wall, then the player cannot move
+        if (cell.isWall()) {
+            return;
+        }
+
+        this.player.move(movement);
+    }
+
     public void updateGame(String playerInput) {
-        // TODO: Implement me!
+        if (isRunning && !isPaused) {
+            switch (playerInput) {
+            case Constants.playerMoveUp:
+                // TODO: Refactor forward and up to be the same name
+                movePlayer(Movement.FORWARD);
+                break;
+
+            case Constants.playerMoveDown:
+                // TODO: Same with backwards and down
+                movePlayer(Movement.BACKWARD);
+                break;
+
+            case Constants.playerMoveLeft:
+                movePlayer(Movement.LEFT);
+                break;
+
+            case Constants.playerMoveRight:
+                movePlayer(Movement.RIGHT);
+                break;
+            default:
+                break;
+            }
+        }
     }
 
     public void addEnemy(CharacterModel enemy) {
