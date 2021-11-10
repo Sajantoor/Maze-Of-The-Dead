@@ -1,7 +1,27 @@
 package utilities;
 
+/**
+ * Movement types for characterModel and player movement
+ * 
+ * @author Sajan Toor
+ */
 public enum Movement {
-    FORWARD(0), BACKWARD(1), LEFT(2), RIGHT(3);
+    /**
+     * Up Direction
+     */
+    UP(0),
+    /**
+     * Down Direction
+     */
+    DOWN(1),
+    /**
+     * Left Direction
+     */
+    LEFT(2),
+    /**
+     * Right Direction
+     */
+    RIGHT(3);
 
     private int value;
 

@@ -45,6 +45,7 @@ public class Cell {
     /**
      * 
      * @return True if the cell is a wall, False otherwise
+     * @see CellType
      */
     public boolean isWall() {
         return cellType == CellType.WALL;

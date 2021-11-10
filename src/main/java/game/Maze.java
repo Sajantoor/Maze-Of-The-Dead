@@ -38,9 +38,16 @@ public class Maze {
         return maze[x][y];
     }
 
-    // TODO: write java doc lmao
+    /***
+     * Returns a cell at the position object
+     * 
+     * @param position the position of the cell in the maze
+     * @return the cell of the maze at the position object
+     * @see Cell
+     * @see Position
+     */
     public Cell getCell(Position position) {
-        return maze[position.getX()][position.getY()];
+        return getCell(position.getX(), position.getY());
     }
 
     /**

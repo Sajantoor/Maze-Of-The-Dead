@@ -58,6 +58,12 @@ public class GameController {
         this.isPaused = false;
     }
 
+    /**
+     * Move the player in the direction specified by the movement. Checks if there
+     * is a collision with a wall and acts accordingly.
+     * 
+     * @param movement the movement to be performed
+     */
     public void movePlayer(Movement movement) {
         // check if there is a wall in the way that would stop movement
         Position position = this.player.getPosition();
