@@ -49,4 +49,13 @@ public class Player extends CharacterModel {
     public void setScore(int score) {
         this.score = score;
     }
+
+    /**
+     * Updates the score of the player by adding the argument to score
+     * 
+     * @param score Score to be added to the player's score
+     */
+    public void updateScore(int score) {
+        this.score += score;
+    }
 }

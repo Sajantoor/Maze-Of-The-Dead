@@ -48,7 +48,7 @@ public class Cell {
      * @see CellType
      */
     public boolean isWall() {
-        return cellType == CellType.WALL;
+        return getCellType() == CellType.WALL;
     }
 
     /**
@@ -58,6 +58,13 @@ public class Cell {
      */
     public void setCellType(CellType cellType) {
         this.cellType = cellType;
+    }
+
+    /**
+     * Changes the cell type to "empty" aka CellType.PATH
+     */
+    public void setEmpty() {
+        setCellType(CellType.PATH);
     }
 
     /**

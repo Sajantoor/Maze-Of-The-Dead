@@ -59,6 +59,49 @@ public class GameController {
     }
 
     /**
+     * Game loop that runs every 'tick' Involves player input, collidables and
+     * checking if the game is over
+     * 
+     * @param playerInput
+     */
+    public void updateGame(String playerInput) {
+        if (isRunning && !isPaused) {
+            updatePlayerInput(playerInput);
+            checkColliables();
+            checkScore();
+        }
+    }
+
+    /**
+     * Updates the game based on player input and updates the player position
+     * 
+     * @param playerInput String of player input
+     */
+    private void updatePlayerInput(String playerInput) {
+
+        // TODO: Not done yet
+        switch (playerInput) {
+        case Constants.playerMoveUp:
+            movePlayer(Movement.UP);
+            break;
+
+        case Constants.playerMoveDown:
+            movePlayer(Movement.DOWN);
+            break;
+
+        case Constants.playerMoveLeft:
+            movePlayer(Movement.LEFT);
+            break;
+
+        case Constants.playerMoveRight:
+            movePlayer(Movement.RIGHT);
+            break;
+        default:
+            break;
+        }
+    }
+
+    /**
      * Move the player in the direction specified by the movement. Checks if there
      * is a collision with a wall and acts accordingly.
      * 
@@ -82,27 +125,106 @@ public class GameController {
         this.player.move(movement);
     }
 
-    public void updateGame(String playerInput) {
-        if (isRunning && !isPaused) {
-            switch (playerInput) {
-            case Constants.playerMoveUp:
-                movePlayer(Movement.UP);
-                break;
+    /**
+     * Checks if the player has collided with any collidables and acts accordingly.
+     * For example, coliding with a reward increases the player's score and removes
+     * the reward. Coliding with a zombie, makes the player lose the game.
+     */
+    private void checkColliables() {
+        Position position = this.player.getPosition();
+        Cell cell = this.maze.getCell(position);
+        // if the position has a reward, the player picks it up and adds to score
+        switch (cell.getCellType()) {
+        case REWARD:
+            Reward reward = getReward(position);
 
-            case Constants.playerMoveDown:
-                movePlayer(Movement.DOWN);
-                break;
-
-            case Constants.playerMoveLeft:
-                movePlayer(Movement.LEFT);
-                break;
-
-            case Constants.playerMoveRight:
-                movePlayer(Movement.RIGHT);
-                break;
-            default:
-                break;
+            if (reward != null) {
+                // TODO: Refactor maybe this is repeated twice
+                this.player.updateScore(reward.getPoints());
+                cell.setEmpty();
+                removeReward(reward);
             }
+            break;
+        case TRAP:
+            Trap trap = getTrap(position);
+
+            if (trap != null) {
+                this.player.updateScore(-trap.getPoints());
+                cell.setEmpty();
+                removeTrap(trap);
+            }
+            break;
+        default:
+            break;
+        }
+
+        // if the next position has an enemy, then the player loses the game
+        CharacterModel enemy = getEnemy(position);
+
+        if (enemy != null) {
+            loseGame();
+        }
+    }
+
+    /**
+     * Checks if there is a reward at a position and returns it
+     * 
+     * @return the reward at the position, else null
+     * @see Reward
+     * @see Position
+     */
+    private Reward getReward(Position position) {
+        for (Reward reward : rewards) {
+            if (reward.getPosition().equals(position)) {
+                rewards.remove(reward);
+                return reward;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Checks if there is a trap at a position and returns it
+     * 
+     * @return the trap at the position, else null
+     * @see Trap
+     * @see Position
+     */
+    private Trap getTrap(Position position) {
+        for (Trap trap : traps) {
+            if (trap.getPosition().equals(position)) {
+                traps.remove(trap);
+                return trap;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Checks if there is a enemy at a position and returns it
+     * 
+     * @return the enemy at the position, else null
+     * @see CharacterModel
+     * @see Position
+     */
+    private CharacterModel getEnemy(Position position) {
+        for (CharacterModel enemy : enemies) {
+            if (enemy.getPosition().equals(position)) {
+                return enemy;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Checks if the score is below zero and if so, the game is lost
+     */
+    private void checkScore() {
+        if (this.player.getScore() < 0) {
+            loseGame();
         }
     }
 
