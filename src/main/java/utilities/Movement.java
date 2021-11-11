@@ -3,7 +3,6 @@ package utilities;
 /**
  * Movement types for characterModel and player movement
  * 
- * @author Sajan Toor
  */
 public enum Movement {
     /**

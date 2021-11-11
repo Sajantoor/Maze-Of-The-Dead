@@ -16,7 +16,6 @@ import utilities.Position;
 public class GameController {
     private static GameController instance = null;
     private Maze maze;
-    private Player player;
     private ArrayList<CharacterModel> enemies;
     private ArrayList<Reward> rewards;
     private ArrayList<Trap> traps;
@@ -24,19 +23,33 @@ public class GameController {
     private boolean isRunning;
     private boolean isPaused;
 
+    // #region Constructor and Singleton
+    // =========================================================================
+
     private GameController() {
         instance = this;
         this.maze = new Maze(Constants.mazeHeight, Constants.mazeWidth, Constants.mazeRooms);
-        this.player = null;
         this.timer = new Timer();
     }
 
+    /**
+     * GameController follows the singleton design pattern. This method returns the
+     * instance of the GameController.
+     * 
+     * @return Instance of GameController
+     */
     public static GameController getInstance() {
         if (GameController.instance == null)
             new GameController();
 
         return GameController.instance;
     }
+
+    // =========================================================================
+    // #endregion
+
+    // #region Game state methods
+    // =========================================================================
 
     public void setRunning(boolean isRunning) {
         this.isRunning = isRunning;
@@ -58,46 +71,85 @@ public class GameController {
         this.isPaused = false;
     }
 
+    private void winGame() {
+        // TODO: Implement me!
+    }
+
+    private void loseGame() {
+        // TODO: Implement me!
+    }
+
+    // =========================================================================
+    // #endregion
+
+    /***************************************************************************
+     * 
+     * Game Logic Methods
+     * 
+     **************************************************************************/
+
+    // #region Game loop and miscellaneous game logic
+    // ==========================================================================
+
     /**
      * Game loop that runs every 'tick' Involves player input, collidables and
      * checking if the game is over
      * 
-     * @param playerInput
+     * @param playerInput String of player input
      */
     public void updateGame(String playerInput) {
         if (isRunning && !isPaused) {
             updatePlayerInput(playerInput);
-            checkColliables();
-            checkScore();
+            checkCollidables();
         }
     }
 
+    /**
+     * Checks if the score is below zero and if so, the game is lost Invokes the
+     * lose game method.
+     */
+    private void checkScore() {
+        if (Player.getInstance().getScore() < 0) {
+            loseGame();
+        }
+    }
+
+    private int generateEnemyMovement() {
+        // TODO: Implement me!
+        return 0;
+    }
+
+    // =========================================================================
+    // #endregion
+
+    // #region Player input
+    // =========================================================================
     /**
      * Updates the game based on player input and updates the player position
      * 
      * @param playerInput String of player input
      */
     private void updatePlayerInput(String playerInput) {
+        // TODO: Not done yet, need input for pausing, etc.
 
-        // TODO: Not done yet
         switch (playerInput) {
-        case Constants.playerMoveUp:
-            movePlayer(Movement.UP);
-            break;
+            case Constants.playerMoveUp:
+                movePlayer(Movement.UP);
+                break;
 
-        case Constants.playerMoveDown:
-            movePlayer(Movement.DOWN);
-            break;
+            case Constants.playerMoveDown:
+                movePlayer(Movement.DOWN);
+                break;
 
-        case Constants.playerMoveLeft:
-            movePlayer(Movement.LEFT);
-            break;
+            case Constants.playerMoveLeft:
+                movePlayer(Movement.LEFT);
+                break;
 
-        case Constants.playerMoveRight:
-            movePlayer(Movement.RIGHT);
-            break;
-        default:
-            break;
+            case Constants.playerMoveRight:
+                movePlayer(Movement.RIGHT);
+                break;
+            default:
+                break;
         }
     }
 
@@ -109,20 +161,61 @@ public class GameController {
      */
     public void movePlayer(Movement movement) {
         // check if there is a wall in the way that would stop movement
-        Position position = this.player.getPosition();
+        Player player = Player.getInstance();
+        Position position = player.getPosition();
 
         // update the player's position based on the movement
         Position nextPosition = Functions.updatePosition(position, movement);
 
         // check if the next position is a valid position, ie is there a wall
-        Cell cell = this.maze.getCell(nextPosition);
+        Cell cell = maze.getCell(nextPosition);
 
-        // if there is a wall, then the player cannot move
-        if (cell.isWall()) {
-            return;
+        // if there is not a wall, the player can move
+        if (!cell.isWall()) {
+            player.move(movement);
+        }
+    }
+    // =========================================================================
+    // #endregion
+
+    // #region Collisions
+    // =========================================================================
+    /**
+     * Checks if the player has colided with a reward or a trap. If so, the
+     * reward/trap is removed from the game and the player's score changes
+     * accordingly.
+     * 
+     * @param object this is either a reward or a trap, casted according to cell
+     *               type
+     * @param cell   this is the cell the player has collided with
+     */
+    private void collided(Object object, Cell cell) {
+        Player player = Player.getInstance();
+        int scoreUpdate;
+
+        switch (cell.getCellType()) {
+            case REWARD:
+                Reward reward = (Reward) object;
+                scoreUpdate = reward.getPoints();
+                removeReward(reward);
+                break;
+            case TRAP:
+                Trap trap = (Trap) object;
+                scoreUpdate = ((Trap) object).getPoints();
+                removeTrap(trap);
+                break;
+            default:
+                // just return here if there is no reward or trap
+                return;
         }
 
-        this.player.move(movement);
+        player.updateScore(scoreUpdate);
+        cell.setEmpty();
+
+        // If the score is decreasing, then check if the player has lost
+        if (scoreUpdate < 0) {
+            checkScore();
+        }
     }
 
     /**
@@ -130,33 +223,10 @@ public class GameController {
      * For example, coliding with a reward increases the player's score and removes
      * the reward. Coliding with a zombie, makes the player lose the game.
      */
-    private void checkColliables() {
-        Position position = this.player.getPosition();
-        Cell cell = this.maze.getCell(position);
-        // if the position has a reward, the player picks it up and adds to score
-        switch (cell.getCellType()) {
-        case REWARD:
-            Reward reward = getReward(position);
-
-            if (reward != null) {
-                // TODO: Refactor maybe this is repeated twice
-                this.player.updateScore(reward.getPoints());
-                cell.setEmpty();
-                removeReward(reward);
-            }
-            break;
-        case TRAP:
-            Trap trap = getTrap(position);
-
-            if (trap != null) {
-                this.player.updateScore(-trap.getPoints());
-                cell.setEmpty();
-                removeTrap(trap);
-            }
-            break;
-        default:
-            break;
-        }
+    private void checkCollidables() {
+        Player player = Player.getInstance();
+        Position position = player.getPosition();
+        Cell cell = maze.getCell(position);
 
         // if the next position has an enemy, then the player loses the game
         CharacterModel enemy = getEnemy(position);
@@ -164,14 +234,43 @@ public class GameController {
         if (enemy != null) {
             loseGame();
         }
+
+        // check for rewards or traps
+        switch (cell.getCellType()) {
+            // if the position has a reward, the player picks it up and adds to score
+            case REWARD:
+                Reward reward = getReward(position);
+
+                if (reward != null) {
+                    collided(reward, cell);
+                }
+                break;
+            case TRAP:
+                Trap trap = getTrap(position);
+
+                if (trap != null) {
+                    collided(trap, cell);
+                }
+                break;
+            default:
+                break;
+        }
     }
+
+    // =========================================================================
+    // #endregion
+
+    /***************************************************************************
+     * 
+     * Adding, removing and getting entities
+     * 
+     **************************************************************************/
+    // #region Getting entities
 
     /**
      * Checks if there is a reward at a position and returns it
      * 
      * @return the reward at the position, else null
-     * @see Reward
-     * @see Position
      */
     private Reward getReward(Position position) {
         for (Reward reward : rewards) {
@@ -188,8 +287,6 @@ public class GameController {
      * Checks if there is a trap at a position and returns it
      * 
      * @return the trap at the position, else null
-     * @see Trap
-     * @see Position
      */
     private Trap getTrap(Position position) {
         for (Trap trap : traps) {
@@ -206,8 +303,6 @@ public class GameController {
      * Checks if there is a enemy at a position and returns it
      * 
      * @return the enemy at the position, else null
-     * @see CharacterModel
-     * @see Position
      */
     private CharacterModel getEnemy(Position position) {
         for (CharacterModel enemy : enemies) {
@@ -219,15 +314,11 @@ public class GameController {
         return null;
     }
 
-    /**
-     * Checks if the score is below zero and if so, the game is lost
-     */
-    private void checkScore() {
-        if (this.player.getScore() < 0) {
-            loseGame();
-        }
-    }
+    // =========================================================================
+    // #endregion
 
+    // #region Adding and removing entities
+    // =========================================================================
     public void addEnemy(CharacterModel enemy) {
         if (enemy == null)
             return;
@@ -288,20 +379,7 @@ public class GameController {
         clearRewards();
     }
 
-    private void createPlayer() {
-        this.player = Player.getInstance();
-    }
+    // =========================================================================
+    // #endregion
 
-    private void winGame() {
-        // TODO: Implement me!
-    }
-
-    private void loseGame() {
-        // TODO: Implement me!
-    }
-
-    private int generateEnemyMovement() {
-        // TODO: Implement me!
-        return 0;
-    }
 }

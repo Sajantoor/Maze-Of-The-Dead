@@ -19,7 +19,7 @@ public class Functions {
     }
 
     /**
-     * Update position based off movement
+     * Update position based off movement enum
      * 
      * @param position
      * @param movement
@@ -27,20 +27,20 @@ public class Functions {
      */
     public static Position updatePosition(Position position, Movement movement) {
         switch (movement) {
-        case UP:
-            position.setY(position.getY() - 1);
-            break;
-        case DOWN:
-            position.setY(position.getY() + 1);
-            break;
-        case LEFT:
-            position.setX(position.getX() - 1);
-            break;
-        case RIGHT:
-            position.setX(position.getX() + 1);
-            break;
-        default:
-            break;
+            case UP:
+                position.setY(position.getY() - 1);
+                break;
+            case DOWN:
+                position.setY(position.getY() + 1);
+                break;
+            case LEFT:
+                position.setX(position.getX() - 1);
+                break;
+            case RIGHT:
+                position.setX(position.getX() + 1);
+                break;
+            default:
+                break;
         }
 
         return position;
