@@ -1,7 +1,19 @@
 package reward;
-
+/**
+ * Traps that are found in the maze
+ *
+ * @author Dylan Young
+ */
 public enum TrapType {
-    BOOBYTRAP(0), TRAPFALL(1);
+    /**
+     * Booby trap trap type
+     */
+    BOOBYTRAP(0),
+    /**
+     * Trap fall trap type
+     */
+    TRAPFALL(1);
+
 
     private int value;
 
