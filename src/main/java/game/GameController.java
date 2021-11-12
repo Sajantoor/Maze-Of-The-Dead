@@ -1,6 +1,8 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.Timer;
 
 import character.Player;
@@ -101,6 +103,7 @@ public class GameController {
         if (isRunning && !isPaused) {
             updatePlayerInput(playerInput);
             checkCollidables();
+            generateEnemyMovement();
         }
     }
 
@@ -114,9 +117,83 @@ public class GameController {
         }
     }
 
-    private int generateEnemyMovement() {
-        // TODO: Implement me!
-        return 0;
+    // =========================================================================
+    // #endregion
+
+    // #region Enemy Movements
+    // =========================================================================
+
+    private void generateEnemyMovement() {
+        for (CharacterModel enemy : enemies) {
+            findNextMove(enemy);
+        }
+    }
+
+    /***
+     * Moves the enemy to the next given position closes to the player
+     * 
+     * @param enemy The enemy we want to move
+     */
+    private void findNextMove(CharacterModel enemy) {
+        Position current = enemy.getPosition();
+        // Open queue to keep track of all possible moves the enemy could move to
+        PriorityQueue<Position> openQueue = new PriorityQueue<Position>(100,
+                Comparator.comparing(position -> getDistanceFromPlayer(position)));
+
+        // add current position to open queue as well if not moving is the optimial move
+        openQueue.add(current);
+
+        // generate successors from the current based off the directions the enemy can
+        // move
+        // find the position which minimizes the distance to the player
+        // then move the enemy to that position
+        for (Movement movement : Movement.values()) {
+            Position successor = Functions.updatePosition(current, movement);
+            if (validateEnemyMove(successor)) {
+                // add it to the open queue
+                openQueue.add(successor);
+            }
+        }
+
+        // There will always be at least one position in the open queue
+        Position winner = openQueue.poll();
+        enemy.setPosition(winner);
+    }
+
+    /**
+     * Checks if the enemy can move in the given direction Checks if there is wall,
+     * trap or enemy in the way, therefore cannot move
+     * 
+     * @param movement The position the enemy wants to move to
+     * @return True if it can, false if it can't
+     */
+    private boolean validateEnemyMove(Position position) {
+        // check if there is a wall, trap or enemy in the new position
+        // if there is return false
+
+        if (maze.isWall(position))
+            return false;
+
+        if (maze.isTrap(position))
+            return false;
+
+        if (getEnemy(position) != null)
+            return false;
+
+        return true;
+    }
+
+    /**
+     * Gets the distance between the given position and the player. Calculated using
+     * Pythagoras' theorem
+     * 
+     * @param position The current position we want to calculate the distance from
+     * @return The distance between the given position and the player
+     */
+    private double getDistanceFromPlayer(Position position) {
+        Position playerPos = Player.getInstance().getPosition();
+        return Math.sqrt(
+                Math.pow(playerPos.getX() - position.getX(), 2) + Math.pow(playerPos.getY() - position.getY(), 2));
     }
 
     // =========================================================================

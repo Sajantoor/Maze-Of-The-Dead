@@ -51,6 +51,26 @@ public class Maze {
     }
 
     /**
+     * Returns whether or not the cell at position is a wall
+     * 
+     * @param position the position of the cell in the maze
+     * @return True if it is a wall, false otherwise
+     */
+    public boolean isWall(Position position) {
+        return getCell(position).isWall();
+    }
+
+    /**
+     * Returns whether or not the cell at position is a trap
+     * 
+     * @param position the position of the cell in the maze
+     * @return True if it is a trap, false otherwise
+     */
+    public boolean isTrap(Position position) {
+        return getCell(position).isTrap();
+    }
+
+    /**
      * Sets the cell type of cell at position (x, y) to a start point
      *
      * @param x the x position of the cell in the maze

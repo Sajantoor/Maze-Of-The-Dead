@@ -52,6 +52,15 @@ public class Cell {
     }
 
     /**
+     * 
+     * @return True if the cell is a trap, False otherwise
+     * @see CellType
+     */
+    public boolean isTrap() {
+        return getCellType() == CellType.TRAP;
+    }
+
+    /**
      * Changes the content of the cell
      * 
      * @param cellType
