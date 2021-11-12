@@ -45,4 +45,12 @@ public class Trap extends Reward {
     public void setTrapType(TrapType trapType) {
         this.trapType = trapType;
     }
+
+    public Position getPosition() {
+        return getPosition();
+    }
+
+    public void setPosition(Position position) {
+        setPosition(position);
+    }
 }

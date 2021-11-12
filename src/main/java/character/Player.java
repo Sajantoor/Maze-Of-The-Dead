@@ -1,5 +1,6 @@
 package character;
 
+import utilities.Constants;
 import utilities.Position;
 
 /**
@@ -9,7 +10,7 @@ import utilities.Position;
  */
 public class Player extends CharacterModel {
     private int score;
-    private static Player singlePlayerInstance = null;
+    private static Player playerInstance = null;
 
     private Player(Position position, int score) {
         super(position);
@@ -17,21 +18,18 @@ public class Player extends CharacterModel {
     }
 
     /**
-     * Returns singleton player Instance
+     * Follows singleton pattern to create a player instance. Initialized the
+     * player's position and score with default values
      *
-     * @param pos   The starting Position of the player
-     * @param score The starting Score of the player
-     * @return singleton player Instance
-     * @see Position
+     * @return player instance
      */
-    public static Player getInstance(Position pos, int score) {
-        if (singlePlayerInstance == null) {
-            singlePlayerInstance = new Player(pos, score);
-        } else {
-            singlePlayerInstance.setPosition(pos);
-            singlePlayerInstance.setScore(score);
+    public static Player getInstance() {
+        if (playerInstance == null) {
+            Position pos = new Position(Constants.playerStartX, Constants.playerStartY);
+            playerInstance = new Player(pos, Constants.playerStartScore);
         }
-        return singlePlayerInstance;
+
+        return playerInstance;
     }
 
     /**
@@ -50,5 +48,14 @@ public class Player extends CharacterModel {
      */
     public void setScore(int score) {
         this.score = score;
+    }
+
+    /**
+     * Updates the score of the player by adding the argument to score
+     * 
+     * @param score Score to be added to the player's score
+     */
+    public void updateScore(int score) {
+        this.score += score;
     }
 }
