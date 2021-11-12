@@ -1,11 +1,17 @@
 package leaderboard;
+/**
+ * Stores the player's names and corresponding scores
+ * 
+ * @author Maisha Supritee Chowdhury
+ */
 
 public class PlayerScore {
     private String name;
     private int score;
 
     public PlayerScore(String name, int score) {
-        // TODO: Implement me!
+    	 this.name = name;
+         this.score = score;
     }
 
     public String getName() {
@@ -26,7 +32,6 @@ public class PlayerScore {
 
     @Override
     public String toString() {
-        // TODO: Implement me!
-        return null;
+    	return "Player: " + name + "\n" + "Score: " + score + "\n";
     }
 }
