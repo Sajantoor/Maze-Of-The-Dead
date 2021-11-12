@@ -1,5 +1,6 @@
 package leaderboard;
-import Constants.java;
+import static utilities.Constants.playerListSize;
+import static utilities.Constants.LeaderBoard;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,10 +16,9 @@ import java.util.Scanner;
 public class Leaderboard {
     private PlayerScore[] playerScores;
     private static Leaderboard singleLeaderboardInstance = null;
-    final int size = 5;
     
     private Leaderboard() {
-    	this.playerScores[]= new PlayerScore[size];
+    	this.playerScores= new PlayerScore[playerListSize];
     }
 
     /**
@@ -48,7 +48,7 @@ public class Leaderboard {
     				}
     				else
     				{
-    					PlayerScore[] result = new PlayerScore[size];
+    					PlayerScore[] result = new PlayerScore[playerListSize];
     	    			System.arraycopy(playerScores, 0, result, 0, i);
     	    			result[i] = playerScore;
     	    			System.arraycopy(playerScores, i, result, i+1, playerScores.length-i-1);
@@ -77,7 +77,7 @@ public class Leaderboard {
 
     public void writeToFile() throws IOException{
     	//creating a file
-    	File file = new File(constants.LeaderBoard);
+    	File file = new File(LeaderBoard);
         FileWriter fileW = new FileWriter(file);
         PrintWriter printW = new PrintWriter(fileW);
         
@@ -93,7 +93,7 @@ public class Leaderboard {
 
     private void readFromFile() throws IOException{
     	 
-    	File file = new File(constants.LeaderBoard); 
+    	File file = new File(LeaderBoard);
     	Scanner fileReader = new Scanner(file);
     	while (fileReader.hasNextLine()) {
     		String data = fileReader.nextLine();
