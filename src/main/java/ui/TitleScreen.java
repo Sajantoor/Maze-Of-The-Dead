@@ -1,7 +1,11 @@
 package ui;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static ui.GameUI.addInstructionScreen;
+import static ui.GameUI.getFrame;
 
 public class TitleScreen {
     private JPanel titleScreenPanel;
@@ -10,7 +14,11 @@ public class TitleScreen {
     private JButton quitButton;
     private JButton instructionButton;
 
-    public JFrame getTitleScreen(JFrame frame) {
+    /**
+     *
+     * @return the title screen panel
+     */
+    public JPanel getTitleScreen() {
         titleScreenPanel = new JPanel();
         titleScreenPanel.setLayout(new BoxLayout(titleScreenPanel, BoxLayout.PAGE_AXIS));
         UIUtils.addSpace(titleScreenPanel, 500, 400);
@@ -24,6 +32,14 @@ public class TitleScreen {
 
         //Start Button
         startButton = new JButton("Start");
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getFrame().remove(titleScreenPanel);
+                getFrame().revalidate();
+                getFrame().repaint();
+            }
+        });
         UIUtils.buttonLayout(startButton);
         titleScreenPanel.add(startButton);
 
@@ -31,20 +47,32 @@ public class TitleScreen {
 
         //Quit button
         quitButton = new JButton("Quit");
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
         UIUtils.buttonLayout(quitButton);
         titleScreenPanel.add(quitButton);
         UIUtils.addSpace(titleScreenPanel, 0, 30);
 
         //Instruction button
         instructionButton = new JButton("Instruction");
+        instructionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getFrame().remove(titleScreenPanel);
+                addInstructionScreen();
+                getFrame().revalidate();
+                getFrame().repaint();
+            }
+        });
         UIUtils.buttonLayout(instructionButton);
         titleScreenPanel.add(instructionButton);
 
-        frame.add(titleScreenPanel);
-        return frame;
-    }
-
-    public JPanel getTitleScreen() {
+        //adds the title panel to the static frame
+        getFrame().add(titleScreenPanel);
         return titleScreenPanel;
     }
 
