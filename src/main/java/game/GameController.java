@@ -317,7 +317,6 @@ public class GameController {
     private Reward getReward(Position position) {
         for (Reward reward : rewards) {
             if (reward.getPosition().equals(position)) {
-                rewards.remove(reward);
                 return reward;
             }
         }
@@ -333,7 +332,6 @@ public class GameController {
     private Trap getTrap(Position position) {
         for (Trap trap : traps) {
             if (trap.getPosition().equals(position)) {
-                traps.remove(trap);
                 return trap;
             }
         }
