@@ -28,6 +28,10 @@ public class GameUI {
         frame.add(titleScreen.getTitleScreen());
     }
 
+    public static void revalidate(){
+        frame.revalidate();
+        frame.repaint();
+    }
     //create static methods to call for your panel below. Follow format above
 
 }

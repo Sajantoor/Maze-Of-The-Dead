@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import static ui.GameUI.addInstructionScreen;
-import static ui.GameUI.getFrame;
+import static ui.GameUI.*;
 
 public class TitleScreen {
     private JPanel titleScreenPanel;
@@ -36,8 +35,7 @@ public class TitleScreen {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getFrame().remove(titleScreenPanel);
-                getFrame().revalidate();
-                getFrame().repaint();
+                revalidate();
             }
         });
         UIUtils.buttonLayout(startButton);
@@ -64,8 +62,7 @@ public class TitleScreen {
             public void actionPerformed(ActionEvent e) {
                 getFrame().remove(titleScreenPanel);
                 addInstructionScreen();
-                getFrame().revalidate();
-                getFrame().repaint();
+                revalidate();
             }
         });
         UIUtils.buttonLayout(instructionButton);
