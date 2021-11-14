@@ -42,7 +42,7 @@ public class InstructionScreen {
     private JLabel trapfallLabel;
     private JLabel trapfallImageLabel;
 
-    public JFrame getInstructionScreen(JFrame frame) {
+    public JPanel getInstructionScreen() {
         instructionScreenPanel = new JPanel();
 
         //Top bar
@@ -65,7 +65,7 @@ public class InstructionScreen {
         hTPLabel.setFont(UIConstants.heading);
         topPanel.add(hTPLabel);
         instructionScreenPanel.add(topPanel);
-        frame.add(instructionScreenPanel);
+        GameUI.getFrame().add(instructionScreenPanel);
 
         UIUtils.addSpace(instructionScreenPanel,0, 400);
 
@@ -225,6 +225,6 @@ public class InstructionScreen {
 
         instructionScreenPanel.add(lowerPanel);
 
-        return frame;
+        return instructionScreenPanel;
     }
 }
