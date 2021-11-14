@@ -2,6 +2,10 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static ui.GameUI.*;
 
 public class InstructionScreen {
     private JPanel instructionScreenPanel;
@@ -55,6 +59,14 @@ public class InstructionScreen {
 
         //Close button
         xButton = new JButton("X");
+        xButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getFrame().remove(instructionScreenPanel);
+                addTitleScreen();
+                revalidate();
+            }
+        });
         UIUtils.buttonLayout(xButton);
         topPanel.add(xButton);
 
