@@ -11,7 +11,7 @@ public class GameUI {
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
 
-        addTitlesScreen();
+        addTitleScreen();
 
         frame.setVisible(true);
     }
@@ -23,7 +23,7 @@ public class GameUI {
         InstructionScreen instructionScreen = new InstructionScreen();
         frame.add(instructionScreen.getInstructionScreen());
     }
-    public static void addTitlesScreen(){
+    public static void addTitleScreen(){
         TitleScreen titleScreen = new TitleScreen();
         frame.add(titleScreen.getTitleScreen());
     }
