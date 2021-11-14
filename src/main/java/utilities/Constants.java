@@ -14,4 +14,8 @@ public class Constants {
     public static final String playerMoveDown = "S";
     public static final String playerMoveLeft = "A";
     public static final String playerMoveRight = "D";
+
+    // entity related
+    public static final int rewardPoints = 10;
+    public static final int bonusRewardPoints = 50;
 }

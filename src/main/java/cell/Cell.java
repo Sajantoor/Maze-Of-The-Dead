@@ -51,6 +51,10 @@ public class Cell {
         return getCellType() == CellType.WALL;
     }
 
+    public boolean isEnd() {
+        return getCellType() == CellType.END;
+    }
+
     /**
      * Changes the content of the cell
      * 

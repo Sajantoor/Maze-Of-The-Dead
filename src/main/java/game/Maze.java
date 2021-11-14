@@ -50,6 +50,10 @@ public class Maze {
         return getCell(position.getX(), position.getY());
     }
 
+    public boolean isEnd(Position position) {
+        return getCell(position).isEnd();
+    }
+
     /**
      * Sets the cell type of cell at position (x, y) to a start point
      *
