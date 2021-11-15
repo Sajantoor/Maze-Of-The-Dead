@@ -27,6 +27,10 @@ public class GameUI {
         TitleScreen titleScreen = new TitleScreen();
         frame.add(titleScreen.getTitleScreen());
     }
+    public static void addGameOverScreen(){
+        GameOverScreen gameOverScreen = new GameOverScreen();
+        frame.add(gameOverScreen.getGameOverScreen());
+    }
 
     public static void revalidate(){
         frame.revalidate();
