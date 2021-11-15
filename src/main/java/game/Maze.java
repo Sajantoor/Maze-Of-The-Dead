@@ -1,10 +1,8 @@
 package game;
 
 import cell.Cell;
-import utilities.Constants;
 import utilities.Position;
 import cell.CellType;
-import utilities.Position;
 
 import java.util.ArrayList;
 
@@ -15,15 +13,19 @@ import java.util.ArrayList;
  */
 public class Maze {
     private Cell[][] maze;
+    private int height;
+    private int width;
 
     /**
-     * Represents a randomly generated maze that the game will be played on.
-     * This maze will be composed of walls, paths, a start point and an end point.
+     * Represents a randomly generated maze that the game will be played on. This
+     * maze will be composed of walls, paths, a start point and an end point.
      *
      * @param width  the absolute width of the maze
      * @param height the absolute height of the maze
      */
     public Maze(int width, int height, int numRooms) {
+        this.height = height;
+        this.width = width;
         maze = new Cell[width][height];
         newMaze(width, height, numRooms);
     }
@@ -65,7 +67,8 @@ public class Maze {
     }
 
     /**
-     * Creates a new maze with walls and start point at the top left corner and end point at bottom right corner
+     * Creates a new maze with walls and start point at the top left corner and end
+     * point at bottom right corner
      *
      * @param width  the absolute width of the maze
      * @param height the absolute height of the maze
@@ -81,7 +84,7 @@ public class Maze {
 
         addRooms(numRooms, width, height);
 
-        setStart(1, 0);
+        setStart(0, 1);
         setEnd(width - 1, height - 2);
 
         connectStartToPath();
@@ -89,8 +92,8 @@ public class Maze {
     }
 
     /**
-     * Creates rooms at random positions, with random heights and widths.
-     * Rooms are large areas with no walls to give the player more freedom to move
+     * Creates rooms at random positions, with random heights and widths. Rooms are
+     * large areas with no walls to give the player more freedom to move
      *
      * @param numRooms the number of rooms that will be generated in the maze
      */
@@ -182,28 +185,29 @@ public class Maze {
         return count;
     }
 
-    private void connectStartToPath(){
+    private void connectStartToPath() {
         int y = 0;
-        while(maze[1][y + 1].getCellType() == CellType.WALL && maze[2][y].getCellType() == CellType.WALL){
+        while (maze[1][y + 1].getCellType() == CellType.WALL && maze[2][y].getCellType() == CellType.WALL) {
             maze[1][y + 1].setCellType(CellType.PATH);
             y += 1;
         }
     }
 
-    private void connectEndToPath(){
+    private void connectEndToPath() {
         int x = 0;
-        while(maze[Constants.mazeWidth - 1 - x][Constants.mazeHeight - 3].getCellType() == CellType.WALL && maze[Constants.mazeWidth - 2 - x][Constants.mazeHeight - 2].getCellType() == CellType.WALL){
-            maze[Constants.mazeWidth - 2 - x][Constants.mazeHeight - 2].setCellType(CellType.PATH);
+        while (maze[width - 1 - x][height - 3].getCellType() == CellType.WALL
+                && maze[width - 2 - x][height - 2].getCellType() == CellType.WALL) {
+            maze[width - 2 - x][height - 2].setCellType(CellType.PATH);
             x++;
         }
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String s = "";
-        for(int i = 0; i < Constants.mazeHeight; i++){
-            for (int j = 0; j < Constants.mazeWidth; j++){
-                switch(maze[j][i].getCellType()){
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                switch (maze[j][i].getCellType()) {
                     case PATH:
                         s += "_";
                         break;
@@ -214,7 +218,7 @@ public class Maze {
                         s += "S";
                         break;
                     case END:
-                        s+= "E";
+                        s += "E";
                         break;
                     case REWARD:
                         s += "R";
