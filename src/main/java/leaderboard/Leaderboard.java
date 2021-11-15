@@ -1,4 +1,6 @@
 package leaderboard;
+import utilities.Constants;
+
 import static utilities.Constants.playerListSize;
 import static utilities.Constants.LeaderBoard;
 import java.io.File;
@@ -23,10 +25,10 @@ public class Leaderboard {
 
     /**
      * Returns singleton leaderboard Instance
+	 *
      * @return singleton leaderboard Instance
      * @see PlayerScore
      */
-
     public static Leaderboard getInstance() {
     	
     	if(singleLeaderboardInstance == null) {
@@ -35,7 +37,14 @@ public class Leaderboard {
         return singleLeaderboardInstance;
     }
 
-    public void addPlayerScore(PlayerScore playerScore) {
+	/**
+	 * Adds the playerScore argument to the Leaderboard
+	 *
+	 * @param playerScore the name and score of the player
+	 * @see Constants
+	 * @see PlayerScore
+	 */
+	public void addPlayerScore(PlayerScore playerScore) {
     	
     	if(playerScores.length == 0)
     		playerScores[0] = playerScore;
@@ -60,6 +69,13 @@ public class Leaderboard {
     		}
     }
 
+	/**
+	 * Returns player name and score at the index argument
+	 *
+	 * @param index
+	 * @return playerScore at the index argument
+	 * @see PlayerScore
+	 */
     public PlayerScore getPlayerScore(int index) {
     	return playerScores[index];
     }
@@ -75,31 +91,58 @@ public class Leaderboard {
         return sb.toString();
     }
 
-    public void writeToFile() throws IOException{
+	/**
+	 * Creates a new text file and writes the Leaderboard on it
+	 *
+	 * @see Constants
+	 * @see PlayerScore
+	 */
+    public void writeToFile(){
     	//creating a file
-    	File file = new File(LeaderBoard);
-        FileWriter fileW = new FileWriter(file);
-        PrintWriter printW = new PrintWriter(fileW);
-        
-        //outputting to the file
-        for(int i = 0; i < playerScores.length; i++)
-        {
-        	printW.println("Player: " + playerScores[i].getName() + "\nScore: " + playerScores[i].getScore() +"\n");
-        }
-        
-        //closing the file
-        printW.close();
-    }
+    	try {
+			File file = new File(LeaderBoard);
+			if (file.createNewFile()) {
+				System.out.println("File created: " + file.getName());
+			} else {
+				System.out.println("File already exists.");
+			}
+			FileWriter fileW = new FileWriter(file);
+			PrintWriter printW = new PrintWriter(fileW);
 
-    private void readFromFile() throws IOException{
-    	 
-    	File file = new File(LeaderBoard);
-    	Scanner fileReader = new Scanner(file);
-    	while (fileReader.hasNextLine()) {
-    		String data = fileReader.nextLine();
-    	    System.out.println(data);
-    	}
-    	      
-    	fileReader.close();
+			//outputting to the file
+			for (int i = 0; i < playerScores.length; i++) {
+				printW.println("Player: " + playerScores[i].getName() + "\nScore: " + playerScores[i].getScore() + "\n");
+			}
+
+			//closing the file
+			printW.close();
+		}catch(IOException e){
+			System.out.println("There was an error.");
+			e.printStackTrace();
+		}
+    }
+	
+	/**
+	 * Reads Leaderboard data from a text file and outputs it on to the screen
+	 *
+	 * @see Constants
+	 */
+    private void readFromFile(){
+
+		//reading from a file
+    	try{
+			File file = new File(LeaderBoard);
+			Scanner fileReader = new Scanner(file);
+			while (fileReader.hasNextLine()) {
+				String data = fileReader.nextLine();
+				System.out.println(data);
+			}
+			//closing the file
+			fileReader.close();
+		}catch(IOException e){
+			System.out.println("There was an error.");
+			e.printStackTrace();
+		}
+
     }
 }
