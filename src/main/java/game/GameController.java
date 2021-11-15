@@ -23,6 +23,7 @@ public class GameController {
     private boolean isRunning;
     private boolean isPaused;
     private boolean hasCollectedAllRewards = false;
+    private long timeElapsed;
 
     // #region Constructor and Singleton
     // =========================================================================
@@ -74,10 +75,35 @@ public class GameController {
 
     private void winGame() {
         // TODO: Implement me!
+        endGame();
     }
 
     private void loseGame() {
         // TODO: Implement me!
+        endGame();
+    }
+
+    // =========================================================================
+    // #endregion
+
+    // #region Time
+    // =========================================================================
+    /**
+     * This method sets the time (in seconds) elapsed since the start of the game.
+     */
+    private void updateTime() {
+        if (!isPaused)
+            timeElapsed++;
+    }
+
+    /**
+     * This method returns the time (in seconds) elapsed since the start of the
+     * game.
+     * 
+     * @return Time (in seconds) elapsed since the start of the game
+     */
+    public long getTimeElapsed() {
+        return timeElapsed;
     }
 
     // =========================================================================
