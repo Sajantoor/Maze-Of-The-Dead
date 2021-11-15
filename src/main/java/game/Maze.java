@@ -13,6 +13,8 @@ import java.util.ArrayList;
  */
 public class Maze {
     private Cell[][] maze;
+    private int height;
+    private int width;
 
     /**
      * Represents a randomly generated maze that the game will be played on. This
@@ -22,6 +24,8 @@ public class Maze {
      * @param height the absolute height of the maze
      */
     public Maze(int width, int height, int numRooms) {
+        this.height = height;
+        this.width = width;
         maze = new Cell[width][height];
         newMaze(width, height, numRooms);
     }
@@ -112,8 +116,11 @@ public class Maze {
 
         addRooms(numRooms, width, height);
 
-        setStart(1, 1);
-        setEnd(width - 1, height - 1);
+        setStart(0, 1);
+        setEnd(width - 1, height - 2);
+
+        connectStartToPath();
+        connectEndToPath();
     }
 
     /**
@@ -208,5 +215,55 @@ public class Maze {
             count++;
 
         return count;
+    }
+
+    private void connectStartToPath() {
+        int y = 0;
+        while (maze[1][y + 1].getCellType() == CellType.WALL && maze[2][y].getCellType() == CellType.WALL) {
+            maze[1][y + 1].setCellType(CellType.PATH);
+            y += 1;
+        }
+    }
+
+    private void connectEndToPath() {
+        int x = 0;
+        while (maze[width - 1 - x][height - 3].getCellType() == CellType.WALL
+                && maze[width - 2 - x][height - 2].getCellType() == CellType.WALL) {
+            maze[width - 2 - x][height - 2].setCellType(CellType.PATH);
+            x++;
+        }
+    }
+
+    @Override
+    public String toString() {
+        String s = "";
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                switch (maze[j][i].getCellType()) {
+                    case PATH:
+                        s += "_";
+                        break;
+                    case WALL:
+                        s += "#";
+                        break;
+                    case START:
+                        s += "S";
+                        break;
+                    case END:
+                        s += "E";
+                        break;
+                    case REWARD:
+                        s += "R";
+                        break;
+                    case TRAP:
+                        s += "T";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            s += "\n";
+        }
+        return s;
     }
 }
