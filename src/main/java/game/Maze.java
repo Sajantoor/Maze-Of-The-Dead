@@ -1,6 +1,7 @@
 package game;
 
 import cell.Cell;
+import utilities.Constants;
 import utilities.Position;
 import cell.CellType;
 import utilities.Position;
@@ -80,8 +81,11 @@ public class Maze {
 
         addRooms(numRooms, width, height);
 
-        setStart(1, 1);
-        setEnd(width - 1, height - 1);
+        setStart(1, 0);
+        setEnd(width - 1, height - 2);
+
+        connectStartToPath();
+        connectEndToPath();
     }
 
     /**
@@ -176,5 +180,54 @@ public class Maze {
             count++;
 
         return count;
+    }
+
+    private void connectStartToPath(){
+        int y = 0;
+        while(maze[1][y + 1].getCellType() == CellType.WALL && maze[2][y].getCellType() == CellType.WALL){
+            maze[1][y + 1].setCellType(CellType.PATH);
+            y += 1;
+        }
+    }
+
+    private void connectEndToPath(){
+        int x = 0;
+        while(maze[Constants.mazeWidth - 1 - x][Constants.mazeHeight - 3].getCellType() == CellType.WALL && maze[Constants.mazeWidth - 2 - x][Constants.mazeHeight - 2].getCellType() == CellType.WALL){
+            maze[Constants.mazeWidth - 2 - x][Constants.mazeHeight - 2].setCellType(CellType.PATH);
+            x++;
+        }
+    }
+
+    @Override
+    public String toString(){
+        String s = "";
+        for(int i = 0; i < Constants.mazeHeight; i++){
+            for (int j = 0; j < Constants.mazeWidth; j++){
+                switch(maze[j][i].getCellType()){
+                    case PATH:
+                        s += "_";
+                        break;
+                    case WALL:
+                        s += "#";
+                        break;
+                    case START:
+                        s += "S";
+                        break;
+                    case END:
+                        s+= "E";
+                        break;
+                    case REWARD:
+                        s += "R";
+                        break;
+                    case TRAP:
+                        s += "T";
+                        break;
+                    default:
+                        break;
+                }
+            }
+            s += "\n";
+        }
+        return s;
     }
 }
