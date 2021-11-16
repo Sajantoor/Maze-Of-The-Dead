@@ -23,5 +23,6 @@ public class Constants {
     public static final int trapFallCount = 3;
     public static final int rewardCount = 5;
     public static final int regularRewardPoints = 10;
+    public static final int enemyCount = 3;
 
 }

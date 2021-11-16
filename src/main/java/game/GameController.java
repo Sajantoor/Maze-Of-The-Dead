@@ -38,12 +38,7 @@ public class GameController {
         isRunning = false;
         isPaused = false;
 
-        System.out.println(maze);
-
         generateEntities();
-
-        System.out.println("maze after entities are added");
-        System.out.println(maze);
     }
 
     /**
@@ -363,27 +358,29 @@ public class GameController {
         generateTraps(Constants.boobyTrapCount, TrapType.BOOBYTRAP);
         generateTraps(Constants.trapFallCount, TrapType.TRAPFALL);
         generateRewards(Constants.rewardCount);
+        generateEnemies(Constants.enemyCount);
     }
 
-    // TODO: Javadoc!
-    private Position findEmptyPosition() {
-        int width = Constants.mazeWidth;
-        int height = Constants.mazeHeight;
-
-        int x = (int) ((Math.random() * (width - 2)) + 1);
-        int y = (int) ((Math.random() * (height - 2)) + 1);
+    private Position findEmptyPosition(int startX, int width, int startY, int height) {
+        int x = (int) ((Math.random() * (width - startX)) + startX);
+        int y = (int) ((Math.random() * (height - startY)) + startY);
 
         Cell cell = maze.getCell(x, y);
         // regenerate random combinations until we find a cell in a valid location
         while (!cell.isEmpty()) {
-            x = (int) ((Math.random() * (width - 2)) + 1);
-            y = (int) ((Math.random() * (height - 2)) + 1);
+            x = (int) ((Math.random() * (width - startX)) + startX);
+            y = (int) ((Math.random() * (height - startY)) + startY);
 
             cell = maze.getCell(x, y);
         }
 
         Position position = new Position(cell.getPosition());
         return position;
+    }
+
+    // TODO: Javadoc!
+    private Position findEmptyPosition() {
+        return findEmptyPosition(1, Constants.mazeWidth, 1, Constants.mazeHeight);
     }
 
     private boolean isValidPosition(Position position) {
@@ -448,6 +445,23 @@ public class GameController {
     private void generateRewards(int num) {
         for (int i = 0; i < num; i++) {
             generateReward();
+        }
+    }
+
+    private void generateEnemy() {
+        // want to generate zombies in a random position in the other half of the screen
+        // from the player
+        int width = Constants.mazeWidth;
+        int height = Constants.mazeHeight;
+
+        Position position = findEmptyPosition(width / 2, width, height / 2, height);
+        CharacterModel enemy = new CharacterModel(position);
+        addEnemy(enemy);
+    }
+
+    private void generateEnemies(int num) {
+        for (int i = 0; i < num; i++) {
+            generateEnemy();
         }
     }
 
