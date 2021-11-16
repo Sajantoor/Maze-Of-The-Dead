@@ -121,7 +121,7 @@ public class Maze {
         addRooms(numRooms, width, height);
 
         setStart(Constants.playerStartX, Constants.playerStartY);
-        setEnd(width - 1, height - 2);
+        setEnd(Constants.playerEndX, Constants.playerEndY);
 
         connectStartToPath();
         connectEndToPath();
@@ -253,7 +253,7 @@ public class Maze {
         return cells;
     }
 
-    private boolean validatePathHelper(Position position) {
+    private boolean validatePathHelper(Position position, Position end) {
         // get cell at current position
         // get adjacent cells and traverse down adjacent cells until you find the end
         // if you find the end, return true
@@ -265,7 +265,7 @@ public class Maze {
 
         visited.add(cell);
 
-        if (cell.isEnd())
+        if (cell.getPosition().equals(end))
             return true;
 
         // if cell is a trap or wall, we can't move through it
@@ -278,11 +278,25 @@ public class Maze {
         for (Cell adjacentCell : adjacentCells) {
             Position adjacentPosition = adjacentCell.getPosition();
 
-            if (validatePathHelper(adjacentPosition))
+            if (validatePathHelper(adjacentPosition, end))
                 return true;
         }
 
         return false;
+    }
+
+    /**
+     * Checks if the end point can be accessed from the start point by player moves
+     * ie, without going through traps or walls
+     * 
+     * @param start
+     * @param end
+     * @return
+     */
+    public boolean isSolvable(Position start, Position end) {
+        // empty visited list
+        visited.clear();
+        return validatePathHelper(start, end);
     }
 
     /**
@@ -291,10 +305,9 @@ public class Maze {
      * @return returns true if it is, false if not
      */
     public boolean isSolvable() {
-        // empty visited list
-        visited.clear();
         Position start = new Position(Constants.playerStartX, Constants.playerStartY);
-        return validatePathHelper(start);
+        Position end = new Position(Constants.playerEndX, Constants.playerEndY);
+        return isSolvable(start, end);
     }
 
     @Override

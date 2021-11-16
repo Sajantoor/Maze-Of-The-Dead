@@ -60,4 +60,22 @@ public class Position {
     public void setY(int y) {
         this.y = y;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (!Functions.equals(this, obj))
+            return false;
+
+        Position position = (Position) obj;
+        if (this.x != position.x)
+            return false;
+
+        if (this.y != position.y)
+            return false;
+
+        return true;
+    }
 }
