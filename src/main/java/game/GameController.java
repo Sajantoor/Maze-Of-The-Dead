@@ -30,8 +30,12 @@ public class GameController {
 
     private GameController() {
         instance = this;
-        this.maze = new Maze(Constants.mazeHeight, Constants.mazeWidth, Constants.mazeRooms);
-        this.timer = new Timer();
+        enemies = new ArrayList<CharacterModel>();
+        rewards = new ArrayList<Reward>();
+        traps = new ArrayList<Trap>();
+        maze = new Maze(Constants.mazeHeight, Constants.mazeWidth, Constants.mazeRooms);
+        isRunning = false;
+        isPaused = false;
     }
 
     /**

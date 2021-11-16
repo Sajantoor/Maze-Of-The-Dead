@@ -1,5 +1,6 @@
 package reward;
 
+import utilities.Constants;
 import utilities.Position;
 
 /**
@@ -12,8 +13,26 @@ import utilities.Position;
 public class Trap extends Reward {
     private TrapType trapType;
 
+    public Trap(Position position, TrapType trapType) {
+        super(position);
+        int points;
+        switch (trapType) {
+            case BOOBYTRAP:
+                points = Constants.boobyTrapDmg;
+                break;
+            case TRAPFALL:
+                points = Constants.trapFallDmg;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid TrapType");
+        }
+
+        this.setPoints(points);
+        this.trapType = trapType;
+    }
+
     /**
-     * Trap class constructor function
+     * Trap class constructor method
      *
      * @param position Position of the trap
      * @param points   Points taken by the trap

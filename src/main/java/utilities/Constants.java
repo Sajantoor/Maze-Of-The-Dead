@@ -5,13 +5,17 @@ public class Constants {
     public static final int mazeHeight = 5;
     public static final int mazeWidth = 5;
     public static final int mazeRooms = 5;
+    public static final int mazeTraps = 5;
     // Player related
     public static final int playerStartX = 0;
-    public static final int playerStartY = 0;
+    public static final int playerStartY = 1;
     public static final int playerStartScore = 0;
     // Controls related
     public static final String playerMoveUp = "W";
     public static final String playerMoveDown = "S";
     public static final String playerMoveLeft = "A";
     public static final String playerMoveRight = "D";
+    // Entities related
+    public static final int boobyTrapDmg = -10;
+    public static final int trapFallDmg = -20;
 }

@@ -1,6 +1,7 @@
 package game;
 
 import cell.Cell;
+import utilities.Constants;
 import utilities.Position;
 import cell.CellType;
 
@@ -105,7 +106,7 @@ public class Maze {
      * @param width  the absolute width of the maze
      * @param height the absolute height of the maze
      */
-    public void newMaze(int width, int height, int numRooms) {
+    private void newMaze(int width, int height, int numRooms) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 maze[j][i] = new Cell(new Position(j, i));
@@ -116,7 +117,7 @@ public class Maze {
 
         addRooms(numRooms, width, height);
 
-        setStart(0, 1);
+        setStart(Constants.playerStartX, Constants.playerStartY);
         setEnd(width - 1, height - 2);
 
         connectStartToPath();

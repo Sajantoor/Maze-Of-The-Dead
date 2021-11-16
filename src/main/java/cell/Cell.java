@@ -51,6 +51,10 @@ public class Cell {
         return getCellType() == CellType.WALL;
     }
 
+    public boolean isEmpty() {
+        return getCellType() == CellType.PATH;
+    }
+
     /**
      * 
      * @return True if the cell is a trap, False otherwise

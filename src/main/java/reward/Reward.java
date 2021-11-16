@@ -25,6 +25,10 @@ public class Reward {
         this.points = points;
     }
 
+    public Reward(Position position) {
+        this.position = position;
+    }
+
     /**
      * Return the position of the reward
      *
