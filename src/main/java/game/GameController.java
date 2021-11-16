@@ -10,6 +10,7 @@ import utilities.Movement;
 import character.CharacterModel;
 import reward.Reward;
 import reward.Trap;
+import reward.TrapType;
 import cell.Cell;
 import utilities.Constants;
 import utilities.Functions;
@@ -36,6 +37,13 @@ public class GameController {
         maze = new Maze(Constants.mazeHeight, Constants.mazeWidth, Constants.mazeRooms);
         isRunning = false;
         isPaused = false;
+
+        System.out.println(maze);
+
+        generateEntities();
+
+        System.out.println("maze after entities are added");
+        System.out.println(maze);
     }
 
     /**
@@ -346,6 +354,76 @@ public class GameController {
      * Adding, removing and getting entities
      * 
      **************************************************************************/
+
+    // #region Generating entities
+    // =========================================================================
+
+    private void generateEntities() {
+        // Generate traps
+        generateTraps(Constants.boobyTrapCount, TrapType.BOOBYTRAP);
+        generateTraps(Constants.trapFallCount, TrapType.TRAPFALL);
+    }
+
+    // TODO: Javadoc!
+    private Position findEmptyPosition() {
+        int width = Constants.mazeWidth;
+        int height = Constants.mazeHeight;
+
+        int x = (int) ((Math.random() * (width - 2)) + 1);
+        int y = (int) ((Math.random() * (height - 2)) + 1);
+
+        Cell cell = maze.getCell(x, y);
+        // regenerate random combinations until we find a cell in a valid location
+        while (!cell.isEmpty()) {
+            x = (int) ((Math.random() * (width - 2)) + 1);
+            y = (int) ((Math.random() * (height - 2)) + 1);
+
+            cell = maze.getCell(x, y);
+        }
+
+        Position position = new Position(cell.getPosition());
+        return position;
+    }
+
+    private boolean isValidPosition(Position position) {
+        // temporarily set the position to be a wall, it is empty
+        // and check if the maze can be solved
+        Cell cell = maze.getCell(position);
+        cell.setWall();
+        boolean isValid = maze.isSolvable();
+        cell.setEmpty();
+        return isValid;
+    }
+
+    private void generateTrap(TrapType trapType) {
+        Position position = findEmptyPosition();
+
+        while (!isValidPosition(position)) {
+            position = findEmptyPosition();
+        }
+
+        Cell cell = maze.getCell(position);
+        cell.setTrap();
+        Trap trap = new Trap(position, trapType);
+        addTrap(trap);
+    }
+
+    /**
+     * Adds traps to the board at random locations, must add where there is path and
+     * must validate to check if it creates unsolvable maze
+     * 
+     * @param num number of traps to add
+     */
+    private void generateTraps(int num, TrapType trapType) {
+        // TODO: This could be more random, but this works for now.
+        for (int i = 0; i < num; i++) {
+            generateTrap(trapType);
+        }
+    }
+
+    // =========================================================================
+    // #endregion
+
     // #region Getting entities
 
     /**

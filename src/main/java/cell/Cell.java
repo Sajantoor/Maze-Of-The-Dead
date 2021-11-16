@@ -55,6 +55,14 @@ public class Cell {
         return getCellType() == CellType.PATH;
     }
 
+    public boolean isEnd() {
+        return getCellType() == CellType.END;
+    }
+
+    public boolean isStart() {
+        return getCellType() == CellType.START;
+    }
+
     /**
      * 
      * @return True if the cell is a trap, False otherwise
@@ -78,6 +86,18 @@ public class Cell {
      */
     public void setEmpty() {
         setCellType(CellType.PATH);
+    }
+
+    public void setWall() {
+        setCellType(CellType.WALL);
+    }
+
+    public void setTrap() {
+        setCellType(CellType.TRAP);
+    }
+
+    public void setReward() {
+        setCellType(CellType.REWARD);
     }
 
     /**

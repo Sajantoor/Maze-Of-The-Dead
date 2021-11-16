@@ -6,6 +6,7 @@ import utilities.Position;
 import cell.CellType;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Represents a maze which is comprised of Cells arranged in a 2D grid.
@@ -16,6 +17,7 @@ public class Maze {
     private Cell[][] maze;
     private int height;
     private int width;
+    private HashSet<Cell> visited;
 
     /**
      * Represents a randomly generated maze that the game will be played on. This
@@ -28,6 +30,7 @@ public class Maze {
         this.height = height;
         this.width = width;
         maze = new Cell[width][height];
+        visited = new HashSet<Cell>();
         newMaze(width, height, numRooms);
     }
 
@@ -235,6 +238,65 @@ public class Maze {
         }
     }
 
+    private ArrayList<Cell> getAdjacentCells(Position position) {
+        ArrayList<Cell> cells = new ArrayList<>();
+
+        if (position.getX() != 0)
+            cells.add(getCell(position.getX() - 1, position.getY()));
+        if (position.getX() != width - 1)
+            cells.add(getCell(position.getX() + 1, position.getY()));
+        if (position.getY() != 0)
+            cells.add(getCell(position.getX(), position.getY() - 1));
+        if (position.getY() != height - 1)
+            cells.add(getCell(position.getX(), position.getY() + 1));
+
+        return cells;
+    }
+
+    private boolean validatePathHelper(Position position) {
+        // get cell at current position
+        // get adjacent cells and traverse down adjacent cells until you find the end
+        // if you find the end, return true
+        // if you don't find the end, return false
+
+        Cell cell = getCell(position);
+        if (visited.contains(cell))
+            return false;
+
+        visited.add(cell);
+
+        if (cell.isEnd())
+            return true;
+
+        // if cell is a trap or wall, we can't move through it
+        if (cell.isWall() || cell.isTrap())
+            return false;
+
+        // if cell is not wall or path, get adjacent cells
+        ArrayList<Cell> adjacentCells = getAdjacentCells(position);
+
+        for (Cell adjacentCell : adjacentCells) {
+            Position adjacentPosition = adjacentCell.getPosition();
+
+            if (validatePathHelper(adjacentPosition))
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if the maze is solvable
+     *
+     * @return returns true if it is, false if not
+     */
+    public boolean isSolvable() {
+        // empty visited list
+        visited.clear();
+        Position start = new Position(Constants.playerStartX, Constants.playerStartY);
+        return validatePathHelper(start);
+    }
+
     @Override
     public String toString() {
         String s = "";
@@ -263,8 +325,8 @@ public class Maze {
                         break;
                 }
             }
-            s += "\n";
         }
+
         return s;
     }
 }
