@@ -362,6 +362,7 @@ public class GameController {
         // Generate traps
         generateTraps(Constants.boobyTrapCount, TrapType.BOOBYTRAP);
         generateTraps(Constants.trapFallCount, TrapType.TRAPFALL);
+        generateRewards(Constants.rewardCount);
     }
 
     // TODO: Javadoc!
@@ -395,6 +396,16 @@ public class GameController {
         return isValid;
     }
 
+    // TODO: Code duplication :((((((((((((
+    private boolean isReachable(Position position) {
+        Cell cell = maze.getCell(position);
+        cell.setWall();
+        Position start = new Position(Constants.playerStartX, Constants.playerStartY);
+        boolean isValid = maze.isSolvable(start, position);
+        cell.setEmpty();
+        return isValid;
+    }
+
     private void generateTrap(TrapType trapType) {
         Position position = findEmptyPosition();
 
@@ -418,6 +429,25 @@ public class GameController {
         // TODO: This could be more random, but this works for now.
         for (int i = 0; i < num; i++) {
             generateTrap(trapType);
+        }
+    }
+
+    private void generateReward() {
+        Position position = findEmptyPosition();
+
+        while (!isReachable(position)) {
+            position = findEmptyPosition();
+        }
+
+        Cell cell = maze.getCell(position);
+        cell.setReward();
+        Reward reward = new Reward(position);
+        addReward(reward);
+    }
+
+    private void generateRewards(int num) {
+        for (int i = 0; i < num; i++) {
+            generateReward();
         }
     }
 
