@@ -1,5 +1,7 @@
 package ui;
 
+import leaderboard.PlayerScore;
+
 import javax.swing.*;
 
 public class GameUI {
@@ -31,7 +33,14 @@ public class GameUI {
         GameOverScreen gameOverScreen = new GameOverScreen();
         frame.add(gameOverScreen.getGameOverScreen());
     }
-
+    public static void addNewHighScoreScreen(int score){
+        NewHighScoreScreen newHighScoreScreen = new NewHighScoreScreen();
+        frame.add(newHighScoreScreen.getNewHighScoreScreen(score));
+    }
+    public static void addLeaderboardScreen(PlayerScore HighPlayerScore){
+        LeaderboardScreen leaderboardScreen = new LeaderboardScreen();
+        frame.add(leaderboardScreen.getLeaderboardScreen(HighPlayerScore));
+    }
     public static void revalidate(){
         frame.revalidate();
         frame.repaint();
