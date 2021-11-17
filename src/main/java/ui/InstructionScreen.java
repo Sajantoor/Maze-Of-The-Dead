@@ -109,28 +109,16 @@ public class InstructionScreen {
         movementLeftPanel.add(movementLabel);
 
         //W key
-        wLabel = new JLabel(" W ");
-        wLabel.setFont(UIConstants.plainArial35);
-        wLabel.setBorder(UIConstants.keyBorder);
-        movementRightPanelUpper.add(wLabel);
+        keyFormat(movementRightPanelUpper, " W ");
 
         //A key
-        aLabel = new JLabel(" A ");
-        aLabel.setFont(UIConstants.plainArial35);
-        aLabel.setBorder(UIConstants.keyBorder);
-        movementRightPanelLower.add(aLabel);
+        keyFormat(movementRightPanelLower, " A ");
 
         //S key
-        sLabel = new JLabel(" S ");
-        sLabel.setFont(UIConstants.plainArial35);
-        sLabel.setBorder(UIConstants.keyBorder);
-        movementRightPanelLower.add(sLabel);
+        keyFormat(movementRightPanelLower, " S ");
 
         //D key
-        dLabel = new JLabel(" D ");
-        dLabel.setFont(UIConstants.plainArial35);
-        dLabel.setBorder(UIConstants.keyBorder);
-        movementRightPanelLower.add(dLabel);
+        keyFormat(movementRightPanelLower, " D ");
 
         instructionScreenPanel.add(movementPanel);
 
@@ -238,5 +226,12 @@ public class InstructionScreen {
         instructionScreenPanel.add(lowerPanel);
 
         return instructionScreenPanel;
+    }
+
+    private void keyFormat(JPanel panel, String letter){
+        JLabel keyLabel = new JLabel(letter);
+        keyLabel.setFont(UIConstants.plainArial35);
+        keyLabel.setBorder(UIConstants.keyBorder);
+        panel.add(keyLabel);
     }
 }
