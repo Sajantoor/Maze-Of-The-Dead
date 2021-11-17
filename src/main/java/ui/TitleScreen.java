@@ -34,6 +34,7 @@ public class TitleScreen {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                addGamePlayScreen();
                 getFrame().remove(titleScreenPanel);
                 revalidate();
             }

@@ -19,6 +19,11 @@ public class GameUI {
         return frame;
     }
 
+    public static void addGamePlayScreen(){
+        GamePlayScreen gamePlayScreen = new GamePlayScreen();
+        frame.add(gamePlayScreen.getGamePlayScreen());
+    }
+
     public static void addInstructionScreen(){
         InstructionScreen instructionScreen = new InstructionScreen();
         frame.add(instructionScreen.getInstructionScreen());
