@@ -352,6 +352,11 @@ public class GameController {
     // #region Generating entities
     // =========================================================================
 
+    /**
+     * Generates all entities in the game, such as traps, rewards, and enemies and
+     * adds them to the maze
+     * 
+     */
     private void generateEntities() {
         generateTraps(Constants.boobyTrapCount, TrapType.BOOBYTRAP);
         generateTraps(Constants.trapFallCount, TrapType.TRAPFALL);
@@ -359,6 +364,16 @@ public class GameController {
         generateEnemies(Constants.enemyCount);
     }
 
+    /**
+     * Finds a random 'empty' position in the a subset of the maze, ie doesn't have
+     * a trap, reward, etc in it.
+     * 
+     * @param startX the starting x coordinate of the maze
+     * @param width  total width of the maze we want to look at
+     * @param startY the starting y coordinate of the maze
+     * @param height total height of the maze we want to look at
+     * @return The random empty position in the maze
+     */
     private Position findEmptyPosition(int startX, int width, int startY, int height) {
         int x = (int) ((Math.random() * (width - startX)) + startX);
         int y = (int) ((Math.random() * (height - startY)) + startY);
@@ -376,7 +391,11 @@ public class GameController {
         return position;
     }
 
-    // TODO: Javadoc!
+    /**
+     * Finds an empty position in in the whole maze
+     * 
+     * @return The random empty position in the maze
+     */
     private Position findEmptyPosition() {
         return findEmptyPosition(1, Constants.mazeWidth, 1, Constants.mazeHeight);
     }
@@ -387,8 +406,7 @@ public class GameController {
      * 
      **************************************************************************/
     /**
-     * Adds traps to the board at random locations, must add where there is path and
-     * must validate to check if it creates unsolvable maze
+     * Adds traps to the board at random locations
      * 
      * @param num number of traps to add
      */
@@ -399,6 +417,12 @@ public class GameController {
         }
     }
 
+    /**
+     * Generates a trap at a random location, validates that the location doesn't
+     * create an unsolvable maze and adds it to the maze and trap list
+     * 
+     * @param trapType the type of trap we want to generate
+     */
     private void generateTrap(TrapType trapType) {
         Position position = findEmptyPosition();
 
@@ -412,6 +436,14 @@ public class GameController {
         addTrap(trap);
     }
 
+    /**
+     * Checks if a given position is blocked, ie, if a trap is created at it, it
+     * doesn't create an unsolvable maze
+     * 
+     * @param position The position we want to block (or add a trap)
+     * @return True if we can block the position and the maze is solvable, false
+     *         otherwise
+     */
     private boolean isValidPosition(Position position) {
         // temporarily set the position to be a wall, it is empty
         // and check if the maze can be solved
@@ -428,15 +460,22 @@ public class GameController {
      * 
      **************************************************************************/
 
-    // checks if a position is reachable by the player, ie if there is a path from
-    // the player to the position
-
+    /**
+     * Generates rewards at random locations
+     * 
+     * @param num number of rewards to add
+     */
     private void generateRewards(int num) {
         for (int i = 0; i < num; i++) {
             generateReward();
         }
     }
 
+    /**
+     * Generates a reward at a random location, checks if the player can reach the
+     * reward to validate that the game is winnable, and adds it to the maze and
+     * reward list
+     */
     private void generateReward() {
         Position position = findEmptyPosition();
 
@@ -450,9 +489,15 @@ public class GameController {
         addReward(reward);
     }
 
+    /**
+     * Checks if a target location is reachable by the player
+     * 
+     * @param target The target location
+     * @return True if the player can reach the target location, false otherwise
+     */
     private boolean isReachable(Position target) {
         Position start = new Position(Constants.playerStartX, Constants.playerStartY);
-        return maze.isSolvable(start, target);
+        return maze.isPath(start, target);
     }
 
     /***************************************************************************
@@ -461,18 +506,28 @@ public class GameController {
      * 
      **************************************************************************/
 
+    /**
+     * Generates enemies at random locations
+     * 
+     * @param num
+     */
     private void generateEnemies(int num) {
         for (int i = 0; i < num; i++) {
             generateEnemy();
         }
     }
 
+    /**
+     * Generates an enemy at a random location in a subset of the maze and adds it
+     * to the maze and enemy list
+     */
     private void generateEnemy() {
         // want to generate zombies in a random position in the other half of the screen
         // from the player
         int width = Constants.mazeWidth;
         int height = Constants.mazeHeight;
 
+        // TODO: Check if another enemy is already in the same position
         Position position = findEmptyPosition(width / 2, width, height / 2, height);
         CharacterModel enemy = new CharacterModel(position);
         addEnemy(enemy);
@@ -535,41 +590,71 @@ public class GameController {
 
     // #region Adding and removing entities
     // =========================================================================
-    public void addEnemy(CharacterModel enemy) {
+    /**
+     * Adds a enemy to the list of enemies
+     * 
+     * @param enemy The enemy we want to add
+     */
+    private void addEnemy(CharacterModel enemy) {
         if (enemy == null)
             return;
 
         enemies.add(enemy);
     }
 
-    public void removeEnemy(CharacterModel enemy) {
+    /**
+     * Removes an enemy from the list of enemies
+     * 
+     * @param enemy the enemy that we want to remove from the list
+     */
+    private void removeEnemy(CharacterModel enemy) {
         if (enemy == null)
             return;
 
         enemies.remove(enemy);
     }
 
-    public void addReward(Reward reward) {
+    /**
+     * Adds a reward to the list of rewards
+     * 
+     * @param reward The reward we want to add
+     */
+    private void addReward(Reward reward) {
         if (reward == null)
             return;
 
         rewards.add(reward);
     }
 
-    public void removeReward(Reward reward) {
+    /**
+     * Removes a reward from the list of rewards
+     * 
+     * @param reward the reward we want to remove
+     */
+    private void removeReward(Reward reward) {
         if (reward == null)
             return;
 
         rewards.remove(reward);
     }
 
-    public void addTrap(Trap trap) {
+    /**
+     * Adds a trap to the list of traps
+     * 
+     * @param trap The trap we want to add
+     */
+    private void addTrap(Trap trap) {
         if (trap == null)
             return;
 
         traps.add(trap);
     }
 
+    /**
+     * Removes a trap from the list of traps
+     * 
+     * @param trap the trap we want to remove
+     */
     public void removeTrap(Trap trap) {
         if (trap == null)
             return;
@@ -577,19 +662,31 @@ public class GameController {
         traps.remove(trap);
     }
 
+    /**
+     * Removes all enemies from the list of enemies
+     */
     private void clearEnemies() {
         enemies.clear();
     }
 
+    /**
+     * Removes all traps from the list of traps
+     */
     private void clearTraps() {
         traps.clear();
     }
 
+    /**
+     * Removes all rewards from the list of rewards
+     */
     private void clearRewards() {
         rewards.clear();
     }
 
-    private void clearAll() {
+    /**
+     * Removes all entities from the game. Entities are traps, enemies and rewards
+     */
+    private void clearAllEntities() {
         clearEnemies();
         clearTraps();
         clearRewards();

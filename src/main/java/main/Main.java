@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
 
         // System.out.println("Hello, world!");
-        // gameController = GameController.getInstance();
+        GameController gameController = GameController.getInstance();
         // System.out.println(gameController.toString());
 
         SwingUtilities.invokeLater(new Runnable() {

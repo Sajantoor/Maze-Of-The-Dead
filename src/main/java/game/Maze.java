@@ -238,6 +238,13 @@ public class Maze {
         }
     }
 
+    /**
+     * Returns all adjacent cells of the current position, looking up, down, left,
+     * right
+     * 
+     * @param position the position we want to get adjacent cells of
+     * @return ArrayList of adjacent cells
+     */
     private ArrayList<Cell> getAdjacentCells(Position position) {
         ArrayList<Cell> cells = new ArrayList<>();
 
@@ -253,19 +260,24 @@ public class Maze {
         return cells;
     }
 
-    private boolean validatePathHelper(Position position, Position end) {
-        // get cell at current position
-        // get adjacent cells and traverse down adjacent cells until you find the end
-        // if you find the end, return true
-        // if you don't find the end, return false
-
-        Cell cell = getCell(position);
+    /**
+     * Recursive method to find a path from the start to the end of the maze, made
+     * up of player moves, uses breadth first search algorithm.
+     * 
+     * @param current The current position
+     * @param target  The target position
+     * @return True if there is a path from the start to the end of the maze
+     */
+    private boolean isPathHelper(Position current, Position target) {
+        Cell cell = getCell(current);
+        // we've already looked here
         if (visited.contains(cell))
             return false;
 
         visited.add(cell);
 
-        if (cell.getPosition().equals(end))
+        // if we have reached our target, there must be a path.
+        if (cell.getPosition().equals(target))
             return true;
 
         // if cell is a trap or wall, we can't move through it
@@ -273,12 +285,13 @@ public class Maze {
             return false;
 
         // if cell is not wall or path, get adjacent cells
-        ArrayList<Cell> adjacentCells = getAdjacentCells(position);
+        ArrayList<Cell> adjacentCells = getAdjacentCells(current);
 
+        // look at all adjacent cells and recurse
         for (Cell adjacentCell : adjacentCells) {
             Position adjacentPosition = adjacentCell.getPosition();
 
-            if (validatePathHelper(adjacentPosition, end))
+            if (isPathHelper(adjacentPosition, target))
                 return true;
         }
 
@@ -286,17 +299,17 @@ public class Maze {
     }
 
     /**
-     * Checks if the end point can be accessed from the start point by player moves
-     * ie, without going through traps or walls
+     * Checks if there is a path from the start point to the end point, using player
+     * moves ie, without going through traps or walls.
      * 
-     * @param start
-     * @param end
-     * @return
+     * @param start The start position
+     * @param end   The end position
+     * @return True if there is a path from the start to the end, false otherwise
      */
-    public boolean isSolvable(Position start, Position end) {
+    public boolean isPath(Position start, Position end) {
         // empty visited list
         visited.clear();
-        return validatePathHelper(start, end);
+        return isPathHelper(start, end);
     }
 
     /**
@@ -307,7 +320,7 @@ public class Maze {
     public boolean isSolvable() {
         Position start = new Position(Constants.playerStartX, Constants.playerStartY);
         Position end = new Position(Constants.playerEndX, Constants.playerEndY);
-        return isSolvable(start, end);
+        return isPath(start, end);
     }
 
     @Override
