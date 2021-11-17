@@ -338,6 +338,8 @@ public class Maze {
                         break;
                 }
             }
+
+            s += "\n";
         }
 
         return s;
