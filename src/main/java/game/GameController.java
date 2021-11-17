@@ -527,8 +527,13 @@ public class GameController {
         int width = Constants.mazeWidth;
         int height = Constants.mazeHeight;
 
-        // TODO: Check if another enemy is already in the same position
         Position position = findEmptyPosition(width / 2, width, height / 2, height);
+
+        // Checks if there is an enemy
+        while (getEnemy(position) != null) {
+            position = findEmptyPosition(width / 2, width, height / 2, height);
+        }
+
         CharacterModel enemy = new CharacterModel(position);
         addEnemy(enemy);
     }
