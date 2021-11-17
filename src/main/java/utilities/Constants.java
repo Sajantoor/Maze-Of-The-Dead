@@ -14,8 +14,7 @@ public class Constants {
     public static final String playerMoveDown = "S";
     public static final String playerMoveLeft = "A";
     public static final String playerMoveRight = "D";
-    
-    //Leaderboard related
+    // Leaderboard related
     public static final int playerListSize = 5;
-    public static final String LeaderBoard = "LeaderBoard.txt";
+    public static final String leardboardFile = "LeaderBoard.txt";
 }

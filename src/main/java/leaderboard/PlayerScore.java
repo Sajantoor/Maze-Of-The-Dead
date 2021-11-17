@@ -12,12 +12,12 @@ public class PlayerScore {
     /**
      * Sets the arguments as the name and score of the player
      *
-     * @param name name of the player
+     * @param name  name of the player
      * @param score score of the player
      */
     public PlayerScore(String name, int score) {
-    	 this.name = name;
-         this.score = score;
+        this.name = name;
+        this.score = score;
     }
 
     /**
@@ -58,6 +58,6 @@ public class PlayerScore {
 
     @Override
     public String toString() {
-    	return "Player: " + name + "\n" + "Score: " + score + "\n";
+        return "Player: " + name + " " + "Score: " + score;
     }
 }
