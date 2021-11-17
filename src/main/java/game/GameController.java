@@ -34,10 +34,9 @@ public class GameController {
         enemies = new ArrayList<CharacterModel>();
         rewards = new ArrayList<Reward>();
         traps = new ArrayList<Trap>();
-        maze = new Maze(Constants.mazeHeight, Constants.mazeWidth, Constants.mazeRooms);
+        // initalize flags
         isRunning = false;
         isPaused = false;
-        generateEntities();
     }
 
     /**
@@ -65,6 +64,10 @@ public class GameController {
 
     public void startGame() {
         setRunning(true);
+        // Clears all enties and regenerates them
+        clearAllEntities();
+        maze = new Maze(Constants.mazeHeight, Constants.mazeWidth, Constants.mazeRooms);
+        generateEntities();
     }
 
     public void endGame() {
