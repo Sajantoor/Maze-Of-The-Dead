@@ -378,17 +378,14 @@ public class GameController {
      * @return The random empty position in the maze
      */
     private Position findEmptyPosition(int startX, int width, int startY, int height) {
-        int x = (int) ((Math.random() * (width - startX)) + startX);
-        int y = (int) ((Math.random() * (height - startY)) + startY);
+        // regenerate random combinations until we find a cell in an empty location
+        Cell cell;
 
-        Cell cell = maze.getCell(x, y);
-        // regenerate random combinations until we find a cell in a valid location
-        while (!cell.isEmpty()) {
-            x = (int) ((Math.random() * (width - startX)) + startX);
-            y = (int) ((Math.random() * (height - startY)) + startY);
-
+        do {
+            int x = (int) ((Math.random() * (width - startX)) + startX);
+            int y = (int) ((Math.random() * (height - startY)) + startY);
             cell = maze.getCell(x, y);
-        }
+        } while (!cell.isEmpty());
 
         Position position = new Position(cell.getPosition());
         return position;
@@ -427,11 +424,11 @@ public class GameController {
      * @param trapType the type of trap we want to generate
      */
     private void generateTrap(TrapType trapType) {
-        Position position = findEmptyPosition();
+        Position position = null;
 
-        while (!isValidPosition(position)) {
+        do {
             position = findEmptyPosition();
-        }
+        } while (!isValidPosition(position));
 
         Cell cell = maze.getCell(position);
         cell.setTrap();
@@ -448,6 +445,9 @@ public class GameController {
      *         otherwise
      */
     private boolean isValidPosition(Position position) {
+        if (position == null)
+            return false;
+
         // temporarily set the position to be a wall, it is empty
         // and check if the maze can be solved
         Cell cell = maze.getCell(position);
@@ -480,11 +480,11 @@ public class GameController {
      * reward list
      */
     private void generateReward() {
-        Position position = findEmptyPosition();
+        Position position;
 
-        while (!isReachable(position)) {
+        do {
             position = findEmptyPosition();
-        }
+        } while (!isReachable(position));
 
         Cell cell = maze.getCell(position);
         cell.setReward();
@@ -499,6 +499,9 @@ public class GameController {
      * @return True if the player can reach the target location, false otherwise
      */
     private boolean isReachable(Position target) {
+        if (target == null)
+            return false;
+
         Position start = new Position(Constants.playerStartX, Constants.playerStartY);
         return maze.isPath(start, target);
     }
@@ -530,12 +533,12 @@ public class GameController {
         int width = Constants.mazeWidth;
         int height = Constants.mazeHeight;
 
-        Position position = findEmptyPosition(width / 2, width, height / 2, height);
+        Position position;
 
         // Checks if there is an enemy
-        while (getEnemy(position) != null) {
+        do {
             position = findEmptyPosition(width / 2, width, height / 2, height);
-        }
+        } while (getEnemy(position) != null);
 
         CharacterModel enemy = new CharacterModel(position);
         addEnemy(enemy);
@@ -552,6 +555,9 @@ public class GameController {
      * @return the reward at the position, else null
      */
     private Reward getReward(Position position) {
+        if (position == null)
+            return null;
+
         for (Reward reward : rewards) {
             if (reward.getPosition().equals(position)) {
                 rewards.remove(reward);
@@ -568,6 +574,9 @@ public class GameController {
      * @return the trap at the position, else null
      */
     private Trap getTrap(Position position) {
+        if (position == null)
+            return null;
+
         for (Trap trap : traps) {
             if (trap.getPosition().equals(position)) {
                 traps.remove(trap);
@@ -584,6 +593,9 @@ public class GameController {
      * @return the enemy at the position, else null
      */
     private CharacterModel getEnemy(Position position) {
+        if (position == null)
+            return null;
+
         for (CharacterModel enemy : enemies) {
             if (enemy.getPosition().equals(position)) {
                 return enemy;
