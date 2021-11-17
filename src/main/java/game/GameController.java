@@ -37,7 +37,6 @@ public class GameController {
         maze = new Maze(Constants.mazeHeight, Constants.mazeWidth, Constants.mazeRooms);
         isRunning = false;
         isPaused = false;
-
         generateEntities();
     }
 
@@ -354,7 +353,6 @@ public class GameController {
     // =========================================================================
 
     private void generateEntities() {
-        // Generate traps
         generateTraps(Constants.boobyTrapCount, TrapType.BOOBYTRAP);
         generateTraps(Constants.trapFallCount, TrapType.TRAPFALL);
         generateRewards(Constants.rewardCount);
@@ -383,24 +381,22 @@ public class GameController {
         return findEmptyPosition(1, Constants.mazeWidth, 1, Constants.mazeHeight);
     }
 
-    private boolean isValidPosition(Position position) {
-        // temporarily set the position to be a wall, it is empty
-        // and check if the maze can be solved
-        Cell cell = maze.getCell(position);
-        cell.setWall();
-        boolean isValid = maze.isSolvable();
-        cell.setEmpty();
-        return isValid;
-    }
-
-    // TODO: Code duplication :((((((((((((
-    private boolean isReachable(Position position) {
-        Cell cell = maze.getCell(position);
-        cell.setWall();
-        Position start = new Position(Constants.playerStartX, Constants.playerStartY);
-        boolean isValid = maze.isSolvable(start, position);
-        cell.setEmpty();
-        return isValid;
+    /***************************************************************************
+     * 
+     * Generating Traps
+     * 
+     **************************************************************************/
+    /**
+     * Adds traps to the board at random locations, must add where there is path and
+     * must validate to check if it creates unsolvable maze
+     * 
+     * @param num number of traps to add
+     */
+    private void generateTraps(int num, TrapType trapType) {
+        // TODO: This could be more random, but this works for now.
+        for (int i = 0; i < num; i++) {
+            generateTrap(trapType);
+        }
     }
 
     private void generateTrap(TrapType trapType) {
@@ -416,16 +412,28 @@ public class GameController {
         addTrap(trap);
     }
 
-    /**
-     * Adds traps to the board at random locations, must add where there is path and
-     * must validate to check if it creates unsolvable maze
+    private boolean isValidPosition(Position position) {
+        // temporarily set the position to be a wall, it is empty
+        // and check if the maze can be solved
+        Cell cell = maze.getCell(position);
+        cell.setWall();
+        boolean isValid = maze.isSolvable();
+        cell.setEmpty();
+        return isValid;
+    }
+
+    /***************************************************************************
      * 
-     * @param num number of traps to add
-     */
-    private void generateTraps(int num, TrapType trapType) {
-        // TODO: This could be more random, but this works for now.
+     * Generate Rewards
+     * 
+     **************************************************************************/
+
+    // checks if a position is reachable by the player, ie if there is a path from
+    // the player to the position
+
+    private void generateRewards(int num) {
         for (int i = 0; i < num; i++) {
-            generateTrap(trapType);
+            generateReward();
         }
     }
 
@@ -442,9 +450,20 @@ public class GameController {
         addReward(reward);
     }
 
-    private void generateRewards(int num) {
+    private boolean isReachable(Position target) {
+        Position start = new Position(Constants.playerStartX, Constants.playerStartY);
+        return maze.isSolvable(start, target);
+    }
+
+    /***************************************************************************
+     * 
+     * Generate Enemies
+     * 
+     **************************************************************************/
+
+    private void generateEnemies(int num) {
         for (int i = 0; i < num; i++) {
-            generateReward();
+            generateEnemy();
         }
     }
 
@@ -457,12 +476,6 @@ public class GameController {
         Position position = findEmptyPosition(width / 2, width, height / 2, height);
         CharacterModel enemy = new CharacterModel(position);
         addEnemy(enemy);
-    }
-
-    private void generateEnemies(int num) {
-        for (int i = 0; i < num; i++) {
-            generateEnemy();
-        }
     }
 
     // =========================================================================
