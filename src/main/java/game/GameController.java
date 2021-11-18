@@ -25,6 +25,8 @@ public class GameController {
     private Timer timer;
     private boolean isRunning;
     private boolean isPaused;
+    private boolean hasCollectedAllRewards = false;
+    private long timeElapsed;
 
     // #region Constructor and Singleton
     // =========================================================================
@@ -84,10 +86,35 @@ public class GameController {
 
     private void winGame() {
         // TODO: Implement me!
+        endGame();
     }
 
     private void loseGame() {
         // TODO: Implement me!
+        endGame();
+    }
+
+    // =========================================================================
+    // #endregion
+
+    // #region Time
+    // =========================================================================
+    /**
+     * This method sets the time (in seconds) elapsed since the start of the game.
+     */
+    private void updateTime() {
+        if (!isPaused)
+            timeElapsed++;
+    }
+
+    /**
+     * This method returns the time (in seconds) elapsed since the start of the
+     * game.
+     * 
+     * @return Time (in seconds) elapsed since the start of the game
+     */
+    public long getTimeElapsed() {
+        return timeElapsed;
     }
 
     // =========================================================================
@@ -113,6 +140,7 @@ public class GameController {
             updatePlayerInput(playerInput);
             checkCollidables();
             generateEnemyMovement();
+            hasWon();
         }
     }
 
@@ -188,6 +216,44 @@ public class GameController {
 
         if (getEnemy(position) != null)
             return false;
+
+        return true;
+    }
+
+    /**
+     * Checks if the player has won and if so, invokes the win game method.
+     */
+    private void hasWon() {
+        // check if player has collected all the rewards
+        if (!hasCollectedAllRewards)
+            return;
+
+        // check if the player has reached the exit
+        Position playerPosition = Player.getInstance().getPosition();
+        boolean reachedEnd = maze.isEnd(playerPosition);
+        if (reachedEnd)
+            winGame();
+    }
+
+    /**
+     * Checks if the player has collected all regular rewards and if so returns
+     * true. Used to set the hasCollectedAllRewards boolean.
+     * 
+     * @return True if the player has collected all regular rewards, false
+     *         otherwise.
+     */
+    private boolean collectedAllRewards() {
+        if (rewards.size() == 0) {
+            return true;
+        }
+
+        for (Reward reward : rewards) {
+            // if the points are equal to reward points, then they aren't bonus
+            // rewards, so they must be collected.
+            if (reward.getPoints() == Constants.rewardPoints) {
+                return false;
+            }
+        }
 
         return true;
     }
@@ -284,6 +350,8 @@ public class GameController {
                 Reward reward = (Reward) object;
                 scoreUpdate = reward.getPoints();
                 removeReward(reward);
+                // check if player has collected all rewards
+                hasCollectedAllRewards = collectedAllRewards();
                 break;
             case TRAP:
                 Trap trap = (Trap) object;
@@ -560,7 +628,6 @@ public class GameController {
 
         for (Reward reward : rewards) {
             if (reward.getPosition().equals(position)) {
-                rewards.remove(reward);
                 return reward;
             }
         }
@@ -579,7 +646,6 @@ public class GameController {
 
         for (Trap trap : traps) {
             if (trap.getPosition().equals(position)) {
-                traps.remove(trap);
                 return trap;
             }
         }

@@ -58,6 +58,10 @@ public class Maze {
         return getCell(position.getX(), position.getY());
     }
 
+    public boolean isEnd(Position position) {
+        return getCell(position).isEnd();
+    }
+
     /**
      * Returns whether or not the cell at position is a wall
      * 
