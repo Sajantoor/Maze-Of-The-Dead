@@ -7,8 +7,8 @@ import javax.swing.*;
 public class GameUI {
     private static JFrame frame;
 
-    public GameUI(){
-        //Full Screen
+    public GameUI() {
+        // Full Screen
         frame = new JFrame("Maze of The Dead");
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
@@ -17,34 +17,45 @@ public class GameUI {
 
         frame.setVisible(true);
     }
-    public static JFrame getFrame(){
+
+    public static JFrame getFrame() {
         return frame;
     }
 
-    public static void addInstructionScreen(){
+    public static void addGamePlayScreen() {
+        GamePlayScreen gamePlayScreen = new GamePlayScreen();
+        frame.add(gamePlayScreen.getGamePlayScreen());
+    }
+
+    public static void addInstructionScreen() {
         InstructionScreen instructionScreen = new InstructionScreen();
         frame.add(instructionScreen.getInstructionScreen());
     }
-    public static void addTitleScreen(){
+
+    public static void addTitleScreen() {
         TitleScreen titleScreen = new TitleScreen();
         frame.add(titleScreen.getTitleScreen());
     }
-    public static void addGameOverScreen(){
+
+    public static void addGameOverScreen() {
         GameOverScreen gameOverScreen = new GameOverScreen();
         frame.add(gameOverScreen.getGameOverScreen());
     }
-    public static void addNewHighScoreScreen(int score){
+
+    public static void addNewHighScoreScreen(int score) {
         NewHighScoreScreen newHighScoreScreen = new NewHighScoreScreen();
         frame.add(newHighScoreScreen.getNewHighScoreScreen(score));
     }
-    public static void addLeaderboardScreen(PlayerScore HighPlayerScore){
+
+    public static void addLeaderboardScreen(PlayerScore HighPlayerScore) {
         LeaderboardScreen leaderboardScreen = new LeaderboardScreen();
         frame.add(leaderboardScreen.getLeaderboardScreen(HighPlayerScore));
     }
-    public static void revalidate(){
+
+    public static void revalidate() {
         frame.revalidate();
         frame.repaint();
     }
-    //create static methods to call for your panel below. Follow format above
+    // create static methods to call for your panel below. Follow format above
 
 }

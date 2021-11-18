@@ -2,8 +2,8 @@ package utilities;
 
 public class Constants {
     // Maze related
-    public static final int mazeHeight = 12;
-    public static final int mazeWidth = 12;
+    public static final int mazeHeight = 30;
+    public static final int mazeWidth = 32;
     public static final int mazeRooms = 5;
     // Player related
     public static final int playerStartX = 0;

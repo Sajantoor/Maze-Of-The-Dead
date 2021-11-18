@@ -22,18 +22,19 @@ public class TitleScreen {
         titleScreenPanel.setLayout(new BoxLayout(titleScreenPanel, BoxLayout.PAGE_AXIS));
         UIUtils.addSpace(titleScreenPanel, 500, 400);
 
-        //Name of the game displayed
+        // Name of the game displayed
         titleLabel = new JLabel("Maze of The Dead");
         titleLabel.setFont(UIConstants.heading);
         titleScreenPanel.add(titleLabel);
 
         UIUtils.addSpace(titleScreenPanel, 0, 30);
 
-        //Start Button
+        // Start Button
         startButton = new JButton("Start");
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                addGamePlayScreen();
                 getFrame().remove(titleScreenPanel);
                 revalidate();
             }
@@ -43,7 +44,7 @@ public class TitleScreen {
 
         UIUtils.addSpace(titleScreenPanel, 0, 30);
 
-        //Quit button
+        // Quit button
         quitButton = new JButton("Quit");
         quitButton.addActionListener(new ActionListener() {
             @Override
@@ -55,7 +56,7 @@ public class TitleScreen {
         titleScreenPanel.add(quitButton);
         UIUtils.addSpace(titleScreenPanel, 0, 30);
 
-        //Instruction button
+        // Instruction button
         instructionButton = new JButton("Instruction");
         instructionButton.addActionListener(new ActionListener() {
             @Override
@@ -68,7 +69,7 @@ public class TitleScreen {
         UIUtils.buttonLayout(instructionButton);
         titleScreenPanel.add(instructionButton);
 
-        //adds the title panel to the static frame
+        // adds the title panel to the static frame
         getFrame().add(titleScreenPanel);
         return titleScreenPanel;
     }
