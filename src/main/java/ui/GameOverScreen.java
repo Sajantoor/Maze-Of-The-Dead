@@ -82,7 +82,9 @@ public class GameOverScreen {
         playAgainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Implement later
+                getFrame().remove(gameOverScreenPanel);
+                addGamePlayScreen();
+                revalidate();
             }
         });
         gameOverScreenPanel.add(playAgainButton);
