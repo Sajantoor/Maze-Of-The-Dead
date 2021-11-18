@@ -2,12 +2,14 @@ package utilities;
 
 public class Constants {
     // Maze related
-    public static final int mazeHeight = 5;
-    public static final int mazeWidth = 5;
+    public static final int mazeHeight = 12;
+    public static final int mazeWidth = 12;
     public static final int mazeRooms = 5;
     // Player related
     public static final int playerStartX = 0;
-    public static final int playerStartY = 0;
+    public static final int playerStartY = 1;
+    public static final int playerEndX = mazeWidth - 1;
+    public static final int playerEndY = mazeHeight - 2;
     public static final int playerStartScore = 0;
     // Controls related
     public static final String playerMoveUp = "W";
@@ -17,4 +19,13 @@ public class Constants {
     // Leaderboard related
     public static final int playerListSize = 5;
     public static final String leardboardFile = "LeaderBoard.txt";
+    // Entities related
+    public static final int boobyTrapDmg = -10;
+    public static final int trapFallDmg = -20;
+    public static final int boobyTrapCount = 5;
+    public static final int trapFallCount = 3;
+    public static final int rewardCount = 5;
+    public static final int regularRewardPoints = 10;
+    public static final int enemyCount = 3;
+
 }

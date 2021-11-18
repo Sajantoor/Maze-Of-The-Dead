@@ -53,6 +53,30 @@ public class Cell {
 
     /**
      * 
+     * @return True if the cell is a path, False otherwise
+     */
+    public boolean isEmpty() {
+        return getCellType() == CellType.PATH;
+    }
+
+    /**
+     * 
+     * @return True if the cell is the end point, False otherwise
+     */
+    public boolean isEnd() {
+        return getCellType() == CellType.END;
+    }
+
+    /**
+     * 
+     * @return True if the cell is the start point, False otherwise
+     */
+    public boolean isStart() {
+        return getCellType() == CellType.START;
+    }
+
+    /**
+     * 
      * @return True if the cell is a trap, False otherwise
      * @see CellType
      */
@@ -74,6 +98,27 @@ public class Cell {
      */
     public void setEmpty() {
         setCellType(CellType.PATH);
+    }
+
+    /**
+     * Changes the cell type to "wall"
+     */
+    public void setWall() {
+        setCellType(CellType.WALL);
+    }
+
+    /**
+     * Changes the cell type to "trap"
+     */
+    public void setTrap() {
+        setCellType(CellType.TRAP);
+    }
+
+    /**
+     * Changes the cell type to "reward"
+     */
+    public void setReward() {
+        setCellType(CellType.REWARD);
     }
 
     /**

@@ -1,10 +1,12 @@
 package game;
 
 import cell.Cell;
+import utilities.Constants;
 import utilities.Position;
 import cell.CellType;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Represents a maze which is comprised of Cells arranged in a 2D grid.
@@ -15,6 +17,7 @@ public class Maze {
     private Cell[][] maze;
     private int height;
     private int width;
+    private HashSet<Cell> visited;
 
     /**
      * Represents a randomly generated maze that the game will be played on. This
@@ -27,6 +30,7 @@ public class Maze {
         this.height = height;
         this.width = width;
         maze = new Cell[width][height];
+        visited = new HashSet<Cell>();
         newMaze(width, height, numRooms);
     }
 
@@ -105,7 +109,7 @@ public class Maze {
      * @param width  the absolute width of the maze
      * @param height the absolute height of the maze
      */
-    public void newMaze(int width, int height, int numRooms) {
+    private void newMaze(int width, int height, int numRooms) {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 maze[j][i] = new Cell(new Position(j, i));
@@ -116,8 +120,8 @@ public class Maze {
 
         addRooms(numRooms, width, height);
 
-        setStart(0, 1);
-        setEnd(width - 1, height - 2);
+        setStart(Constants.playerStartX, Constants.playerStartY);
+        setEnd(Constants.playerEndX, Constants.playerEndY);
 
         connectStartToPath();
         connectEndToPath();
@@ -234,6 +238,91 @@ public class Maze {
         }
     }
 
+    /**
+     * Returns all adjacent cells of the current position, looking up, down, left,
+     * right
+     * 
+     * @param position the position we want to get adjacent cells of
+     * @return ArrayList of adjacent cells
+     */
+    private ArrayList<Cell> getAdjacentCells(Position position) {
+        ArrayList<Cell> cells = new ArrayList<>();
+
+        if (position.getX() != 0)
+            cells.add(getCell(position.getX() - 1, position.getY()));
+        if (position.getX() != width - 1)
+            cells.add(getCell(position.getX() + 1, position.getY()));
+        if (position.getY() != 0)
+            cells.add(getCell(position.getX(), position.getY() - 1));
+        if (position.getY() != height - 1)
+            cells.add(getCell(position.getX(), position.getY() + 1));
+
+        return cells;
+    }
+
+    /**
+     * Recursive method to find a path from the start to the end of the maze, made
+     * up of player moves, uses breadth first search algorithm.
+     * 
+     * @param current The current position
+     * @param target  The target position
+     * @return True if there is a path from the start to the end of the maze
+     */
+    private boolean isPathHelper(Position current, Position target) {
+        Cell cell = getCell(current);
+        // we've already looked here
+        if (visited.contains(cell))
+            return false;
+
+        visited.add(cell);
+
+        // if we have reached our target, there must be a path.
+        if (cell.getPosition().equals(target))
+            return true;
+
+        // if cell is a trap or wall, we can't move through it
+        if (cell.isWall() || cell.isTrap())
+            return false;
+
+        // if cell is not wall or path, get adjacent cells
+        ArrayList<Cell> adjacentCells = getAdjacentCells(current);
+
+        // look at all adjacent cells and recurse
+        for (Cell adjacentCell : adjacentCells) {
+            Position adjacentPosition = adjacentCell.getPosition();
+
+            if (isPathHelper(adjacentPosition, target))
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if there is a path from the start point to the end point, using player
+     * moves ie, without going through traps or walls.
+     * 
+     * @param start The start position
+     * @param end   The end position
+     * @return True if there is a path from the start to the end, false otherwise
+     */
+    public boolean isPath(Position start, Position end) {
+        // empty visited list
+        visited.clear();
+        return isPathHelper(start, end);
+    }
+
+    /**
+     * Checks if the maze is solvable
+     *
+     * @return returns true if it is, false if not
+     */
+    public boolean isSolvable() {
+        Position start = new Position(Constants.playerStartX, Constants.playerStartY);
+        Position end = new Position(Constants.playerEndX, Constants.playerEndY);
+        return isPath(start, end);
+    }
+
     @Override
     public String toString() {
         String s = "";
@@ -262,8 +351,10 @@ public class Maze {
                         break;
                 }
             }
+
             s += "\n";
         }
+
         return s;
     }
 }

@@ -1,5 +1,6 @@
 package reward;
 
+import utilities.Constants;
 import utilities.Position;
 
 /**
@@ -23,6 +24,11 @@ public class Reward {
     public Reward(Position position, int points) {
         this.position = position;
         this.points = points;
+    }
+
+    public Reward(Position position) {
+        this.position = position;
+        this.points = Constants.regularRewardPoints;
     }
 
     /**

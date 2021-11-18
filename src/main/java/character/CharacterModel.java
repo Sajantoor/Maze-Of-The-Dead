@@ -17,7 +17,7 @@ public class CharacterModel {
      * @param pos Position of the character
      * @see Position
      */
-    protected CharacterModel(Position pos) {
+    public CharacterModel(Position pos) {
         this.position = pos;
     }
 

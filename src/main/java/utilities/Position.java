@@ -20,6 +20,11 @@ public class Position {
         this.y = y;
     }
 
+    public Position(Position position) {
+        this.x = position.x;
+        this.y = position.y;
+    }
+
     /**
      * Getter for x-coordinate
      * 
@@ -54,5 +59,28 @@ public class Position {
      */
     public void setY(int y) {
         this.y = y;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (!Functions.equals(this, obj))
+            return false;
+
+        Position position = (Position) obj;
+        if (this.x != position.x)
+            return false;
+
+        if (this.y != position.y)
+            return false;
+
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
     }
 }
