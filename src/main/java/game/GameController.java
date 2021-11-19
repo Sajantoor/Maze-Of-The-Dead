@@ -8,7 +8,9 @@ import java.util.Timer;
 import character.Player;
 import utilities.Movement;
 import character.CharacterModel;
+import reward.BonusReward;
 import reward.Reward;
+import reward.RewardType;
 import reward.Trap;
 import reward.TrapType;
 import cell.Cell;
@@ -103,8 +105,32 @@ public class GameController {
      * This method sets the time (in seconds) elapsed since the start of the game.
      */
     private void updateTime() {
-        if (!isPaused)
-            timeElapsed++;
+        if (isPaused)
+            return;
+
+        timeElapsed++;
+        // check if any bonus rewards have expired
+        checkBonusRewardExpired();
+        // have a random chance of generating a new bonus reward
+        if (Functions.getRandomNumber(0, 100) < Constants.bonusRewardChance) {
+            generateReward(RewardType.BONUS);
+        }
+    }
+
+    private void checkBonusRewardExpired() {
+        int size = rewards.size();
+        for (int i = 0; i < size; i++) {
+            Reward reward = rewards.get(i);
+            // check if it is a bonus reward and cast it to BonusReward
+            if (reward.getPoints() == Constants.bonusRewardPoints) {
+                BonusReward bonusReward = (BonusReward) reward;
+                // if the current time is greater than the bonus reward's end time,
+                // the bonus reward is expired
+                if (bonusReward.getEndTime() <= timeElapsed) {
+                    rewards.remove(i);
+                }
+            }
+        }
     }
 
     /**
@@ -530,7 +556,6 @@ public class GameController {
      * Generate Rewards
      * 
      **************************************************************************/
-
     /**
      * Generates rewards at random locations
      * 
@@ -538,7 +563,7 @@ public class GameController {
      */
     private void generateRewards(int num) {
         for (int i = 0; i < num; i++) {
-            generateReward();
+            generateReward(RewardType.REGULAR);
         }
     }
 
@@ -547,7 +572,7 @@ public class GameController {
      * reward to validate that the game is winnable, and adds it to the maze and
      * reward list
      */
-    private void generateReward() {
+    private void generateReward(RewardType rewardType) {
         Position position;
 
         do {
@@ -556,8 +581,23 @@ public class GameController {
 
         Cell cell = maze.getCell(position);
         cell.setReward();
-        Reward reward = new Reward(position);
-        addReward(reward);
+
+        Reward reward = null;
+        switch (rewardType) {
+            case REGULAR:
+                reward = new Reward(position);
+                break;
+            case BONUS:
+                long endTime = Functions.getRandomNumber(timeElapsed + Constants.bonusRewardTimeLower,
+                        timeElapsed + Constants.bonusRewardTimeUpper);
+                reward = new BonusReward(position, endTime);
+            default:
+                break;
+        }
+
+        if (reward != null) {
+            addReward(reward);
+        }
     }
 
     /**

@@ -47,4 +47,26 @@ public class Functions {
 
         return newPosition;
     }
+
+    /**
+     * Random number in some range
+     * 
+     * @param min Min of the range
+     * @param max Max of the range
+     * @return Random number within some range
+     */
+    public static long getRandomNumber(long min, long max) {
+        return (long) (Math.random() * (max - min + 1)) + min;
+    }
+
+    /**
+     * Random number in some range
+     * 
+     * @param min Min of the range
+     * @param max Max of the range
+     * @return Random number within some range
+     */
+    public static int getRandomNumber(int min, int max) {
+        return (int) (Math.random() * (max - min + 1)) + min;
+    }
 }

@@ -1,5 +1,6 @@
 package reward;
 
+import utilities.Constants;
 import utilities.Position;
 
 /**
@@ -9,36 +10,36 @@ import utilities.Position;
  * @see Position
  */
 public class BonusReward extends Reward {
-    private long startTime;
+    private long endTime;
 
     /**
      * BonusReward class constructor function
      *
-     * @param position  Position of the bonus reward
-     * @param points    Points offered by the bonus reward
-     * @param startTime Time when the bonus reward appears
+     * @param position Position of the bonus reward
+     * @param endTime  Time when the bonus reward disappears
      * @see Position
      */
-    public BonusReward(Position position, int points, long startTime) {
-        super(position, points);
-        this.startTime = startTime;
+    public BonusReward(Position position, long endTime) {
+        super(position);
+        setPoints(Constants.bonusRewardPoints);
+        this.endTime = endTime;
     }
 
     /**
      * Return the start time of the bonus reward
      *
-     * @return Start time of the bonus reward
+     * @return End time of the bonus reward
      */
-    public long getStartTime() {
-        return startTime;
+    public long getEndTime() {
+        return endTime;
     }
 
     /**
      * Set the start time of the bonus reward
      *
-     * @param startTime Start time of the bonus reward
+     * @param endTime End time of the bonus reward
      */
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
     }
 }
