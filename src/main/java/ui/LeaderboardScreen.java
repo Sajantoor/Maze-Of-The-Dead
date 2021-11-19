@@ -4,6 +4,7 @@ import leaderboard.Leaderboard;
 import leaderboard.PlayerScore;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import static ui.UIConstants.*;
 
 /**
  * Represent the Leaderboard screen
+ *
  * @author Kaung Si Thu
  */
 public class LeaderboardScreen {
@@ -24,6 +26,7 @@ public class LeaderboardScreen {
 
     /**
      * Return the Leaderboard screen
+     *
      * @param playerScore New High Score of the player
      * @return Leaderboard Screen
      */
@@ -53,11 +56,31 @@ public class LeaderboardScreen {
 
         UIUtils.addSpace(leaderBoardPanel, 300, 60);
 
-        /////////////////////LeaderBoard to be added
-        JLabel leaderBoardTable = new JLabel("LeaderBoard table to be added later");
-        leaderBoardTable.setForeground(Color.red);
-        leaderBoardTable.setAlignmentX(Component.CENTER_ALIGNMENT);
-        leaderBoardPanel.add(leaderBoardTable);
+        //LeaderBoard Table
+        JTable leaderBoardTable = new JTable();
+        Object[] columns = {"Rank", "Name", "Score"};
+        DefaultTableModel model = new DefaultTableModel();
+        model.setColumnIdentifiers(columns);
+        leaderBoardTable.setModel(model);
+        leaderBoardTable.setBackground(Color.white);
+        leaderBoardTable.setForeground(Color.black);
+        leaderBoardTable.setSelectionBackground(Color.red);
+        leaderBoardTable.setSelectionForeground(Color.white);
+        leaderBoardTable.setRowHeight(50);
+        leaderBoardTable.setAutoCreateRowSorter(true);
+        JScrollPane pane = new JScrollPane(leaderBoardTable);
+        pane.setForeground(Color.RED);
+        pane.setBackground(Color.WHITE);
+        pane.setPreferredSize(new Dimension(300, 300));
+        pane.setMaximumSize(pane.getPreferredSize());
+        for (int i = 0; i < leaderboard.getLeaderboardSize(); i++) {
+            Object[] row = new Object[3];
+            row[0] = "1";
+            row[1] = leaderboard.getPlayerScore(i).getName();
+            row[2] = leaderboard.getPlayerScore(i).getScore();
+            model.addRow(row);
+        }
+        leaderBoardPanel.add(pane);
 
         UIUtils.addSpace(leaderBoardPanel, 300, 60);
 
@@ -67,7 +90,9 @@ public class LeaderboardScreen {
         playAgainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Implement later
+                getFrame().remove(leaderBoardPanel);
+                addGamePlayScreen();
+                revalidate();
             }
         });
         leaderBoardPanel.add(playAgainButton);

@@ -14,7 +14,7 @@ public class GameUI {
         frame.setUndecorated(true);
 
         addTitleScreen();
-
+        
         frame.setVisible(true);
     }
 
