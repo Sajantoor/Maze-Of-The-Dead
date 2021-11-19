@@ -14,7 +14,7 @@ public class GameUI {
         frame.setUndecorated(true);
 
         addTitleScreen();
-        
+
         frame.setVisible(true);
     }
 
@@ -37,9 +37,9 @@ public class GameUI {
         frame.add(titleScreen.getTitleScreen());
     }
 
-    public static void addGameOverScreen() {
+    public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
         GameOverScreen gameOverScreen = new GameOverScreen();
-        frame.add(gameOverScreen.getGameOverScreen());
+        frame.add(gameOverScreen.getGameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards));
     }
 
     public static void addNewHighScoreScreen(int score) {

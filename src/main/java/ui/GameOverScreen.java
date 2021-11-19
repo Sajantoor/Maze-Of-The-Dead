@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import static ui.GameUI.*;
 import static ui.UIConstants.*;
+import static utilities.Constants.rewardCount;
 
 /**
  * Represent the "Game Over" screen
@@ -21,7 +22,7 @@ public class GameOverScreen {
      *
      * @return the "Game Over" screen
      */
-    public JPanel getGameOverScreen() {
+    public JPanel getGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
         gameOverScreenPanel = new JPanel();
         gameOverScreenPanel.setLayout(new BoxLayout(gameOverScreenPanel, BoxLayout.PAGE_AXIS));
 
@@ -35,14 +36,14 @@ public class GameOverScreen {
         UIUtils.addSpace(gameOverScreenPanel, 300, 60);
 
         //Score Text
-        JLabel scoreText = new JLabel("Score: 0"); //to change later
+        JLabel scoreText = new JLabel("Score: " + score); //to change later
         scoreText.setFont(plainArial35);
         scoreText.setAlignmentX(Component.CENTER_ALIGNMENT);
         gameOverScreenPanel.add(scoreText);
         UIUtils.addSpace(gameOverScreenPanel, 300, 60);
 
         //Time Text
-        JLabel timeText = new JLabel("Time: 00:00"); //to change later
+        JLabel timeText = new JLabel("Time: " + timeInSeconds / 60 + ":" + timeInSeconds % 60); //to change later
         timeText.setFont(plainArial35);
         timeText.setAlignmentX(Component.CENTER_ALIGNMENT);
         gameOverScreenPanel.add(timeText);
@@ -54,7 +55,7 @@ public class GameOverScreen {
         //Reward Image
         JLabel rewardImageLabel = new JLabel("Reward Image to be created"); //to change later
         //Reward Text
-        JLabel rewardText = new JLabel(": 00:00"); //to change later
+        JLabel rewardText = new JLabel(": " + numOfRewards + "/" + rewardCount); //to change later
         rewardText.setFont(plainArial35);
         rewardText.setAlignmentX(Component.CENTER_ALIGNMENT);
         rewardPanel.add(rewardImageLabel);
@@ -68,7 +69,7 @@ public class GameOverScreen {
         //Bonus Reward Image
         JLabel bonusRewardImageLabel = new JLabel("Bonus Reward Image to be created");//to change later
         //BonusReward Text
-        JLabel bonusRewardText = new JLabel(": 00:00");
+        JLabel bonusRewardText = new JLabel(": " + numOfBonusRewards);
         bonusRewardText.setFont(plainArial35);
         bonusRewardText.setAlignmentX(Component.CENTER_ALIGNMENT);
         bonusRewardPanel.add(bonusRewardImageLabel);
