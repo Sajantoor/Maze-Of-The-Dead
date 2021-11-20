@@ -32,4 +32,7 @@ public class Constants {
     public static final int bonusRewardTimeLower = 10 * 1000;
     public static final int bonusRewardTimeUpper = 20 * 1000;
     public static final int bonusRewardChance = 5;
+    // Threads
+    public static final int gameLoopSleep = 100;
+    public static final int enemyLoopSleep = 500;
 }

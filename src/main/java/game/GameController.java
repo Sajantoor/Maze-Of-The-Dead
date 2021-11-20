@@ -72,6 +72,56 @@ public class GameController {
         clearAllEntities();
         maze = new Maze(Constants.mazeHeight, Constants.mazeWidth, Constants.mazeRooms);
         generateEntities();
+        startTheads();
+    }
+
+    private void startTheads() {
+        Thread gameLoop = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isRunning) {
+                    // TODO: String is null for now this implementation needs to be changed
+                    updateGame(null);
+                    try {
+                        Thread.sleep(Constants.gameLoopSleep);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        Thread enemyLoop = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isRunning) {
+                    generateEnemyMovement();
+                    try {
+                        Thread.sleep(Constants.enemyLoopSleep);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        Thread timeLoop = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isRunning) {
+                    updateTime();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        timeLoop.start();
+        gameLoop.start();
+        enemyLoop.start();
     }
 
     public void endGame() {
@@ -165,7 +215,6 @@ public class GameController {
         if (isRunning && !isPaused) {
             updatePlayerInput(playerInput);
             checkCollidables();
-            generateEnemyMovement();
             hasWon();
         }
     }
