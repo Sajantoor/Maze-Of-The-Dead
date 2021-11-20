@@ -15,23 +15,20 @@ import java.util.HashSet;
  */
 public class Maze {
     private Cell[][] maze;
+    private static Maze instance = null;
     private int height;
     private int width;
     private HashSet<Cell> visited;
 
     /**
-     * Represents a randomly generated maze that the game will be played on. This
-     * maze will be composed of walls, paths, a start point and an end point.
-     *
-     * @param width  the absolute width of the maze
-     * @param height the absolute height of the maze
+     * returns an instance of the Maze
+     * @return an instance of the Maze
      */
-    public Maze(int width, int height, int numRooms) {
-        this.height = height;
-        this.width = width;
-        maze = new Cell[width][height];
-        visited = new HashSet<Cell>();
-        newMaze(width, height, numRooms);
+    public static Maze getInstance(){
+        if(instance == null){
+            instance = new Maze();
+        }
+        return instance;
     }
 
     /**
@@ -113,7 +110,12 @@ public class Maze {
      * @param width  the absolute width of the maze
      * @param height the absolute height of the maze
      */
-    private void newMaze(int width, int height, int numRooms) {
+    public void newMaze(int width, int height, int numRooms) {
+        this.height = height;
+        this.width = width;
+        maze = new Cell[width][height];
+        visited = new HashSet<Cell>();
+
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 maze[j][i] = new Cell(new Position(j, i));
@@ -332,30 +334,8 @@ public class Maze {
         String s = "";
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                switch (maze[j][i].getCellType()) {
-                    case PATH:
-                        s += "_";
-                        break;
-                    case WALL:
-                        s += "#";
-                        break;
-                    case START:
-                        s += "S";
-                        break;
-                    case END:
-                        s += "E";
-                        break;
-                    case REWARD:
-                        s += "R";
-                        break;
-                    case TRAP:
-                        s += "T";
-                        break;
-                    default:
-                        break;
-                }
+                s += maze[j][i].toString();
             }
-
             s += "\n";
         }
 
