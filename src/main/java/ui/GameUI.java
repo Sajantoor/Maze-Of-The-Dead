@@ -48,6 +48,11 @@ public class GameUI {
         frame.add(gameOverScreen.getGameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards));
     }
 
+    public static void addPauseScreen() {
+        PauseScreen pauseScreen = new PauseScreen();
+        frame.add(pauseScreen.getPauseScreen());
+    }
+
     public static void addNewHighScoreScreen(int score) {
         NewHighScoreScreen newHighScoreScreen = new NewHighScoreScreen();
         frame.add(newHighScoreScreen.getNewHighScoreScreen(score));
@@ -62,6 +67,5 @@ public class GameUI {
         frame.revalidate();
         frame.repaint();
     }
-    // create static methods to call for your panel below. Follow format above
 
 }

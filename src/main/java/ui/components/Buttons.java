@@ -5,6 +5,7 @@ import leaderboard.Leaderboard;
 import ui.UIUtils;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -151,6 +152,28 @@ public class Buttons {
         });
         UIUtils.buttonLayout(continueButton);
         panel.add(continueButton);
+    }
+
+    /**
+     * Add Resume Button (JButton: Takes player back to game screen to resume playing)
+     *
+     * @param panel         JPanel to be added to
+     * @param buttonName    Button Label
+     * @see ui.GamePlayScreen
+     */
+    public static void addResumeButton(JPanel panel, String buttonName){
+        JButton resumeButton = new JButton(buttonName);
+        UIUtils.buttonLayout(resumeButton);
+        resumeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        resumeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getFrame().remove(panel);
+                addGamePlayScreen();
+                revalidate();
+            }
+        });
+        panel.add(resumeButton);
     }
 }
 

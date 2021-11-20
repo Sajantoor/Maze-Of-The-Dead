@@ -2,6 +2,7 @@ package ui.components;
 
 import leaderboard.Leaderboard;
 import ui.UIConstants;
+import ui.UIUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -208,4 +209,19 @@ public class Elements {
         escapedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(escapedLabel);
     }
+
+    /**
+     * Game Paused Label
+     *
+     * @param panel JPanel to be added to
+     * @param title Title of the screen
+     */
+    public static void addPausedLabel(JPanel panel, String title) {
+        JLabel pauseText = new JLabel(title);
+        pauseText.setFont(UIConstants.heading);
+        pauseText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(pauseText);
+    }
+
+
 }
