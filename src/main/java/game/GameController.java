@@ -68,7 +68,8 @@ public class GameController {
         setRunning(true);
         // Clears all enties and regenerates them
         clearAllEntities();
-        maze = new Maze(Constants.mazeHeight, Constants.mazeWidth, Constants.mazeRooms);
+        maze = Maze.getInstance();
+        maze.newMaze(Constants.mazeWidth, Constants.mazeHeight, Constants.mazeRooms);
         generateEntities();
     }
 
@@ -201,7 +202,7 @@ public class GameController {
      * Checks if the enemy can move in the given direction Checks if there is wall,
      * trap or enemy in the way, therefore cannot move
      * 
-     * @param movement The position the enemy wants to move to
+     * @param position The position the enemy wants to move to
      * @return True if it can, false if it can't
      */
     private boolean validateEnemyMove(Position position) {
@@ -781,4 +782,14 @@ public class GameController {
     // =========================================================================
     // #endregion
 
+
+    public CharacterModel getEnemy(int i){
+        return enemies.get(i);
+    }
+    public Reward getReward(int i){
+        return rewards.get(i);
+    }
+    public Trap getTrap(int i){
+        return traps.get(i);
+    }
 }
