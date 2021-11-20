@@ -39,14 +39,15 @@ public class InstructionScreen {
     private JPanel zombiePanel;
     private JLabel zombieLabel;
     private JLabel zombieImageLabel;
-    private JPanel bootyTrapPanel;
-    private JLabel bootyTrapLabel;
-    private JLabel bootyTrapImageLabel;
+    private JPanel boobyTrapPanel;
+    private JLabel boobyTrapLabel;
+    private JLabel boobyTrapImageLabel;
     private JPanel trapfallPanel;
     private JLabel trapfallLabel;
     private JLabel trapfallImageLabel;
 
     public JPanel getInstructionScreen() {
+        SpriteIcons s = new SpriteIcons();
         instructionScreenPanel = new JPanel();
 
         //Top bar
@@ -148,7 +149,7 @@ public class InstructionScreen {
         collectPanel.add(rewardPanel);
 
         //Reward Image
-        rewardImageLabel = new JLabel("Reward Image to be created");
+        rewardImageLabel = new JLabel(s.getReward());
         rewardPanel.add(rewardImageLabel);
 
         UIUtils.addSpace(rewardPanel,10, 0);
@@ -163,7 +164,7 @@ public class InstructionScreen {
         collectPanel.add(bonusPanel);
 
         //Bonus Image
-        bonusImageLabel = new JLabel("Bonus Image to be created");
+        bonusImageLabel = new JLabel(s.getBonusReward());
         bonusPanel.add(bonusImageLabel);
 
         UIUtils.addSpace(bonusPanel,10, 0);
@@ -183,7 +184,7 @@ public class InstructionScreen {
         avoidPanel.add(zombiePanel);
 
         //Zombie Image
-        zombieImageLabel = new JLabel("Zombie Image");
+        zombieImageLabel = new JLabel(s.getEnemy(0));
         zombiePanel.add(zombieImageLabel);
 
         UIUtils.addSpace(zombiePanel,10, 0);
@@ -193,27 +194,27 @@ public class InstructionScreen {
         zombieLabel.setFont(UIConstants.plainArial20);
         zombiePanel.add(zombieLabel);
 
-        //Booty Trap Panel
-        bootyTrapPanel = new JPanel();
-        avoidPanel.add(bootyTrapPanel);
+        //Booby Trap Panel
+        boobyTrapPanel = new JPanel();
+        avoidPanel.add(boobyTrapPanel);
 
-        //Booty Trap Image
-        bootyTrapImageLabel = new JLabel("Booty Trap Image");
-        bootyTrapPanel.add(bootyTrapImageLabel);
+        //Booby Trap Image
+        boobyTrapImageLabel = new JLabel(s.getBoobyTrap());
+        boobyTrapPanel.add(boobyTrapImageLabel);
 
-        UIUtils.addSpace(bootyTrapPanel,10, 0);
+        UIUtils.addSpace(boobyTrapPanel,10, 0);
 
-        //Booty Trap Label
-        bootyTrapLabel = new JLabel("Booty Trap (-10)");
-        bootyTrapLabel.setFont(UIConstants.plainArial20);
-        bootyTrapPanel.add(bootyTrapLabel);
+        //Booby Trap Label
+        boobyTrapLabel = new JLabel("Booty Trap (-10)");
+        boobyTrapLabel.setFont(UIConstants.plainArial20);
+        boobyTrapPanel.add(boobyTrapLabel);
 
         //Trapfall Panel
         trapfallPanel = new JPanel();
         avoidPanel.add(trapfallPanel);
 
         //Trapfall Image
-        trapfallImageLabel = new JLabel("Trapfall Image");
+        trapfallImageLabel = new JLabel(s.getTrapFall());
         trapfallPanel.add(trapfallImageLabel);
 
         UIUtils.addSpace(trapfallPanel,10, 0);
