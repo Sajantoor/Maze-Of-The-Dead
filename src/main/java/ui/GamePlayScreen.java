@@ -49,7 +49,7 @@ public class GamePlayScreen {
         gamePlayScreen.addKeyListener(new KeyboardListener());
 
         infoPanel = new JPanel();
-        infoPanel.setPreferredSize(new Dimension(1920, 50));
+        infoPanel.setPreferredSize(new Dimension(1920, 30));
         infoPanel.setBackground(Color.LIGHT_GRAY);
         infoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         infoPanel.setAlignmentY(Component.TOP_ALIGNMENT);

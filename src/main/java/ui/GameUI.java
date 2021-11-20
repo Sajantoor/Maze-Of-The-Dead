@@ -3,6 +3,7 @@ package ui;
 import leaderboard.PlayerScore;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * Controls the calling and displaying all the screens
@@ -18,6 +19,7 @@ public class GameUI {
     public GameUI() {
         // Full Screen
         frame = new JFrame("Maze of The Dead");
+        frame.setLayout(new BorderLayout());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
 
