@@ -160,5 +160,9 @@ public class Leaderboard {
 	public int getLeaderboardSize(){
 		return playerScores.size();
 	}
+
+	public int getMinimumScore() {
+		return playerScores.get(size-1).getScore();
+	}
 }
 

@@ -15,6 +15,7 @@ public class GameUI {
 
         addTitleScreen();
 
+
         frame.setVisible(true);
     }
 
@@ -35,6 +36,11 @@ public class GameUI {
     public static void addTitleScreen() {
         TitleScreen titleScreen = new TitleScreen();
         frame.add(titleScreen.getTitleScreen());
+    }
+
+    public static void addGameWonScreen(int score, long timeInSeconds) {
+        GameWonScreen gameWonScreen = new GameWonScreen();
+        frame.add(gameWonScreen.getGameWonScreen(score, timeInSeconds));
     }
 
     public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {

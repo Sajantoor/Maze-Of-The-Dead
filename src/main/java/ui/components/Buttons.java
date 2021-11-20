@@ -1,6 +1,7 @@
 package ui.components;
 
 import leaderboard.PlayerScore;
+import leaderboard.Leaderboard;
 import ui.UIUtils;
 
 import javax.swing.*;
@@ -121,4 +122,36 @@ public class Buttons {
         UIUtils.buttonLayout(submitNameButton);
         panel.add(submitNameButton);
     }
+
+    /**
+     * Add Continue Button (JButton: Takes to Leaderboard screen if score not high enough, or to the New High Score screen)
+     *
+     * @param panel         JPanel to be added to
+     * @param buttonName    Button Label
+     * @param score         Score of the player
+     * @see ui.LeaderboardScreen
+     * @see ui.NewHighScoreScreen
+     */
+    public static void addContinueButton(JPanel panel, String buttonName, int score){
+        JButton continueButton = new JButton(buttonName);
+        continueButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(score < Leaderboard.getInstance().getMinimumScore()) {
+                    PlayerScore playerScore = new PlayerScore("",score);
+                    getFrame().remove(panel);
+                    addLeaderboardScreen(playerScore);
+                }
+                else{
+                    getFrame().remove(panel);
+                    addNewHighScoreScreen(score);
+                }
+                revalidate();
+            }
+        });
+        UIUtils.buttonLayout(continueButton);
+        panel.add(continueButton);
+    }
 }
+
+

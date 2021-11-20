@@ -195,4 +195,17 @@ public class Elements {
         namePanel.add(nameTextField);
         return nameTextField;
     }
+
+    /**
+     * You Escaped Label
+     *
+     * @param panel JPanel to be added to
+     * @param title Title of the screen
+     */
+    public static void addEscapedLabel(JPanel panel, String title) {
+        JLabel escapedLabel = new JLabel(title);
+        escapedLabel.setFont(UIConstants.heading);
+        escapedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(escapedLabel);
+    }
 }
