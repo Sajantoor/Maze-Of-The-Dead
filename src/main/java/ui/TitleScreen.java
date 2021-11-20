@@ -1,10 +1,11 @@
 package ui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static ui.GameUI.*;
+import static ui.UIUtils.addSpace;
+import static ui.components.Buttons.*;
+import static ui.components.Elements.*;
 
 /**
  * Represents the TitleScreen
@@ -14,9 +15,6 @@ import static ui.GameUI.*;
 public class TitleScreen {
     private JPanel titleScreenPanel;
     private JLabel titleLabel;
-    private JButton startButton;
-    private JButton quitButton;
-    private JButton instructionButton;
 
     /**
      * returns the title screen panel
@@ -26,54 +24,22 @@ public class TitleScreen {
     public JPanel getTitleScreen() {
         titleScreenPanel = new JPanel();
         titleScreenPanel.setLayout(new BoxLayout(titleScreenPanel, BoxLayout.PAGE_AXIS));
-        UIUtils.addSpace(titleScreenPanel, 500, 400);
+        addSpace(titleScreenPanel, 500, 400);
 
         // Name of the game displayed
-        titleLabel = new JLabel("Maze of The Dead");
-        titleLabel.setFont(UIConstants.heading);
-        titleScreenPanel.add(titleLabel);
-
-        UIUtils.addSpace(titleScreenPanel, 0, 30);
+        addGameTitle(titleScreenPanel);
+        addSpace(titleScreenPanel, 0, 30);
 
         // Start Button
-        startButton = new JButton("Start");
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addGamePlayScreen();
-                getFrame().remove(titleScreenPanel);
-                revalidate();
-            }
-        });
-        UIUtils.buttonLayout(startButton);
-        titleScreenPanel.add(startButton);
+        addPlayButton(titleScreenPanel, "Start");
+        addSpace(titleScreenPanel, 0, 30);
 
-        UIUtils.addSpace(titleScreenPanel, 0, 30);
-
-        // Quit button
-        quitButton = new JButton("Quit");
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
-        UIUtils.buttonLayout(quitButton);
-        titleScreenPanel.add(quitButton);
-        UIUtils.addSpace(titleScreenPanel, 0, 30);
+        // Exit Game button
+        addExitGameButton(titleScreenPanel, "Exit Game");
+        addSpace(titleScreenPanel, 0, 30);
 
         // Instruction button
-        instructionButton = new JButton("Instruction");
-        instructionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getFrame().remove(titleScreenPanel);
-                addInstructionScreen();
-                revalidate();
-            }
-        });
-        UIUtils.buttonLayout(instructionButton);
-        titleScreenPanel.add(instructionButton);
+        addInstructionButton(titleScreenPanel, "Instruction");
 
         // adds the title panel to the static frame
         getFrame().add(titleScreenPanel);

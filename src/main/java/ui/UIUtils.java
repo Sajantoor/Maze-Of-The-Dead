@@ -20,6 +20,7 @@ public class UIUtils {
         button.setFont(UIConstants.boldArial35);
         button.setFocusPainted(false);
         button.setMargin(new Insets(0, 0, 0, 0));
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setBorderPainted(false);
         button.setOpaque(false);
         button.setBackground(null);

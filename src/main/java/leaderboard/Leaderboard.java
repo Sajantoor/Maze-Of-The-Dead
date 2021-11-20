@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 /**
  * Creates a leaderboard with the top 5 players of the game
- * 
+ *
  * @author Maisha Supritee Chowdhury
  * @see PlayerScore
  */
@@ -152,4 +152,17 @@ public class Leaderboard {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Return the number of PlayerScore in the leaderboard
+	 * @return the number of PlayerScore in the leaddrboard
+	 * @see PlayerScore
+	 */
+	public int getLeaderboardSize(){
+		return playerScores.size();
+	}
+
+	public int getMinimumScore() {
+		return playerScores.get(size-1).getScore();
+	}
 }
+

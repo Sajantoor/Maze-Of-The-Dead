@@ -62,9 +62,19 @@ public class GameUI {
     /**
      * Displays the GameOver screen
      */
-    public static void addGameOverScreen() {
+    public static void addGameWonScreen(int score, long timeInSeconds) {
+        GameWonScreen gameWonScreen = new GameWonScreen();
+        frame.add(gameWonScreen.getGameWonScreen(score, timeInSeconds));
+    }
+
+    public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
         GameOverScreen gameOverScreen = new GameOverScreen();
-        frame.add(gameOverScreen.getGameOverScreen());
+        frame.add(gameOverScreen.getGameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards));
+    }
+
+    public static void addPauseScreen() {
+        PauseScreen pauseScreen = new PauseScreen();
+        frame.add(pauseScreen.getPauseScreen());
     }
 
     /**
