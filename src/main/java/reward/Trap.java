@@ -66,7 +66,7 @@ public class Trap extends Reward {
     }
 
     public Position getPosition() {
-        return getPosition();
+        return super.getPosition();
     }
 
     public void setPosition(Position position) {
