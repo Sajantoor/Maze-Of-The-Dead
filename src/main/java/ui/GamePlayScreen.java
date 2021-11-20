@@ -1,10 +1,8 @@
 package ui;
 
 import utilities.Constants;
-
 import javax.swing.*;
 import java.awt.*;
-
 import static ui.UIConstants.cellHeight;
 import static ui.UIConstants.cellWidth;
 import static utilities.Constants.mazeHeight;

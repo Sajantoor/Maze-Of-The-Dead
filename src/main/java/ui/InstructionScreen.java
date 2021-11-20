@@ -2,17 +2,17 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import static ui.GameUI.*;
+import static ui.GameUI.getFrame;
+import static ui.UIUtils.*;
+import static ui.components.Buttons.*;
+import static ui.components.Elements.*;
 
 public class InstructionScreen {
     private JPanel instructionScreenPanel;
 
     private JPanel topPanel;
-    private JLabel hTPLabel; //How to Play
-    private JButton xButton;
+
 
     private JPanel movementPanel;
     private JPanel movementLeftPanel;
@@ -20,10 +20,6 @@ public class InstructionScreen {
     private JPanel movementRightPanelUpper;
     private JPanel movementRightPanelLower;
     private JLabel movementLabel;
-    private JLabel wLabel;
-    private JLabel aLabel;
-    private JLabel sLabel;
-    private JLabel dLabel;
 
     private JPanel lowerPanel;
     private JPanel collectPanel;
@@ -49,37 +45,19 @@ public class InstructionScreen {
     public JPanel getInstructionScreen() {
         instructionScreenPanel = new JPanel();
 
-        //Top bar
+        //Top Panel
         topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.LINE_AXIS));
         topPanel.setPreferredSize(new Dimension(1920, 100));
         topPanel.setBackground(new Color(173, 216, 230));
+        addSpace(topPanel, 820, 0);
 
-        UIUtils.addSpace(topPanel,20, 0);
-
-        //Close button
-        xButton = new JButton("X");
-        xButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getFrame().remove(instructionScreenPanel);
-                addTitleScreen();
-                revalidate();
-            }
-        });
-        UIUtils.buttonLayout(xButton);
-        topPanel.add(xButton);
-
-        UIUtils.addSpace(topPanel,800, 0);
-
-        //How to play heading
-        hTPLabel = new JLabel("How to Play");
-        hTPLabel.setFont(UIConstants.heading);
-        topPanel.add(hTPLabel);
+        //How to play Title
+        addTitle(topPanel, "How to Play");
         instructionScreenPanel.add(topPanel);
-        GameUI.getFrame().add(instructionScreenPanel);
+        getFrame().add(instructionScreenPanel);
 
-        UIUtils.addSpace(instructionScreenPanel,0, 400);
+        addSpace(instructionScreenPanel, 0, 400);
 
         //Movement area
         movementPanel = new JPanel();
@@ -124,14 +102,14 @@ public class InstructionScreen {
 
         //Lower Panel
         lowerPanel = new JPanel();
-        lowerPanel.setPreferredSize(new Dimension(1920,200));
+        lowerPanel.setPreferredSize(new Dimension(1920, 200));
 
         //Collect Panel
         collectPanel = new JPanel();
         collectPanel.setLayout(new BoxLayout(collectPanel, BoxLayout.Y_AXIS));
         lowerPanel.add(collectPanel);
 
-        UIUtils.addSpace(lowerPanel,400, 0);
+        addSpace(lowerPanel, 400, 0);
 
         //Avoid Panel
         avoidPanel = new JPanel();
@@ -151,7 +129,7 @@ public class InstructionScreen {
         rewardImageLabel = new JLabel("Reward Image to be created");
         rewardPanel.add(rewardImageLabel);
 
-        UIUtils.addSpace(rewardPanel,10, 0);
+        addSpace(rewardPanel, 10, 0);
 
         //Reward Label
         rewardLabel = new JLabel("Collect All to escape (10)");
@@ -166,7 +144,7 @@ public class InstructionScreen {
         bonusImageLabel = new JLabel("Bonus Image to be created");
         bonusPanel.add(bonusImageLabel);
 
-        UIUtils.addSpace(bonusPanel,10, 0);
+        addSpace(bonusPanel, 10, 0);
 
         //Bonus Label
         bonusLabel = new JLabel("Bonus (50)");
@@ -186,7 +164,7 @@ public class InstructionScreen {
         zombieImageLabel = new JLabel("Zombie Image");
         zombiePanel.add(zombieImageLabel);
 
-        UIUtils.addSpace(zombiePanel,10, 0);
+        addSpace(zombiePanel, 10, 0);
 
         //Zombie Label
         zombieLabel = new JLabel("Zombies");
@@ -201,7 +179,7 @@ public class InstructionScreen {
         bootyTrapImageLabel = new JLabel("Booty Trap Image");
         bootyTrapPanel.add(bootyTrapImageLabel);
 
-        UIUtils.addSpace(bootyTrapPanel,10, 0);
+        addSpace(bootyTrapPanel, 10, 0);
 
         //Booty Trap Label
         bootyTrapLabel = new JLabel("Booty Trap (-10)");
@@ -216,7 +194,7 @@ public class InstructionScreen {
         trapfallImageLabel = new JLabel("Trapfall Image");
         trapfallPanel.add(trapfallImageLabel);
 
-        UIUtils.addSpace(trapfallPanel,10, 0);
+        addSpace(trapfallPanel, 10, 0);
 
         //Trapfall Label
         trapfallLabel = new JLabel("Trapfall (-20)");
@@ -224,11 +202,12 @@ public class InstructionScreen {
         trapfallPanel.add(trapfallLabel);
 
         instructionScreenPanel.add(lowerPanel);
+        addQuitButton(instructionScreenPanel, "Back");
 
         return instructionScreenPanel;
     }
 
-    private void keyFormat(JPanel panel, String letter){
+    private void keyFormat(JPanel panel, String letter) {
         JLabel keyLabel = new JLabel(letter);
         keyLabel.setFont(UIConstants.plainArial35);
         keyLabel.setBorder(UIConstants.keyBorder);
