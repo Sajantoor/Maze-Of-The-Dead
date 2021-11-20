@@ -65,11 +65,23 @@ public class Trap extends Reward {
         this.trapType = trapType;
     }
 
+    /**
+     * returns the Position instance containing x and y coordinates
+     *
+     * @return the Position instance containing x and y coordinates
+     * @see Position
+     */
     public Position getPosition() {
         return super.getPosition();
     }
 
+    /**
+     * Sets the Position argument as the position of the trap
+     *
+     * @param position Position to be set to the trap
+     * @see Position
+     */
     public void setPosition(Position position) {
-        setPosition(position);
+        super.setPosition(position);
     }
 }

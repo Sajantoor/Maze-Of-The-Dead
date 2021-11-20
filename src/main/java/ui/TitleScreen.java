@@ -6,6 +6,11 @@ import java.awt.event.ActionListener;
 
 import static ui.GameUI.*;
 
+/**
+ * Represents the TitleScreen
+ *
+ * @author Dylan Young
+ */
 public class TitleScreen {
     private JPanel titleScreenPanel;
     private JLabel titleLabel;
@@ -14,6 +19,7 @@ public class TitleScreen {
     private JButton instructionButton;
 
     /**
+     * returns the title screen panel
      *
      * @return the title screen panel
      */

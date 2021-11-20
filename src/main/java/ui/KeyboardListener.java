@@ -3,6 +3,11 @@ package ui;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * Detection component for the game which detects the inputs of the player
+ *
+ * @author Dylan Young
+ */
 public class KeyboardListener extends KeyAdapter {
     @Override
     public void keyPressed(KeyEvent event) {

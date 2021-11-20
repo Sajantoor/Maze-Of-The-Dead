@@ -20,12 +20,23 @@ import static ui.UIConstants.cellWidth;
 import static utilities.Constants.mazeHeight;
 import static utilities.Constants.mazeWidth;
 
+/**
+ * Represents the GamePlayScreen
+ *
+ * @author Dylan Young
+ */
 public class GamePlayScreen {
     private JPanel gamePlayScreen;
     private JPanel infoPanel;
     private JPanel mazePanel;
     private JLabel[][] cellLabels;
 
+    /**
+     * returns the GamePlayScreen panel
+     *
+     * @return the GamePlayScreen panel
+     * @see JPanel
+     */
     public JPanel getGamePlayScreen() {
         SpriteIcons s = new SpriteIcons();
         getFrame().addKeyListener(new KeyboardListener());

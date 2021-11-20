@@ -7,11 +7,16 @@ import java.awt.event.ActionListener;
 
 import static ui.GameUI.*;
 
+/**
+ * Represents the Instruction screen
+ *
+ * @author Dylan Young
+ */
 public class InstructionScreen {
     private JPanel instructionScreenPanel;
 
     private JPanel topPanel;
-    private JLabel hTPLabel; //How to Play
+    private JLabel hTPLabel;
     private JButton xButton;
 
     private JPanel movementPanel;
@@ -20,10 +25,6 @@ public class InstructionScreen {
     private JPanel movementRightPanelUpper;
     private JPanel movementRightPanelLower;
     private JLabel movementLabel;
-    private JLabel wLabel;
-    private JLabel aLabel;
-    private JLabel sLabel;
-    private JLabel dLabel;
 
     private JPanel lowerPanel;
     private JPanel collectPanel;
@@ -46,6 +47,12 @@ public class InstructionScreen {
     private JLabel trapfallLabel;
     private JLabel trapfallImageLabel;
 
+    /**
+     * returns the Instruction screen
+     *
+     * @return the Instruction screen
+     * @see JPanel
+     */
     public JPanel getInstructionScreen() {
         SpriteIcons s = new SpriteIcons();
         instructionScreenPanel = new JPanel();
