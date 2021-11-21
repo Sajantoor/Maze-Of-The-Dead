@@ -24,8 +24,8 @@ public class GameController {
     private ArrayList<CharacterModel> enemies;
     private ArrayList<Reward> rewards;
     private ArrayList<Trap> traps;
-    private Timer timer;
     private boolean isRunning;
+    private boolean hasWon;
     private boolean isPaused;
     private boolean hasCollectedAllRewards = false;
     private long timeElapsed;
@@ -124,6 +124,19 @@ public class GameController {
         enemyLoop.start();
     }
 
+    private void setHasWon(boolean hasWon) {
+        this.hasWon = hasWon;
+    }
+
+    /**
+     * Checks whether the player has won the game.
+     * 
+     * @return True if the player has won the game, false otherwise.
+     */
+    public boolean getHasWon() {
+        return hasWon;
+    }
+
     public void endGame() {
         setRunning(false);
     }
@@ -137,11 +150,13 @@ public class GameController {
     }
 
     private void winGame() {
+        setHasWon(true);
         // TODO: Implement me!
         endGame();
     }
 
     private void loseGame() {
+        setHasWon(false);
         // TODO: Implement me!
         endGame();
     }
