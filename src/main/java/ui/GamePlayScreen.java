@@ -63,16 +63,15 @@ public class GamePlayScreen {
         mazePanel.setLayout(new GridLayout(mazeHeight, mazeWidth));
         gamePlayScreen.add(mazePanel);
 
-        for(int i = 0; i < mazeHeight; i++){
-            for(int j = 0; j < mazeWidth; j++){
+        for (int i = 0; i < mazeHeight; i++) {
+            for (int j = 0; j < mazeWidth; j++) {
                 JLabel label = new JLabel();
-                if(Maze.getInstance().getCell(j, i).getCellType() == CellType.PATH || Maze.getInstance().getCell(j, i).getCellType() == CellType.START || Maze.getInstance().getCell(j, i).getCellType() == CellType.END){
+                if (Maze.getInstance().getCell(j, i).getCellType() == CellType.PATH || Maze.getInstance().getCell(j, i).getCellType() == CellType.START || Maze.getInstance().getCell(j, i).getCellType() == CellType.END) {
                     label.setIcon(s.getPath());
-                }
-                else{
+                } else {
                     label.setIcon(s.getWall());
                 }
-                cellLabels[j][i]  = label;
+                cellLabels[j][i] = label;
                 mazePanel.add(label);
             }
         }
@@ -80,68 +79,114 @@ public class GamePlayScreen {
         revalidateMaze();
         startThread();
 
-
         return gamePlayScreen;
     }
-    private JLabel getCellLabel(Position pos){
+
+    private JLabel getCellLabel(Position pos) {
         return cellLabels[pos.getX()][pos.getY()];
     }
 
-    private void startThread(){
+    private void startThread() {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                while(GameController.getInstance().getIsRunning()){
+                while (GameController.getInstance().getIsRunning()) {
                     revalidateMaze();
                 }
             }
         });
 
-        Thread t2 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(GameController.getInstance().getIsRunning()){
-                    for(int i = 0; i < mazeHeight; i++){
-                        for(int j = 0; j < mazeWidth; j++){
-                            if(Maze.getInstance().getCell(j, i).getCellType() == CellType.PATH || Maze.getInstance().getCell(j, i).getCellType() == CellType.START || Maze.getInstance().getCell(j, i).getCellType() == CellType.END){
-                                cellLabels[j][i].setIcon(s.getPath());
-                            }
-                            else{
-                                cellLabels[j][i].setIcon(s.getWall());
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
         t.start();
-        t2.start();
     }
 
-    private void revalidateMaze(){
-        for(int i = 0; i < GameController.getInstance().getEnemyCount(); i++){
+    /*private void revalidateMaze() {
+        for (int i = 0; i < GameController.getInstance().getEnemyCount(); i++) {
             CharacterModel enemy = GameController.getInstance().getEnemy(i);
             getCellLabel(enemy.getPosition()).setIcon(s.getEnemy(0));
         }
 
-        for(int i = 0; i < GameController.getInstance().getRewardCount(); i++){
-            Reward reward= GameController.getInstance().getReward(i);
-            if (reward instanceof BonusReward){
-                getCellLabel(reward.getPosition()).setIcon(s.getBonusReward());
-            }else{
-                getCellLabel(reward.getPosition()).setIcon(s.getReward());
+        for (int i = 0; i < GameController.getInstance().getRewardCount(); i++) {
+            Reward reward = GameController.getInstance().getReward(i);
+            if(!GameController.getInstance().containsEnemy(reward.getPosition().getX(), reward.getPosition().getY())) {
+                if (reward instanceof BonusReward) {
+                    getCellLabel(reward.getPosition()).setIcon(s.getBonusReward());
+                } else {
+                    getCellLabel(reward.getPosition()).setIcon(s.getReward());
+                }
             }
         }
 
         for(int i = 0; i < GameController.getInstance().getTrapCount(); i++){
             Trap trap = GameController.getInstance().getTrap(i);
-            if(trap.getTrapType() == TrapType.BOOBYTRAP){
-                getCellLabel(trap.getPosition()).setIcon(s.getBoobyTrap());
-            }else {
-                getCellLabel(trap.getPosition()).setIcon(s.getTrapFall());
+            if(!GameController.getInstance().containsEnemy(trap.getPosition().getX(), trap.getPosition().getY())) {
+                if (trap.getTrapType() == TrapType.BOOBYTRAP) {
+                    getCellLabel(trap.getPosition()).setIcon(s.getBoobyTrap());
+                } else {
+                    getCellLabel(trap.getPosition()).setIcon(s.getTrapFall());
+                }
             }
+        }
 
+        Player player = Player.getInstance();
+        getCellLabel(player.getPosition()).setIcon(s.getPerson(2));
+    }*/
+
+    private void revalidateMaze() {
+
+        for (int i = 0; i < mazeHeight; i++) {
+            for(int j = 0; j < mazeWidth; j++){
+                if(Player.getInstance().getPosition().getX() == j && Player.getInstance().getPosition().getY() == i){
+                    cellLabels[j][i].setIcon(s.getPerson(2));
+                }else if(GameController.getInstance().containsEnemy(j, i)){
+                    cellLabels[j][i].setIcon(s.getEnemy(0));
+                }else if(GameController.getInstance().containsReward(j, i)){
+                    Reward reward = GameController.getInstance().getReward(j, i);
+                    if (reward instanceof BonusReward) {
+                        cellLabels[j][i].setIcon(s.getBonusReward());
+                    } else {
+                        cellLabels[j][i].setIcon(s.getReward());
+                    }
+                }else if(GameController.getInstance().containsTrap(j, i)){
+                    Trap trap = GameController.getInstance().getTrap(j,i);
+                    if(trap.getTrapType() == TrapType.BOOBYTRAP){
+                        cellLabels[j][i].setIcon(s.getBoobyTrap());
+                    }else{
+                        cellLabels[j][i].setIcon(s.getTrapFall());
+                    }
+                }else if(Maze.getInstance().getCell(j, i).getCellType() == CellType.PATH || Maze.getInstance().getCell(j, i).getCellType() == CellType.END || Maze.getInstance().getCell(j, i).getCellType() == CellType.START)
+                {
+                    cellLabels[j][i].setIcon(s.getPath());
+                }else{
+                    cellLabels[j][i].setIcon(s.getWall());
+                }
+            }
+        }
+
+        for (int i = 0; i < GameController.getInstance().getEnemyCount(); i++) {
+            CharacterModel enemy = GameController.getInstance().getEnemy(i);
+            getCellLabel(enemy.getPosition()).setIcon(s.getEnemy(0));
+        }
+
+        for (int i = 0; i < GameController.getInstance().getRewardCount(); i++) {
+            Reward reward = GameController.getInstance().getReward(i);
+            if (!GameController.getInstance().containsEnemy(reward.getPosition().getX(), reward.getPosition().getY())) {
+                if (reward instanceof BonusReward) {
+                    getCellLabel(reward.getPosition()).setIcon(s.getBonusReward());
+                } else {
+                    getCellLabel(reward.getPosition()).setIcon(s.getReward());
+                }
+            }
+        }
+
+        for (int i = 0; i < GameController.getInstance().getTrapCount(); i++) {
+            Trap trap = GameController.getInstance().getTrap(i);
+            if (!GameController.getInstance().containsEnemy(trap.getPosition().getX(), trap.getPosition().getY())) {
+                if (trap.getTrapType() == TrapType.BOOBYTRAP) {
+                    getCellLabel(trap.getPosition()).setIcon(s.getBoobyTrap());
+                } else {
+                    getCellLabel(trap.getPosition()).setIcon(s.getTrapFall());
+                }
+            }
         }
 
         Player player = Player.getInstance();

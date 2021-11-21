@@ -4,6 +4,9 @@ import leaderboard.PlayerScore;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowStateListener;
 
 /**
  * Controls the calling and displaying all the screens
@@ -33,14 +36,13 @@ public class GameUI {
         frame.setLayout(new BorderLayout());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
-        frame.setFocusable(true);
 
         addTitleScreen();
 
         subFrame = new JFrame();
         subFrame.setSize(500, 500);
         subFrame.setLocationRelativeTo(null);
-        subFrame.setFocusable(true);
+        subFrame.setAutoRequestFocus(true);
 
         frame.setVisible(true);
     }

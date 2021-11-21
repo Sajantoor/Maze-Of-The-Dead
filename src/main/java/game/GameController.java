@@ -899,8 +899,24 @@ public class GameController {
     public Reward getReward(int i){
         return rewards.get(i);
     }
+    public Reward getReward(int x, int y){
+        for (int i = 0; i < rewards.size(); i++){
+            if(rewards.get(i).getPosition().getX() == x && rewards.get(i).getPosition().getY() == y){
+                return rewards.get(i);
+            }
+        }
+        return null;
+    }
     public Trap getTrap(int i){
         return traps.get(i);
+    }
+    public Trap getTrap(int x, int y){
+        for (int i = 0; i < traps.size(); i++){
+            if(traps.get(i).getPosition().getX() == x && traps.get(i).getPosition().getY() == y){
+                return traps.get(i);
+            }
+        }
+        return null;
     }
     public int getEnemyCount(){
         return enemies.size();
@@ -910,5 +926,29 @@ public class GameController {
     }
     public int getRewardCount(){
         return rewards.size();
+    }
+    public boolean containsEnemy(int x, int y){
+        for (int i = 0; i < enemies.size(); i++){
+            if(enemies.get(i).getPosition().getX() == x && enemies.get(i).getPosition().getY() == y){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean containsTrap(int x, int y){
+        for (int i = 0; i < traps.size(); i++){
+            if(traps.get(i).getPosition().getX() == x && traps.get(i).getPosition().getY() == y){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean containsReward(int x, int y){
+        for (int i = 0; i < rewards.size(); i++){
+            if(rewards.get(i).getPosition().getX() == x && rewards.get(i).getPosition().getY() == y){
+                return true;
+            }
+        }
+        return false;
     }
 }

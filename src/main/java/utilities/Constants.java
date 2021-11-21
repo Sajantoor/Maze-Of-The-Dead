@@ -4,7 +4,9 @@ public class Constants {
     // Maze related
     public static final int mazeHeight = 30;
     public static final int mazeWidth = 32;
-    public static final int mazeRooms = 5;
+    public static final int mazeRooms = 10;
+    public static final int minRoomSize = 1;
+    public static final int maxRoomSize = 4;
     // Player related
     public static final int playerStartX = 0;
     public static final int playerStartY = 1;

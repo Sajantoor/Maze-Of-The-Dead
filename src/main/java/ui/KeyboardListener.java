@@ -14,7 +14,7 @@ import static ui.GameUI.*;
  * @author Dylan Young
  */
 public class KeyboardListener extends KeyAdapter {
-    GameController gc =GameController.getInstance();
+    GameController gc = GameController.getInstance();
     @Override
     public void keyPressed(KeyEvent event) {
         switch (event.getKeyCode()) {
@@ -39,12 +39,13 @@ public class KeyboardListener extends KeyAdapter {
                 }
                 break;
             case KeyEvent.VK_ESCAPE:
-                gc.pauseGame();
-                addPauseScreen();
-                getSubFrame().setVisible(true);
-                getFrame().setEnabled(false);
-                getFrame().setFocusable(false);
-                revalidateSubScreen();
+                if(gc.getIsRunning()) {
+                    gc.pauseGame();
+                    addPauseScreen();
+                    getSubFrame().setVisible(true);
+                    getFrame().setEnabled(false);
+                    revalidateSubScreen();
+                }
                 break;
             default:
                 break;
