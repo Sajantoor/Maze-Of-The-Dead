@@ -32,7 +32,7 @@ public class NewHighScoreScreen {
         addSpace(newHighScoreScreenPanel, 0, 60);
 
         //Score Label
-        addNewHIghScoreLabel(newHighScoreScreenPanel, newHighScore);
+        addNewHighScoreLabel(newHighScoreScreenPanel, newHighScore);
         addSpace(newHighScoreScreenPanel, 0, 60);
 
         //Name input
