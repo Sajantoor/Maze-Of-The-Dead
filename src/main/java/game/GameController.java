@@ -3,7 +3,6 @@ package game;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Timer;
 
 import character.Player;
 import utilities.Movement;
@@ -18,6 +17,12 @@ import utilities.Constants;
 import utilities.Functions;
 import utilities.Position;
 
+/**
+ * This class is the controller of the game. It is in charge of the game logic,
+ * handling player input and generation of entities.
+ * 
+ * @author Sajan Toor
+ */
 public class GameController {
     private static GameController instance = null;
     private Maze maze;
@@ -62,10 +67,19 @@ public class GameController {
     // #region Game state methods
     // =========================================================================
 
-    public void setRunning(boolean isRunning) {
+    /**
+     * Sets whether or not the game is running
+     * 
+     * @param isRunning True if the game is running, false otherwise
+     */
+    private void setRunning(boolean isRunning) {
         this.isRunning = isRunning;
     }
 
+    /**
+     * Method to start the game. This will geenrate the maze and entities as well as
+     * start the threads.
+     */
     public void startGame() {
         setRunning(true);
         // Clears all enties and regenerates them
@@ -76,6 +90,10 @@ public class GameController {
         startTheads();
     }
 
+    /**
+     * Starts the threads for the game, including game loop, enemy loop and time
+     * loop.
+     */
     private void startTheads() {
         Thread gameLoop = new Thread(new Runnable() {
             @Override
@@ -125,6 +143,9 @@ public class GameController {
         enemyLoop.start();
     }
 
+    /**
+     * Updates the winning state of the game.
+     */
     private void setHasWon(boolean hasWon) {
         this.hasWon = hasWon;
     }
@@ -138,6 +159,9 @@ public class GameController {
         return hasWon;
     }
 
+    /**
+     * Ends the game, setting the running flag to false.
+     */
     public void endGame() {
         setRunning(false);
     }
@@ -152,13 +176,11 @@ public class GameController {
 
     private void winGame() {
         setHasWon(true);
-        // TODO: Implement me!
         endGame();
     }
 
     private void loseGame() {
         setHasWon(false);
-        // TODO: Implement me!
         endGame();
     }
 
@@ -183,6 +205,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Checks whether any bonus rewards have expired, and removes them if they are
+     * expired.
+     * 
+     */
     private void checkBonusRewardExpired() {
         int size = rewards.size();
         for (int i = 0; i < size; i++) {
@@ -194,6 +221,9 @@ public class GameController {
                 // the bonus reward is expired
                 if (bonusReward.getEndTime() <= timeElapsed) {
                     rewards.remove(i);
+                    Position position = bonusReward.getPosition();
+                    Cell cell = maze.getCell(position);
+                    cell.setEmpty();
                 }
             }
         }
@@ -251,6 +281,10 @@ public class GameController {
     // #region Enemy Movements
     // =========================================================================
 
+    /**
+     * Generates the enemy movement by looping through all enemies and finding it's
+     * next move
+     */
     private void generateEnemyMovement() {
         for (CharacterModel enemy : enemies) {
             findNextMove(enemy);
@@ -367,8 +401,6 @@ public class GameController {
      * @param playerInput String of player input
      */
     private void updatePlayerInput(String playerInput) {
-        // TODO: Not done yet, need input for pausing, etc.
-
         switch (playerInput) {
             case Constants.playerMoveUp:
                 movePlayer(Movement.UP);
@@ -535,8 +567,8 @@ public class GameController {
         Cell cell;
 
         do {
-            int x = (int) ((Math.random() * (width - startX)) + startX);
-            int y = (int) ((Math.random() * (height - startY)) + startY);
+            int x = Functions.getRandomNumber(startX, width - startX);
+            int y = Functions.getRandomNumber(startY, height - startY);
             cell = maze.getCell(x, y);
         } while (!cell.isEmpty());
 
@@ -564,7 +596,6 @@ public class GameController {
      * @param num number of traps to add
      */
     private void generateTraps(int num, TrapType trapType) {
-        // TODO: This could be more random, but this works for now.
         for (int i = 0; i < num; i++) {
             generateTrap(trapType);
         }
@@ -770,6 +801,36 @@ public class GameController {
         return null;
     }
 
+    /**
+     * Gets the enemy at index i
+     * 
+     * @param i index of enemies array
+     * @return the enemy at index i
+     */
+    public CharacterModel getEnemy(int i) {
+        return enemies.get(i);
+    }
+
+    /**
+     * Gets the reward at index i
+     * 
+     * @param i index of rewards array
+     * @return the reward at index i
+     */
+    public Reward getReward(int i) {
+        return rewards.get(i);
+    }
+
+    /**
+     * Gets the trap at index i
+     * 
+     * @param i index of traps array
+     * @return the trap at index i
+     */
+    public Trap getTrap(int i) {
+        return traps.get(i);
+    }
+
     // =========================================================================
     // #endregion
 
@@ -785,18 +846,6 @@ public class GameController {
             return;
 
         enemies.add(enemy);
-    }
-
-    /**
-     * Removes an enemy from the list of enemies
-     * 
-     * @param enemy the enemy that we want to remove from the list
-     */
-    private void removeEnemy(CharacterModel enemy) {
-        if (enemy == null)
-            return;
-
-        enemies.remove(enemy);
     }
 
     /**
@@ -879,15 +928,4 @@ public class GameController {
 
     // =========================================================================
     // #endregion
-
-
-    public CharacterModel getEnemy(int i){
-        return enemies.get(i);
-    }
-    public Reward getReward(int i){
-        return rewards.get(i);
-    }
-    public Trap getTrap(int i){
-        return traps.get(i);
-    }
 }
