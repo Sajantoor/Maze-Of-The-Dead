@@ -3,6 +3,8 @@ package ui.components;
 import game.GameController;
 import leaderboard.PlayerScore;
 import leaderboard.Leaderboard;
+import ui.PauseScreen;
+import ui.TitleScreen;
 import ui.UIUtils;
 
 import javax.swing.*;
@@ -33,6 +35,7 @@ public class Buttons {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getFrame().remove(panel);
+                getFrame().requestFocusInWindow();
                 addGamePlayScreen();
                 revalidateMainScreen();
             }
@@ -85,7 +88,7 @@ public class Buttons {
      *
      * @param panel      JPanel to be added to
      * @param buttonName Button Label
-     * @see ui.TitleScreen
+     * @see TitleScreen
      */
     public static void addQuitButton(JPanel panel, String buttonName) {
         JButton quitButton = new JButton(buttonName);
@@ -97,6 +100,28 @@ public class Buttons {
                 getFrame().setEnabled(true);
                 GameController.getInstance().setRunning(false);
                 removeGamePlayScreen();
+                addTitleScreen();
+                revalidateMainScreen();
+                getFrame().requestFocus();
+                getFrame().requestFocusInWindow();
+            }
+        });
+        buttonLayout(quitButton);
+        panel.add(quitButton);
+    }
+    /**
+     * Add Back Button (JButton: Open the TitleScreen if clicked)
+     *
+     * @param panel      JPanel to be added to
+     * @param buttonName Button Label
+     * @see TitleScreen
+     */
+    public static void addBackButton(JPanel panel, String buttonName) {
+        JButton quitButton = new JButton(buttonName);
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getFrame().remove(panel);
                 addTitleScreen();
                 revalidateMainScreen();
             }
@@ -177,7 +202,8 @@ public class Buttons {
                 getSubFrame().remove(panel);
                 getSubFrame().setVisible(false);
                 getFrame().setEnabled(true);
-                addGamePlayScreen();
+                getFrame().requestFocus();
+                getFrame().requestFocusInWindow();
                 revalidateMainScreen();
             }
         });
