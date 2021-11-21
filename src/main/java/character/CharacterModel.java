@@ -67,6 +67,8 @@ public class CharacterModel {
             case RIGHT:
                 position.setX(position.getX() + 1);
                 break;
+            default:
+                break;
         }
     }
 

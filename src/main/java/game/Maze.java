@@ -12,6 +12,7 @@ import java.util.HashSet;
  * Represents a maze which is comprised of Cells arranged in a 2D grid.
  *
  * @author Dylan Young
+ * @author Sajan Toor
  */
 public class Maze {
     private Cell[][] maze;
@@ -268,25 +269,30 @@ public class Maze {
      * Recursive method to find a path from the start to the end of the maze, made
      * up of player moves, uses breadth first search algorithm.
      * 
-     * @param current The current position
-     * @param target  The target position
-     * @return True if there is a path from the start to the end of the maze
+     * @param current  The current position
+     * @param target   The target position
+     * @param Steps    the number of steps in the current iteration
+     * @param isPlayer true if it's the player we're looking a path for, false if
+     *                 it's an enemy
+     * @return The number of steps taken to get to the target, or -1 if no path to
+     *         target
      */
-    private boolean isPathHelper(Position current, Position target) {
+    private int isPathHelper(Position current, Position target, int steps, boolean isPlayer) {
         Cell cell = getCell(current);
         // we've already looked here
         if (visited.contains(cell))
-            return false;
+            return -1;
 
         visited.add(cell);
 
         // if we have reached our target, there must be a path.
         if (cell.getPosition().equals(target))
-            return true;
+            return steps;
 
-        // if cell is a trap or wall, we can't move through it
-        if (cell.isWall() || cell.isTrap())
-            return false;
+        // if cell is a wall, we can't move through it
+        // if it's the player traversing and it's a trap, then cannot move through it
+        if (cell.isWall() || isPlayer && cell.isTrap())
+            return -1;
 
         // if cell is not wall or path, get adjacent cells
         ArrayList<Cell> adjacentCells = getAdjacentCells(current);
@@ -294,26 +300,38 @@ public class Maze {
         // look at all adjacent cells and recurse
         for (Cell adjacentCell : adjacentCells) {
             Position adjacentPosition = adjacentCell.getPosition();
+            int val = isPathHelper(adjacentPosition, target, steps + 1, isPlayer);
 
-            if (isPathHelper(adjacentPosition, target))
-                return true;
+            if (val != -1)
+                return val;
         }
 
-        return false;
+        return -1;
     }
 
     /**
-     * Checks if there is a path from the start point to the end point, using player
-     * moves ie, without going through traps or walls.
+     * Checks if there is a path from the current point to the target point, using
+     * player moves ie, without going through traps or walls.
      * 
-     * @param start The start position
-     * @param end   The end position
+     * @param current The current position
+     * @param target  The target position
      * @return True if there is a path from the start to the end, false otherwise
      */
-    public boolean isPath(Position start, Position end) {
+    public boolean isPath(Position current, Position target) {
         // empty visited list
         visited.clear();
-        return isPathHelper(start, end);
+        return isPathHelper(current, target, 0, true) != -1;
+    }
+
+    /**
+     * @param current The current position
+     * @param target  The target position
+     * @return Returns number of steps from the current point to the target point,
+     *         using player moves ie, without going through traps or walls.
+     */
+    public int getDistance(Position current, Position target) {
+        visited.clear();
+        return isPathHelper(current, target, 0, false);
     }
 
     /**

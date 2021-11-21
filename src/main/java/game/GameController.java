@@ -262,17 +262,14 @@ public class GameController {
      * @param enemy The enemy we want to move
      */
     private void findNextMove(CharacterModel enemy) {
-        Position current = enemy.getPosition();
         // Open queue to keep track of all possible moves the enemy could move to
         PriorityQueue<Position> openQueue = new PriorityQueue<Position>(100,
-                Comparator.comparing(position -> getDistanceFromPlayer(position)));
+                Comparator.comparing(move -> getDistanceFromPlayer(move)));
 
-        // add current position to open queue as well if not moving is the optimial move
-        openQueue.add(current);
+        Position current = enemy.getPosition();
 
         // generate successors from the current based off the directions the enemy can
-        // move
-        // find the position which minimizes the distance to the player
+        // move find the position which minimizes the distance to the player
         // then move the enemy to that position
         for (Movement movement : Movement.values()) {
             Position successor = Functions.updatePosition(current, movement);
@@ -282,7 +279,6 @@ public class GameController {
             }
         }
 
-        // There will always be at least one position in the open queue
         Position winner = openQueue.poll();
         enemy.setPosition(winner);
     }
@@ -349,16 +345,14 @@ public class GameController {
     }
 
     /**
-     * Gets the distance between the given position and the player. Calculated using
-     * Pythagoras' theorem
+     * Gets the distance from the player in number of steps to the given position
      * 
      * @param position The current position we want to calculate the distance from
      * @return The distance between the given position and the player
      */
-    private double getDistanceFromPlayer(Position position) {
+    private int getDistanceFromPlayer(Position position) {
         Position playerPos = Player.getInstance().getPosition();
-        return Math.sqrt(
-                Math.pow(playerPos.getX() - position.getX(), 2) + Math.pow(playerPos.getY() - position.getY(), 2));
+        return maze.getDistance(position, playerPos);
     }
 
     // =========================================================================
