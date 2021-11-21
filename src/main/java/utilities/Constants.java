@@ -18,7 +18,7 @@ public class Constants {
     public static final String playerMoveRight = "D";
     // Leaderboard related
     public static final int playerListSize = 5;
-    public static final String leardboardFile = "LeaderBoard.txt";
+    public static final String leaderboardFile = "src/main/java/leaderboard/leaderBoard.txt";
     // Entities related
     public static final int boobyTrapDmg = -10;
     public static final int trapFallDmg = -20;

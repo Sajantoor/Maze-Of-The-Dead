@@ -4,7 +4,6 @@ import utilities.Constants;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -55,12 +54,12 @@ public class Leaderboard {
 
 		// if the smallest element in player scores is larger than the current score
 		// don't add it to the leaderboard
-		if (playerScores.get(size - 1).getScore() > score) {
+		if (this.getMinimumScore() > score) {
 			return;
 		}
 
-		// know it's larger than the smallest element, therefore add it
-		for (int i = 0; i < size; i++) {
+		// if it's larger than the smallest element, add it
+		for (int i = 0; i < getLeaderboardSize(); i++) {
 			// if the score is larger, insert it in the correct position in the
 			// leaderboard, shifts everything over
 			if (score > playerScores.get(i).getScore()) {
@@ -70,7 +69,7 @@ public class Leaderboard {
 		}
 
 		// remove the last element(s) if the leaderboard is full
-		for (int i = size; i < playerScores.size(); i++) {
+		for (int i = size; i < getLeaderboardSize(); i++) {
 			playerScores.remove(size);
 		}
 	}
@@ -84,7 +83,7 @@ public class Leaderboard {
 	 */
 	public PlayerScore getPlayerScore(int index) {
 		// Out of bounds also we don't want to expose anything outside of size of the
-		// leaderboard to the public, just incase playerScores.size() > size
+		// leaderboard to the public, just in case playerScores.size() > size
 		if (index < 0 || index >= size) {
 			throw new IndexOutOfBoundsException();
 		}
@@ -95,7 +94,7 @@ public class Leaderboard {
 	@Override
 	public String toString() {
 		String result = "";
-		for (int i = 0; i < playerScores.size(); i++) {
+		for (int i = 0; i < getLeaderboardSize(); i++) {
 			result += playerScores.get(i).toString() + "\n";
 		}
 
@@ -111,58 +110,75 @@ public class Leaderboard {
 	public void writeToFile() {
 		// creating a file
 		try {
-			File file = new File(Constants.leardboardFile);
+			File file = new File(Constants.leaderboardFile);
 			file.createNewFile();
-
 			FileWriter fileW = new FileWriter(file);
-			PrintWriter printW = new PrintWriter(fileW);
 
 			// outputting to the file
-			for (int i = 0; i < playerScores.size(); i++) {
-				PlayerScore player = playerScores.get(i);
-				printW.println("Player: " + player.getName() + "\nScore: " + player.getScore());
-			}
+			fileW.write(this.toString());
 
 			// closing the file
-			printW.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Reads Leaderboard data from a text file and outputs it on to the screen
-	 *
-	 * @see Constants
-	 */
-	private void readFromFile() {
-		// reading from a file
-		try {
-			File file = new File(Constants.leardboardFile);
-			Scanner fileReader = new Scanner(file);
-
-			while (fileReader.hasNextLine()) {
-				String data = fileReader.nextLine();
-				System.out.println(data);
-			}
-			// closing the file
-			fileReader.close();
+			fileW.close();
 		} catch (IOException e) {
 			System.out.println("There was an error.");
 			e.printStackTrace();
 		}
 	}
+
 	/**
-	 * Return the number of PlayerScore in the leaderboard
-	 * @return the number of PlayerScore in the leaddrboard
+	 * Reads Leaderboard data from a text file and adds it to the leaderboard
+	 *
+	 * @see Constants
+	 */
+	private void readFromFile() {
+		try {
+			File file = new File(Constants.leaderboardFile);
+			//if a file doesn't exist
+			if(!(file.isFile()))
+				file.createNewFile();
+
+			// reading from the file
+			Scanner fileReader = new Scanner(file);
+			ArrayList<PlayerScore> leaderboardData = new ArrayList<PlayerScore>(size);
+
+			while (fileReader.hasNextLine()) {
+				String data = fileReader.nextLine();
+				String[] arr = data.split("#");
+				PlayerScore temp = new PlayerScore("",0);
+				String name = arr[0];
+				int score = Integer.parseInt(arr[1]);
+				temp.setName(name);
+				temp.setScore(score);
+				leaderboardData.add(temp);
+			}
+			// closing the file
+			fileReader.close();
+			this.playerScores = leaderboardData;
+		} catch (IOException e) {
+			System.out.println("There was an error.");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Return the number of PlayerScores in the leaderboard
+	 *
+	 * @return the number of PlayerScores in the leaderboard
 	 * @see PlayerScore
 	 */
 	public int getLeaderboardSize(){
 		return playerScores.size();
 	}
 
+	/**
+	 * Return the minimum score of a player in the leaderboard
+	 *
+	 * @return the minimum score of a player in the leaderboard
+	 * @see PlayerScore
+	 */
 	public int getMinimumScore() {
-		return playerScores.get(size-1).getScore();
+		int s = playerScores.size();
+		return playerScores.get(s-1).getScore();
 	}
 }
 
