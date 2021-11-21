@@ -17,6 +17,7 @@ public class SpriteIcons {
     private ImageIcon bonusReward = null;
     private ImageIcon trapFall = null;
     private ImageIcon boobyTrap = null;
+    private ImageIcon background = null;
     private String[] str = new String[]{"d", "l", "r", "u"};
 
     /**
@@ -36,6 +37,7 @@ public class SpriteIcons {
                 ImageIcon enemy = new ImageIcon(new ImageIcon("src/main/java/ui/images/zombie_" + str[i] + ".png").getImage().getScaledInstance(UIConstants.cellWidth, UIConstants.cellHeight, Image.SCALE_SMOOTH));
                 enemies[i] = enemy;
             }
+            background = new ImageIcon(new ImageIcon("src/main/java/ui/images/background.jpg").getImage().getScaledInstance(1920, 1080, Image.SCALE_SMOOTH));
         }
     }
 
@@ -111,5 +113,8 @@ public class SpriteIcons {
      */
     public ImageIcon getBoobyTrap() {
         return boobyTrap;
+    }
+    public ImageIcon getBackground(){
+        return background;
     }
 }
