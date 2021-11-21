@@ -147,4 +147,30 @@ public class Cell {
     public int getY() {
         return position.getY();
     }
+
+    @Override
+    public String toString(){
+        String str = "";
+        switch(cellType){
+            case WALL:
+                str = "#";
+                break;
+            case PATH:
+                str = "_";
+                break;
+            case START:
+                str = "S";
+                break;
+            case END:
+                str = "E";
+                break;
+            case TRAP:
+                str = "T";
+                break;
+            case REWARD:
+                str = "R";
+                break;
+        }
+        return str;
+    }
 }

@@ -165,7 +165,7 @@ public class Elements {
      * @param panel        JPanel to be added to
      * @param newHighScore The new HighScore the player achieved
      */
-    public static void addNewHIghScoreLabel(JPanel panel, int newHighScore) {
+    public static void addNewHighScoreLabel(JPanel panel, int newHighScore) {
         JLabel newHighScoreLabel = new JLabel(Integer.toString(newHighScore));
         newHighScoreLabel.setFont(boldArial35);
         newHighScoreLabel.setOpaque(true);
@@ -222,6 +222,5 @@ public class Elements {
         pauseText.setAlignmentX(Component.CENTER_ALIGNMENT);
         panel.add(pauseText);
     }
-
 
 }
