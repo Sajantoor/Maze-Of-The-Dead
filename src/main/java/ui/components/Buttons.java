@@ -1,5 +1,6 @@
 package ui.components;
 
+import game.GameController;
 import leaderboard.PlayerScore;
 import leaderboard.Leaderboard;
 import ui.UIUtils;
@@ -10,7 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import static ui.GameUI.*;
-import static ui.GameUI.revalidate;
+import static ui.GameUI.revalidateMainScreen;
+import static ui.UIUtils.buttonLayout;
 
 /**
  * Represents UI Button Components
@@ -32,10 +34,10 @@ public class Buttons {
             public void actionPerformed(ActionEvent e) {
                 getFrame().remove(panel);
                 addGamePlayScreen();
-                revalidate();
+                revalidateMainScreen();
             }
         });
-        UIUtils.buttonLayout(playButton);
+        buttonLayout(playButton);
         panel.add(playButton);
     }
 
@@ -53,7 +55,7 @@ public class Buttons {
                 getFrame().dispose();
             }
         });
-        UIUtils.buttonLayout(exitGameButton);
+        buttonLayout(exitGameButton);
         panel.add(exitGameButton);
     }
 
@@ -71,10 +73,10 @@ public class Buttons {
             public void actionPerformed(ActionEvent e) {
                 getFrame().remove(panel);
                 addInstructionScreen();
-                revalidate();
+                revalidateMainScreen();
             }
         });
-        UIUtils.buttonLayout(instructionButton);
+        buttonLayout(instructionButton);
         panel.add(instructionButton);
     }
 
@@ -90,12 +92,16 @@ public class Buttons {
         quitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getFrame().remove(panel);
+                getSubFrame().remove(panel);
+                getSubFrame().setVisible(false);
+                getFrame().setEnabled(true);
+                GameController.getInstance().setRunning(false);
+                removeGamePlayScreen();
                 addTitleScreen();
-                revalidate();
+                revalidateMainScreen();
             }
         });
-        UIUtils.buttonLayout(quitButton);
+        buttonLayout(quitButton);
         panel.add(quitButton);
     }
 
@@ -117,10 +123,10 @@ public class Buttons {
                 PlayerScore playerScore = new PlayerScore(name, score);
                 getFrame().remove(panel);
                 addLeaderboardScreen(playerScore);
-                revalidate();
+                revalidateMainScreen();
             }
         });
-        UIUtils.buttonLayout(submitNameButton);
+        buttonLayout(submitNameButton);
         panel.add(submitNameButton);
     }
 
@@ -147,10 +153,10 @@ public class Buttons {
                     getFrame().remove(panel);
                     addNewHighScoreScreen(score);
                 }
-                revalidate();
+                revalidateMainScreen();
             }
         });
-        UIUtils.buttonLayout(continueButton);
+        buttonLayout(continueButton);
         panel.add(continueButton);
     }
 
@@ -163,14 +169,16 @@ public class Buttons {
      */
     public static void addResumeButton(JPanel panel, String buttonName){
         JButton resumeButton = new JButton(buttonName);
-        UIUtils.buttonLayout(resumeButton);
+        buttonLayout(resumeButton);
         resumeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         resumeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                getFrame().remove(panel);
+                getSubFrame().remove(panel);
+                getSubFrame().setVisible(false);
+                getFrame().setEnabled(true);
                 addGamePlayScreen();
-                revalidate();
+                revalidateMainScreen();
             }
         });
         panel.add(resumeButton);

@@ -12,6 +12,17 @@ import java.awt.*;
  */
 public class GameUI {
     private static JFrame frame;
+    private static JFrame subFrame;
+    private static GamePlayScreen gamePlayScreen = new GamePlayScreen();
+    private static InstructionScreen instructionScreen = new InstructionScreen();
+    private static TitleScreen titleScreen = new TitleScreen();
+    private static GameWonScreen gameWonScreen = new GameWonScreen();
+    private static GameOverScreen gameOverScreen = new GameOverScreen();
+    private static PauseScreen pauseScreen = new PauseScreen();
+    private static NewHighScoreScreen newHighScoreScreen = new NewHighScoreScreen();
+    private static LeaderboardScreen leaderboardScreen = new LeaderboardScreen();
+    private static JPanel gamePanel = new JPanel();
+
 
     /**
      * Represents the controls for calling and displaying all the screens
@@ -22,9 +33,14 @@ public class GameUI {
         frame.setLayout(new BorderLayout());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setUndecorated(true);
+        frame.setFocusable(true);
 
         addTitleScreen();
-        //frame.pack();
+
+        subFrame = new JFrame();
+        subFrame.setSize(500, 500);
+        subFrame.setLocationRelativeTo(null);
+        subFrame.setFocusable(true);
 
         frame.setVisible(true);
     }
@@ -37,20 +53,30 @@ public class GameUI {
     public static JFrame getFrame() {
         return frame;
     }
+    /**
+     * returns the sub-frame for the game
+     *
+     * @return the sub-frame for the game
+     */
+    public static JFrame getSubFrame() {
+        return subFrame;
+    }
 
     /**
      * Displays the GamePlay screen
      */
     public static void addGamePlayScreen() {
-        GamePlayScreen gamePlayScreen = new GamePlayScreen();
-        frame.add(gamePlayScreen.getGamePlayScreen());
+        gamePanel = gamePlayScreen.getGamePlayScreen();
+        frame.add(gamePanel);
+    }
+    public static void removeGamePlayScreen() {
+        frame.remove(gamePanel);
     }
 
     /**
      * Displays the Instruction screen
      */
     public static void addInstructionScreen() {
-        InstructionScreen instructionScreen = new InstructionScreen();
         frame.add(instructionScreen.getInstructionScreen());
     }
 
@@ -58,7 +84,6 @@ public class GameUI {
      * Displays the Title screen
      */
     public static void addTitleScreen() {
-        TitleScreen titleScreen = new TitleScreen();
         frame.add(titleScreen.getTitleScreen());
     }
 
@@ -66,18 +91,15 @@ public class GameUI {
      * Displays the GameOver screen
      */
     public static void addGameWonScreen(int score, long timeInSeconds) {
-        GameWonScreen gameWonScreen = new GameWonScreen();
-        frame.add(gameWonScreen.getGameWonScreen(score, timeInSeconds));
+        subFrame.add(gameWonScreen.getGameWonScreen(score, timeInSeconds));
     }
 
     public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
-        GameOverScreen gameOverScreen = new GameOverScreen();
-        frame.add(gameOverScreen.getGameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards));
+        subFrame.add(gameOverScreen.getGameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards));
     }
 
     public static void addPauseScreen() {
-        PauseScreen pauseScreen = new PauseScreen();
-        frame.add(pauseScreen.getPauseScreen());
+        subFrame.add(pauseScreen.getPauseScreen());
     }
 
     /**
@@ -86,8 +108,7 @@ public class GameUI {
      * @param score the score they the player accumulates through the game.
      */
     public static void addNewHighScoreScreen(int score) {
-        NewHighScoreScreen newHighScoreScreen = new NewHighScoreScreen();
-        frame.add(newHighScoreScreen.getNewHighScoreScreen(score));
+        subFrame.add(newHighScoreScreen.getNewHighScoreScreen(score));
     }
 
     /**
@@ -96,16 +117,22 @@ public class GameUI {
      * @param HighPlayerScore the name and score of the player
      */
     public static void addLeaderboardScreen(PlayerScore HighPlayerScore) {
-        LeaderboardScreen leaderboardScreen = new LeaderboardScreen();
-        frame.add(leaderboardScreen.getLeaderboardScreen(HighPlayerScore));
+        subFrame.add(leaderboardScreen.getLeaderboardScreen(HighPlayerScore));
     }
 
     /**
      * Refresh the screen
      */
-    public static void revalidate() {
+    public static void revalidateMainScreen() {
         frame.revalidate();
         frame.repaint();
+        frame.setFocusable(true);
+    }
+
+    public static void revalidateSubScreen() {
+        subFrame.revalidate();
+        subFrame.repaint();
+        frame.setFocusable(true);
     }
 
 }

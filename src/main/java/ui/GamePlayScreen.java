@@ -5,6 +5,7 @@ import character.CharacterModel;
 import character.Player;
 import game.GameController;
 import game.Maze;
+import reward.BonusReward;
 import reward.Reward;
 import reward.Trap;
 import reward.TrapType;
@@ -30,6 +31,7 @@ public class GamePlayScreen {
     private JPanel infoPanel;
     private JPanel mazePanel;
     private JLabel[][] cellLabels;
+    private SpriteIcons s;
 
     /**
      * returns the GamePlayScreen panel
@@ -38,7 +40,7 @@ public class GamePlayScreen {
      * @see JPanel
      */
     public JPanel getGamePlayScreen() {
-        SpriteIcons s = new SpriteIcons();
+        s = new SpriteIcons();
         getFrame().addKeyListener(new KeyboardListener());
         GameController.getInstance().startGame();
         cellLabels = new JLabel[mazeWidth][Constants.mazeHeight];
@@ -75,17 +77,64 @@ public class GamePlayScreen {
             }
         }
 
-        for(int i = 0; i < Constants.enemyCount; i++){
+        revalidateMaze();
+        startThread();
+
+
+        return gamePlayScreen;
+    }
+    private JLabel getCellLabel(Position pos){
+        return cellLabels[pos.getX()][pos.getY()];
+    }
+
+    private void startThread(){
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(GameController.getInstance().getIsRunning()){
+                    revalidateMaze();
+                }
+            }
+        });
+
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(GameController.getInstance().getIsRunning()){
+                    for(int i = 0; i < mazeHeight; i++){
+                        for(int j = 0; j < mazeWidth; j++){
+                            if(Maze.getInstance().getCell(j, i).getCellType() == CellType.PATH || Maze.getInstance().getCell(j, i).getCellType() == CellType.START || Maze.getInstance().getCell(j, i).getCellType() == CellType.END){
+                                cellLabels[j][i].setIcon(s.getPath());
+                            }
+                            else{
+                                cellLabels[j][i].setIcon(s.getWall());
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        t.start();
+        t2.start();
+    }
+
+    private void revalidateMaze(){
+        for(int i = 0; i < GameController.getInstance().getEnemyCount(); i++){
             CharacterModel enemy = GameController.getInstance().getEnemy(i);
             getCellLabel(enemy.getPosition()).setIcon(s.getEnemy(0));
         }
 
-        for(int i = 0; i < Constants.rewardCount; i++){
+        for(int i = 0; i < GameController.getInstance().getRewardCount(); i++){
             Reward reward= GameController.getInstance().getReward(i);
-            getCellLabel(reward.getPosition()).setIcon(s.getReward());
+            if (reward instanceof BonusReward){
+                getCellLabel(reward.getPosition()).setIcon(s.getBonusReward());
+            }else{
+                getCellLabel(reward.getPosition()).setIcon(s.getReward());
+            }
         }
 
-        for(int i = 0; i < Constants.boobyTrapCount + Constants.trapFallCount; i++){
+        for(int i = 0; i < GameController.getInstance().getTrapCount(); i++){
             Trap trap = GameController.getInstance().getTrap(i);
             if(trap.getTrapType() == TrapType.BOOBYTRAP){
                 getCellLabel(trap.getPosition()).setIcon(s.getBoobyTrap());
@@ -97,11 +146,5 @@ public class GamePlayScreen {
 
         Player player = Player.getInstance();
         getCellLabel(player.getPosition()).setIcon(s.getPerson(2));
-
-
-        return gamePlayScreen;
-    }
-    private JLabel getCellLabel(Position pos){
-        return cellLabels[pos.getX()][pos.getY()];
     }
 }

@@ -3,7 +3,6 @@ package game;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
-import java.util.Timer;
 
 import character.Player;
 import utilities.Movement;
@@ -24,6 +23,7 @@ public class GameController {
     private ArrayList<CharacterModel> enemies;
     private ArrayList<Reward> rewards;
     private ArrayList<Trap> traps;
+    private ArrayList<Movement> moves;
     private boolean isRunning;
     private boolean hasWon;
     private boolean isPaused;
@@ -35,10 +35,12 @@ public class GameController {
 
     private GameController() {
         instance = this;
+        moves = new ArrayList<>();
+        moves.add(Movement.STATIONARY);
         enemies = new ArrayList<CharacterModel>();
         rewards = new ArrayList<Reward>();
         traps = new ArrayList<Trap>();
-        // initalize flags
+        // initialize flags
         isRunning = false;
         isPaused = false;
     }
@@ -68,21 +70,20 @@ public class GameController {
 
     public void startGame() {
         setRunning(true);
-        // Clears all enties and regenerates them
+        // Clears all entities and regenerates them
         clearAllEntities();
         maze = Maze.getInstance();
         maze.newMaze(Constants.mazeWidth, Constants.mazeHeight, Constants.mazeRooms);
         generateEntities();
-        startTheads();
+        startThreads();
     }
 
-    private void startTheads() {
+    private void startThreads() {
         Thread gameLoop = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (isRunning) {
-                    // TODO: String is null for now this implementation needs to be changed
-                    updateGame(null);
+                    updateGame();
                     try {
                         Thread.sleep(Constants.gameLoopSleep);
                     } catch (InterruptedException e) {
@@ -224,12 +225,10 @@ public class GameController {
     /**
      * Game loop that runs every 'tick' Involves player input, collidables and
      * checking if the game is over
-     * 
-     * @param playerInput String of player input
      */
-    public void updateGame(String playerInput) {
+    public void updateGame() {
         if (isRunning && !isPaused) {
-            updatePlayerInput(playerInput);
+            movePlayer(moves.get(0));
             checkCollidables();
             hasWon();
         }
@@ -366,11 +365,11 @@ public class GameController {
      * 
      * @param playerInput String of player input
      */
-    private void updatePlayerInput(String playerInput) {
+    /*private void updatePlayerInput(Movement playerInput) {
         // TODO: Not done yet, need input for pausing, etc.
 
         switch (playerInput) {
-            case Constants.playerMoveUp:
+            case UP:
                 movePlayer(Movement.UP);
                 break;
 
@@ -388,7 +387,7 @@ public class GameController {
             default:
                 break;
         }
-    }
+    }*/
 
     /**
      * Move the player in the direction specified by the movement. Checks if there
@@ -880,6 +879,19 @@ public class GameController {
     // =========================================================================
     // #endregion
 
+    public void addMovement(Movement move){
+        moves.add(0, move);
+    }
+    public void removeMovement(Movement move){
+        moves.remove(move);
+    }
+    public boolean checkMovement(Movement move){
+        return moves.contains(move);
+    }
+    public boolean getIsRunning(){
+        return isRunning;
+    }
+
 
     public CharacterModel getEnemy(int i){
         return enemies.get(i);
@@ -889,5 +901,14 @@ public class GameController {
     }
     public Trap getTrap(int i){
         return traps.get(i);
+    }
+    public int getEnemyCount(){
+        return enemies.size();
+    }
+    public int getTrapCount(){
+        return traps.size();
+    }
+    public int getRewardCount(){
+        return rewards.size();
     }
 }

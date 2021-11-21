@@ -20,7 +20,11 @@ public enum Movement {
     /**
      * Right Direction
      */
-    RIGHT(3);
+    RIGHT(3),
+    /**
+     * No movement
+     */
+    STATIONARY(4);
 
     private int value;
 
