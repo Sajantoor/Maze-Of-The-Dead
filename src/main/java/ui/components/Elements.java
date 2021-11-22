@@ -1,5 +1,6 @@
 package ui.components;
 
+import game.GameController;
 import leaderboard.Leaderboard;
 import ui.SpriteIcons;
 import ui.UIConstants;
@@ -8,9 +9,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-import static java.awt.Color.cyan;
 import static ui.UIConstants.boldArial35;
 import static ui.UIConstants.plainArial35;
+import static ui.UIUtils.formatTime;
 import static utilities.Constants.rewardCount;
 
 /**
@@ -109,7 +110,7 @@ public class Elements {
         JLabel rewardImageLabel = new JLabel(s.getReward());
         rewardPanel.add(rewardImageLabel);
         //Reward Text
-        JLabel rewardText = new JLabel(": " + numOfRewards + "/" + rewardCount); //to change later
+        JLabel rewardText = new JLabel(": " + (rewardCount - GameController.getInstance().getRewardCount() + GameController.getInstance().getNumberBonusRewards() - GameController.getInstance().getBonusRewardsCollected()) + "/" + rewardCount);
         rewardText.setFont(plainArial35);
         rewardText.setForeground(Color.WHITE);
         rewardText.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -163,7 +164,7 @@ public class Elements {
      * @param timeInSeconds Time the player spent in the game less the Pause time in seconds
      */
     public static void addTimeLabel(JPanel panel, long timeInSeconds) {
-        JLabel timeText = new JLabel("Time: " + timeInSeconds / 60 + ":" + timeInSeconds % 60);
+        JLabel timeText = new JLabel(formatTime(timeInSeconds));
         timeText.setFont(plainArial35);
         timeText.setAlignmentX(Component.CENTER_ALIGNMENT);
         timeText.setForeground(Color.WHITE);

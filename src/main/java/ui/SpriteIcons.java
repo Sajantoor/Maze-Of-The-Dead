@@ -114,7 +114,4 @@ public class SpriteIcons {
     public ImageIcon getBoobyTrap() {
         return boobyTrap;
     }
-    public ImageIcon getBackground(){
-        return background;
-    }
 }
