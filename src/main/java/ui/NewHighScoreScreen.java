@@ -26,7 +26,7 @@ public class NewHighScoreScreen {
     public JPanel getNewHighScoreScreen(int newHighScore) {
         newHighScoreScreenPanel = new PanelWithBackgroundImage(new ImageIcon("src/main/java/ui/images/background.jpg").getImage());
         newHighScoreScreenPanel.setLayout(new BoxLayout(newHighScoreScreenPanel, BoxLayout.PAGE_AXIS));
-        addSpace(newHighScoreScreenPanel, 0, 200);
+        addSpace(newHighScoreScreenPanel, 0, 100);
 
         //Title Label
         addTitle(newHighScoreScreenPanel, "New HighScore!");
