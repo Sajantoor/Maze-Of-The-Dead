@@ -11,7 +11,8 @@ import static ui.GameFonts.getGreatFighterFont;
  * @author Dylan Young
  */
 public class UIConstants {
-    public static final Font heading = new Font(getGreatFighterFont().getName(), Font.BOLD, 50);
+    public static final Font heading = new Font(getGreatFighterFont().getName(), Font.BOLD, 80);
+    public static final Font title = new Font(getGreatFighterFont().getName(), Font.BOLD, 45);
     public static final Font plainArial35 = new Font("Arial", Font.PLAIN, 35);
     public static final Font boldArial35 = new Font("Arial", Font.BOLD, 35);
     public static final Font plainArial20 = new Font("Arial", Font.PLAIN, 20);

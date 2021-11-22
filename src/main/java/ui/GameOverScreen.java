@@ -19,7 +19,7 @@ public class GameOverScreen {
      * @return the "Game Over" screen
      */
     public JPanel getGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
-        gameOverScreenPanel = new JPanel();
+        gameOverScreenPanel = new PanelWithBackgroundImage(new ImageIcon("src/main/java/ui/images/background.jpg").getImage());
         gameOverScreenPanel.setLayout(new BoxLayout(gameOverScreenPanel, BoxLayout.PAGE_AXIS));
         addSpace(gameOverScreenPanel, 0, 60);
 

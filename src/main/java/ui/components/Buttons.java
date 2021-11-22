@@ -127,23 +127,22 @@ public class Buttons {
     /**
      * Add Continue Button (JButton: Takes to Leaderboard screen if score not high enough, or to the New High Score screen)
      *
-     * @param panel         JPanel to be added to
-     * @param buttonName    Button Label
-     * @param score         Score of the player
+     * @param panel      JPanel to be added to
+     * @param buttonName Button Label
+     * @param score      Score of the player
      * @see ui.LeaderboardScreen
      * @see ui.NewHighScoreScreen
      */
-    public static void addContinueButton(JPanel panel, String buttonName, int score){
+    public static void addContinueButton(JPanel panel, String buttonName, int score) {
         JButton continueButton = new JButton(buttonName);
         continueButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(score < Leaderboard.getInstance().getMinimumScore()) {
-                    PlayerScore playerScore = new PlayerScore("",score);
+                if (score < Leaderboard.getInstance().getMinimumScore()) {
+                    PlayerScore playerScore = new PlayerScore("", score);
                     getFrame().remove(panel);
                     addLeaderboardScreen(playerScore);
-                }
-                else{
+                } else {
                     getFrame().remove(panel);
                     addNewHighScoreScreen(score);
                 }
@@ -157,11 +156,11 @@ public class Buttons {
     /**
      * Add Resume Button (JButton: Takes player back to game screen to resume playing)
      *
-     * @param panel         JPanel to be added to
-     * @param buttonName    Button Label
+     * @param panel      JPanel to be added to
+     * @param buttonName Button Label
      * @see ui.GamePlayScreen
      */
-    public static void addResumeButton(JPanel panel, String buttonName){
+    public static void addResumeButton(JPanel panel, String buttonName) {
         JButton resumeButton = new JButton(buttonName);
         UIUtils.buttonLayout(resumeButton);
         resumeButton.setAlignmentX(Component.CENTER_ALIGNMENT);

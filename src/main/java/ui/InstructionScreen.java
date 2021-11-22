@@ -63,7 +63,7 @@ public class InstructionScreen {
         topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.LINE_AXIS));
         topPanel.setPreferredSize(new Dimension(1920, 100));
-        topPanel.setBackground(new Color(173, 216, 230));
+        topPanel.setBackground(Color.BLACK);
         addSpace(topPanel, 820, 0);
 
         //How to play Title

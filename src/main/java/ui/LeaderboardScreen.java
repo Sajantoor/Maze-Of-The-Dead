@@ -28,9 +28,9 @@ public class LeaderboardScreen {
      * @return Leaderboard Screen
      */
     public JPanel getLeaderboardScreen(PlayerScore playerScore) {
-        leaderBoardPanel = new JPanel();
+        leaderBoardPanel = new PanelWithBackgroundImage(new ImageIcon("src/main/java/ui/images/background.jpg").getImage());
         leaderBoardPanel.setLayout(new BoxLayout(leaderBoardPanel, BoxLayout.PAGE_AXIS));
-        addSpace(leaderBoardPanel, 0, 60);
+        addSpace(leaderBoardPanel, 0, 100);
 
         //update Leaderboard
         Leaderboard leaderboard = Leaderboard.getInstance();

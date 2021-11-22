@@ -6,6 +6,7 @@ import static ui.UIUtils.*;
 import static ui.components.Buttons.*;
 import static ui.components.Elements.*;
 
+
 /**
  * Represents the New High Score Screen
  * (Will be shown if the player's score is high enough to be one of the highest five scores)
@@ -23,9 +24,9 @@ public class NewHighScoreScreen {
      * @return New High Score Screen
      */
     public JPanel getNewHighScoreScreen(int newHighScore) {
-        newHighScoreScreenPanel = new JPanel();
+        newHighScoreScreenPanel = new PanelWithBackgroundImage(new ImageIcon("src/main/java/ui/images/background.jpg").getImage());
         newHighScoreScreenPanel.setLayout(new BoxLayout(newHighScoreScreenPanel, BoxLayout.PAGE_AXIS));
-        addSpace(newHighScoreScreenPanel, 0, 60);
+        addSpace(newHighScoreScreenPanel, 0, 200);
 
         //Title Label
         addTitle(newHighScoreScreenPanel, "New HighScore!");
@@ -44,5 +45,6 @@ public class NewHighScoreScreen {
 
         return newHighScoreScreenPanel;
     }
+
 
 }

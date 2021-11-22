@@ -1,6 +1,7 @@
 package ui.components;
 
 import leaderboard.Leaderboard;
+import ui.SpriteIcons;
 import ui.UIConstants;
 import ui.UIUtils;
 
@@ -28,6 +29,7 @@ public class Elements {
         JLabel gameTitle = new JLabel("Maze of The Dead");
         gameTitle.setFont(UIConstants.heading);
         gameTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gameTitle.setForeground(Color.WHITE);
         panel.add(gameTitle);
     }
 
@@ -39,8 +41,9 @@ public class Elements {
      */
     public static void addTitle(JPanel panel, String title) {
         JLabel gameTitle = new JLabel(title);
-        gameTitle.setFont(UIConstants.heading);
+        gameTitle.setFont(UIConstants.title);
         gameTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gameTitle.setForeground(Color.WHITE);
         panel.add(gameTitle);
     }
 
@@ -54,6 +57,7 @@ public class Elements {
         JLabel gameTitle = new JLabel(title);
         gameTitle.setFont(UIConstants.boldArial35);
         gameTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gameTitle.setForeground(Color.WHITE);
         panel.add(gameTitle);
     }
 
@@ -102,13 +106,16 @@ public class Elements {
         JPanel rewardPanel = new JPanel();
         rewardPanel.setLayout(new BoxLayout(rewardPanel, BoxLayout.X_AXIS));
         //Reward Image
-        JLabel rewardImageLabel = new JLabel("Reward Image to be created"); //to change later
+        SpriteIcons s = new SpriteIcons();
+        JLabel rewardImageLabel = new JLabel(s.getReward());
+        rewardPanel.add(rewardImageLabel);
         //Reward Text
         JLabel rewardText = new JLabel(": " + numOfRewards + "/" + rewardCount); //to change later
         rewardText.setFont(plainArial35);
+        rewardText.setForeground(Color.WHITE);
         rewardText.setAlignmentX(Component.CENTER_ALIGNMENT);
-        rewardPanel.add(rewardImageLabel);
         rewardPanel.add(rewardText);
+        rewardPanel.setOpaque(false);
         panel.add(rewardPanel);
     }
 
@@ -123,13 +130,16 @@ public class Elements {
         JPanel bonusRewardPanel = new JPanel();
         bonusRewardPanel.setLayout(new BoxLayout(bonusRewardPanel, BoxLayout.X_AXIS));
         //Bonus Reward Image
-        JLabel bonusRewardImageLabel = new JLabel("Bonus Reward Image to be created");//to change later
+        SpriteIcons s = new SpriteIcons();
+        JLabel bonusRewardImageLabel = new JLabel(s.getBonusReward());
+        bonusRewardPanel.add(bonusRewardImageLabel); //to change later
         //BonusReward Text
         JLabel bonusRewardText = new JLabel(": " + numOfBonusRewards);
         bonusRewardText.setFont(plainArial35);
+        bonusRewardText.setForeground(Color.WHITE);
         bonusRewardText.setAlignmentX(Component.CENTER_ALIGNMENT);
-        bonusRewardPanel.add(bonusRewardImageLabel);
         bonusRewardPanel.add(bonusRewardText);
+        bonusRewardPanel.setOpaque(false);
         panel.add(bonusRewardPanel);
     }
 
@@ -143,6 +153,7 @@ public class Elements {
         JLabel scoreLabel = new JLabel("Score: " + score);
         scoreLabel.setFont(plainArial35);
         scoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        scoreLabel.setForeground(Color.WHITE);
         panel.add(scoreLabel);
     }
 
@@ -156,6 +167,7 @@ public class Elements {
         JLabel timeText = new JLabel("Time: " + timeInSeconds / 60 + ":" + timeInSeconds % 60);
         timeText.setFont(plainArial35);
         timeText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        timeText.setForeground(Color.WHITE);
         panel.add(timeText);
     }
 
@@ -168,9 +180,9 @@ public class Elements {
     public static void addNewHighScoreLabel(JPanel panel, int newHighScore) {
         JLabel newHighScoreLabel = new JLabel(Integer.toString(newHighScore));
         newHighScoreLabel.setFont(boldArial35);
-        newHighScoreLabel.setOpaque(true);
-        newHighScoreLabel.setBackground(cyan);
+        newHighScoreLabel.setOpaque(false);
         newHighScoreLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        newHighScoreLabel.setForeground(Color.WHITE);
         panel.add(newHighScoreLabel);
     }
 
@@ -207,6 +219,7 @@ public class Elements {
         JLabel escapedLabel = new JLabel(title);
         escapedLabel.setFont(UIConstants.heading);
         escapedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        escapedLabel.setForeground(Color.WHITE);
         panel.add(escapedLabel);
     }
 
@@ -220,6 +233,7 @@ public class Elements {
         JLabel pauseText = new JLabel(title);
         pauseText.setFont(UIConstants.heading);
         pauseText.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pauseText.setForeground(Color.WHITE);
         panel.add(pauseText);
     }
 
