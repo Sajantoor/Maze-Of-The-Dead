@@ -13,10 +13,11 @@ import javax.swing.*;
 import java.awt.*;
 
 import static ui.GameUI.*;
-import static ui.UIConstants.cellHeight;
-import static ui.UIConstants.cellWidth;
-import static utilities.Constants.mazeHeight;
-import static utilities.Constants.mazeWidth;
+import static ui.UIConstants.*;
+import static ui.UIUtils.addSpace;
+import static ui.UIUtils.formatTime;
+import static ui.components.Elements.addTimeLabel;
+import static utilities.Constants.*;
 
 /**
  * Represents the GamePlayScreen
@@ -29,6 +30,11 @@ public class GamePlayScreen extends JPanel {
     private JLabel[][] cellLabels;
     private SpriteIcons s;
     private static JPanel instance = null;
+
+    private JLabel timerLabel;
+    private JLabel rewardLabel;
+    private JLabel scoreLabel;
+
 
     /**
      * returns the GamePlayScreen panel
@@ -48,9 +54,29 @@ public class GamePlayScreen extends JPanel {
 
         infoPanel = new JPanel();
         infoPanel.setPreferredSize(new Dimension(1920, 30));
+        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.X_AXIS));
         infoPanel.setBackground(Color.LIGHT_GRAY);
         infoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         infoPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+
+        addSpace(infoPanel, 750, 0);
+
+        timerLabel = new JLabel();
+        timerLabel.setFont(plainArial20);
+        infoPanel.add(timerLabel);
+        addSpace(infoPanel, 100, 0);
+
+        rewardLabel = new JLabel();
+        rewardLabel.setFont(plainArial20);
+        infoPanel.add(rewardLabel);
+        addSpace(infoPanel, 100, 0);
+
+        scoreLabel = new JLabel();
+        scoreLabel.setFont(plainArial20);
+        infoPanel.add(scoreLabel);
+
+        addSpace(infoPanel, 750, 0);
+
         this.add(infoPanel);
 
 
@@ -76,6 +102,11 @@ public class GamePlayScreen extends JPanel {
         startThread();
     }
 
+    /**
+     * returns an instance of the GamePlayScreen
+     *
+     * @return an instance of the GamePlayScreen
+     */
     public static JPanel getInstance() {
         if (instance == null)
             return new GamePlayScreen();
@@ -93,14 +124,26 @@ public class GamePlayScreen extends JPanel {
                         getSubFrame().setVisible(true);
                     }
                     if (!GameController.getInstance().getQuit() && !GameController.getInstance().getIsRunning() && !GameController.getInstance().getHasWon()) {
-                        addGameOverScreen(GameController.getInstance().getPlayer().getScore(), GameController.getInstance().getTimeElapsed(), Constants.rewardCount - GameController.getInstance().getRewardCount(), GameController.getInstance().getBonusRewardsCollected());
+                        addGameOverScreen(GameController.getInstance().getPlayer().getScore(), GameController.getInstance().getTimeElapsed(), rewardCount - GameController.getInstance().getRewardCount(), GameController.getInstance().getBonusRewardsCollected());
                         getSubFrame().setVisible(true);
                     }
                 }
             }
         });
 
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run(){
+                while(GameController.getInstance().getIsRunning()){
+                    rewardLabel.setText("Supplies Collected: " + (rewardCount - GameController.getInstance().getRewardCount() + GameController.getInstance().getNumberBonusRewards() - GameController.getInstance().getBonusRewardsCollected()) + "/" + rewardCount);
+                    timerLabel.setText("Time: " + formatTime(GameController.getInstance().getTimeElapsed()));
+                    scoreLabel.setText("Score: " + GameController.getInstance().getPlayer().getScore());
+                }
+            }
+        });
+
         t.start();
+        t2.start();
     }
 
     private void revalidateMaze() {
