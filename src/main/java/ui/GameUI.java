@@ -40,6 +40,7 @@ public class GameUI {
         subFrame = new JFrame();
         subFrame.setLocationRelativeTo(null);
         subFrame.setAutoRequestFocus(true);
+        subFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
         frame.setVisible(true);
     }
@@ -131,14 +132,16 @@ public class GameUI {
     }
 
     /**
-     * Refresh the screen
+     * Refreshes the main screen
      */
     public static void revalidateMainScreen() {
         frame.revalidate();
         frame.repaint();
         frame.setFocusable(true);
     }
-
+    /**
+     * Refreshes the sub-screen
+     */
     public static void revalidateSubScreen() {
         subFrame.revalidate();
         subFrame.repaint();

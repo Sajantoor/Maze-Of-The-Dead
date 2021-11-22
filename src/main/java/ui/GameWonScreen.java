@@ -14,11 +14,11 @@ import static ui.UIUtils.*;
 
 public class GameWonScreen {
     private JPanel gameWonScreenPanel;
-    private JLabel titleLabel;
 
     /**
+     * returns the GameWonScreen
      *
-     * @return the game won screen panel
+     * @return the GameWonScreen panel
      */
     public JPanel getGameWonScreen(int score, long timeInSeconds) {
         gameWonScreenPanel = new PanelWithBackgroundImage(new ImageIcon("src/main/java/ui/images/background.jpg").getImage());

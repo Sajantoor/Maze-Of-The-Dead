@@ -16,6 +16,12 @@ import static ui.components.Elements.*;
 public class PauseScreen {
     private JPanel pauseScreenPanel;
 
+    /**
+     * returns the PauseScreen
+     *
+     * @return the PauseScreen
+     * @see JPanel
+     */
     public JPanel getPauseScreen() {
         pauseScreenPanel = new PanelWithBackgroundImage(new ImageIcon("src/main/java/ui/images/background.jpg").getImage());
         pauseScreenPanel.setLayout(new BoxLayout(pauseScreenPanel, BoxLayout.PAGE_AXIS));

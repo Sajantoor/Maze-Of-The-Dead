@@ -45,6 +45,13 @@ public class Buttons {
         panel.add(playButton);
     }
 
+    /**
+     * Add Play Button (JButton: Open the GameOverScreen and LeaderboardScreen if clicked)
+     *
+     * @param panel      JPanel to be added to
+     * @param buttonName Button Label
+     * @see ui.GamePlayScreen
+     */
     public static void addPlayAgainButton(JPanel panel, String buttonName) {
         JButton playButton = new JButton(buttonName);
         playButton.addActionListener(new ActionListener() {
@@ -169,11 +176,13 @@ public class Buttons {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameTextField.getText();
-                PlayerScore playerScore = new PlayerScore(name, score);
-                getSubFrame().remove(panel);
-                addLeaderboardScreen(playerScore);
-                revalidateSubScreen();
-                revalidateMainScreen();
+                if(!name.contains("#")) {
+                    PlayerScore playerScore = new PlayerScore(name, score);
+                    getSubFrame().remove(panel);
+                    addLeaderboardScreen(playerScore);
+                    revalidateSubScreen();
+                    revalidateMainScreen();
+                }
             }
         });
         buttonLayout(submitNameButton);

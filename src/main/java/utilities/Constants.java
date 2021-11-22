@@ -1,5 +1,10 @@
 package utilities;
 
+/**
+ * Holds the constants of the game
+ *
+ * @author Sajan Toor
+ */
 public class Constants {
     // Maze related
     public static final int mazeHeight = 30;
@@ -13,11 +18,6 @@ public class Constants {
     public static final int playerEndX = mazeWidth - 1;
     public static final int playerEndY = mazeHeight - 2;
     public static final int playerStartScore = 0;
-    // Controls related
-    public static final String playerMoveUp = "W";
-    public static final String playerMoveDown = "S";
-    public static final String playerMoveLeft = "A";
-    public static final String playerMoveRight = "D";
     // Leaderboard related
     public static final int playerListSize = 5;
     public static final String leaderboardFile = "src/main/java/leaderboard/leaderBoard.txt";
@@ -26,9 +26,9 @@ public class Constants {
     public static final int trapFallDmg = -20;
     public static final int boobyTrapCount = 5;
     public static final int trapFallCount = 3;
-    public static final int rewardCount = 1;
+    public static final int rewardCount = 3;
     public static final int regularRewardPoints = 10;
-    public static final int enemyCount = 0;
+    public static final int enemyCount = 1;
     public static final int rewardPoints = 10;
     public static final int bonusRewardPoints = 50;
     public static final int bonusRewardTimeLower = 10 * 1000;

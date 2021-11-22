@@ -26,6 +26,11 @@ class PanelWithBackgroundImage extends JPanel {
         setLayout(null);
     }
 
+    /**
+     * Draws an image on the panel
+     *
+     * @param g allows the user to draw onto components
+     */
     public void paintComponent(Graphics g) {
         g.drawImage(image, 0, 0, null);
     }
