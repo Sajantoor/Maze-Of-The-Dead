@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static utilities.Constants.playerListSize;
+
 /**
  * Creates a leaderboard with the top 5 players of the game
  *
@@ -15,11 +17,10 @@ import java.util.Scanner;
  */
 public class Leaderboard {
 	private ArrayList<PlayerScore> playerScores;
-	int size = Constants.playerListSize;
 	private static Leaderboard leaderboardInstance = null;
 
 	private Leaderboard() {
-		this.playerScores = new ArrayList<PlayerScore>(size);
+		this.playerScores = new ArrayList<PlayerScore>();
 		readFromFile();
 	}
 
@@ -45,8 +46,24 @@ public class Leaderboard {
 	 * @see PlayerScore
 	 */
 	public void addPlayerScore(PlayerScore playerScore) {
+		if(playerScore == null){
+			return;
+		}
 		if (playerScores.size() == 0) {
 			playerScores.add(playerScore);
+			return;
+		}
+
+		if(playerScores.size() < playerListSize){
+			boolean inserted = false;
+			int i = 0;
+			while(!inserted && i < playerScores.size()) {
+				if(playerScore.getScore() > playerScores.get(i).getScore()){
+					playerScores.add(i, playerScore);
+					inserted = true;
+				}
+				i++;
+			}
 			return;
 		}
 
@@ -69,8 +86,8 @@ public class Leaderboard {
 		}
 
 		// remove the last element(s) if the leaderboard is full
-		for (int i = size; i < getLeaderboardSize(); i++) {
-			playerScores.remove(size);
+		for (int i = playerListSize; i < getLeaderboardSize(); i++) {
+			playerScores.remove(i);
 		}
 	}
 
@@ -84,7 +101,7 @@ public class Leaderboard {
 	public PlayerScore getPlayerScore(int index) {
 		// Out of bounds also we don't want to expose anything outside of size of the
 		// leaderboard to the public, just in case playerScores.size() > size
-		if (index < 0 || index >= size) {
+		if (index < 0 || index >= playerListSize) {
 			throw new IndexOutOfBoundsException();
 		}
 
@@ -139,7 +156,7 @@ public class Leaderboard {
 
 			// reading from the file
 			Scanner fileReader = new Scanner(file);
-			ArrayList<PlayerScore> leaderboardData = new ArrayList<PlayerScore>(size);
+			ArrayList<PlayerScore> leaderboardData = new ArrayList<PlayerScore>();
 
 			while (fileReader.hasNextLine()) {
 				String data = fileReader.nextLine();
@@ -177,8 +194,12 @@ public class Leaderboard {
 	 * @see PlayerScore
 	 */
 	public int getMinimumScore() {
+
 		int s = playerScores.size();
-		return playerScores.get(s-1).getScore();
+		if(s != 0){
+			return playerScores.get(s - 1).getScore();
+		}
+		return 0;
 	}
 }
 
