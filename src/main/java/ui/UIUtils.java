@@ -16,21 +16,21 @@ public class UIUtils {
      * @see JButton
      */
     public static void buttonLayout(JButton button) {
-        button.setForeground(Color.BLACK);
         button.setFont(UIConstants.boldArial35);
         button.setFocusPainted(false);
         button.setMargin(new Insets(0, 0, 0, 0));
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setBorderPainted(false);
-        button.setOpaque(false);
-        button.setBackground(null);
+        button.setOpaque(true);
+        button.setBackground(Color.LIGHT_GRAY);
+        button.setForeground(Color.RED);
     }
 
     /**
      * Add a spacer on the panel to align the components
      *
-     * @param panel holds the components of a UI
-     * @param width width of the space to be created
+     * @param panel  holds the components of a UI
+     * @param width  width of the space to be created
      * @param height height of the space to be created
      * @see JPanel
      */

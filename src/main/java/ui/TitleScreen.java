@@ -2,8 +2,6 @@ package ui;
 
 import javax.swing.*;
 
-import java.awt.*;
-
 import static ui.GameUI.*;
 import static ui.UIUtils.addSpace;
 import static ui.components.Buttons.*;
@@ -23,21 +21,21 @@ public class TitleScreen {
      * @return the title screen panel
      */
     public JPanel getTitleScreen() {
-        titleScreenPanel = new JPanel();
+        titleScreenPanel = new PanelWithBackgroundImage(new ImageIcon("src/main/java/ui/images/background.jpg").getImage());
         titleScreenPanel.setLayout(new BoxLayout(titleScreenPanel, BoxLayout.PAGE_AXIS));
         addSpace(titleScreenPanel, 500, 400);
 
         // Name of the game displayed
         addGameTitle(titleScreenPanel);
-        addSpace(titleScreenPanel, 0, 30);
+        addSpace(titleScreenPanel, 0, 60);
 
         // Start Button
         addPlayButton(titleScreenPanel, "Start");
-        addSpace(titleScreenPanel, 0, 30);
+        addSpace(titleScreenPanel, 0, 60);
 
         // Instruction button
         addInstructionButton(titleScreenPanel, "Instruction");
-        addSpace(titleScreenPanel, 0, 30);
+        addSpace(titleScreenPanel, 0, 60);
 
         // Exit Game button
         addExitGameButton(titleScreenPanel, "Exit Game");

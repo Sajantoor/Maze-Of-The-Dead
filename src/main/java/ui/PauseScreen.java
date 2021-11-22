@@ -17,7 +17,7 @@ public class PauseScreen {
     private JPanel pauseScreenPanel;
 
     public JPanel getPauseScreen() {
-        pauseScreenPanel = new JPanel();
+        pauseScreenPanel = new PanelWithBackgroundImage(new ImageIcon("src/main/java/ui/images/background.jpg").getImage());
         pauseScreenPanel.setLayout(new BoxLayout(pauseScreenPanel, BoxLayout.PAGE_AXIS));
         UIUtils.addSpace(pauseScreenPanel, 500, 100);
 
