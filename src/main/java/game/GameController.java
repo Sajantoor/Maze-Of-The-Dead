@@ -17,8 +17,8 @@ import utilities.Constants;
 import utilities.Functions;
 import utilities.Position;
 
-import static utilities.Constants.playerStartX;
-import static utilities.Constants.playerStartY;
+import static utilities.Constants.*;
+
 /**
  * This class is the controller of the game. It is in charge of the game logic,
  * handling player input and generation of entities.
@@ -34,12 +34,14 @@ public class GameController {
     private ArrayList<Movement> moves;
     private Player player;
     private int bonusRewardsCollected = 0;
+    private int numberBonusRewards = 0;
     private boolean isRunning;
     private boolean hasWon;
     private boolean isPaused;
     private boolean hasCollectedAllRewards = false;
     private long timeElapsed;
     private boolean quit;
+    private Object lock = new Object();
 
     // #region Constructor and Singleton
     // =========================================================================
@@ -49,9 +51,11 @@ public class GameController {
         moves = new ArrayList<>();
         moves.add(Movement.STATIONARY);
         player = Player.getInstance();
-        enemies = new ArrayList<CharacterModel>();
-        rewards = new ArrayList<Reward>();
-        traps = new ArrayList<Trap>();
+        synchronized (lock) {
+            enemies = new ArrayList<CharacterModel>();
+            rewards = new ArrayList<Reward>();
+            traps = new ArrayList<Trap>();
+        }
         // initialize flags
         isRunning = false;
         isPaused = false;
@@ -97,6 +101,7 @@ public class GameController {
         player.setPosition(0, 1);
         player.setScore(0);
         maze = Maze.getInstance();
+        timeElapsed = 0;
         maze.newMaze(Constants.mazeWidth, Constants.mazeHeight, Constants.mazeRooms);
         generateEntities();
         startThreads();
@@ -212,6 +217,7 @@ public class GameController {
         // have a random chance of generating a new bonus reward
         if (Functions.getRandomNumber(0, 100) < Constants.bonusRewardChance) {
             generateReward(RewardType.BONUS);
+            numberBonusRewards++;
         }
     }
 
@@ -417,11 +423,13 @@ public class GameController {
         Position nextPosition = Functions.updatePosition(position, movement);
 
         // check if the next position is a valid position, ie is there a wall
-        Cell cell = maze.getCell(nextPosition);
+        if(nextPosition.getX() >= 0 && nextPosition.getX() < mazeWidth && nextPosition.getY() >= 0 && nextPosition.getY() < mazeHeight){
+            Cell cell = maze.getCell(nextPosition);
 
-        // if there is not a wall, the player can move
-        if (!cell.isWall()) {
-            player.move(movement);
+            // if there is not a wall, the player can move
+            if (!cell.isWall()) {
+                player.move(movement);
+            }
         }
     }
     // =========================================================================
@@ -438,7 +446,7 @@ public class GameController {
      *               type
      * @param cell   this is the cell the player has collided with
      */
-    private void collided(Object object, Cell cell) {
+    private synchronized void collided(Object object, Cell cell) {
         Player player = Player.getInstance();
         int scoreUpdate;
 
@@ -985,7 +993,7 @@ public class GameController {
     public boolean getQuit(){
         return quit;
     }
-    public boolean isPaused(){
-        return isPaused;
+    public int getNumberBonusRewards(){
+        return numberBonusRewards;
     }
 }
