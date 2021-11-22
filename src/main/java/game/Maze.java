@@ -8,6 +8,9 @@ import cell.CellType;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import static utilities.Constants.maxRoomSize;
+import static utilities.Constants.minRoomSize;
+
 /**
  * Represents a maze which is comprised of Cells arranged in a 2D grid.
  *
@@ -169,7 +172,7 @@ public class Maze {
     }
 
     private int randomDimension() {
-        return (int) (Math.random() * 2 + 1);
+        return (int) (Math.random() * (maxRoomSize - minRoomSize) + minRoomSize);
     }
 
     private void generateMaze(int height, int width) {
@@ -273,7 +276,7 @@ public class Maze {
      * 
      * @param current  The current position
      * @param target   The target position
-     * @param Steps    the number of steps in the current iteration
+     * @param steps    the number of steps in the current iteration
      * @param isPlayer true if it's the player we're looking a path for, false if
      *                 it's an enemy
      * @return The number of steps taken to get to the target, or -1 if no path to

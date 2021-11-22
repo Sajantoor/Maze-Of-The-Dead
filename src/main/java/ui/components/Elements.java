@@ -2,7 +2,6 @@ package ui.components;
 
 import leaderboard.Leaderboard;
 import ui.UIConstants;
-import ui.UIUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

@@ -1,20 +1,18 @@
 package ui;
 
 import cell.CellType;
-import character.CharacterModel;
-import character.Player;
 import game.GameController;
 import game.Maze;
+import reward.BonusReward;
 import reward.Reward;
 import reward.Trap;
 import reward.TrapType;
 import utilities.Constants;
-import utilities.Position;
 
 import javax.swing.*;
 import java.awt.*;
 
-import static ui.GameUI.getFrame;
+import static ui.GameUI.*;
 import static ui.UIConstants.cellHeight;
 import static ui.UIConstants.cellWidth;
 import static utilities.Constants.mazeHeight;
@@ -25,11 +23,12 @@ import static utilities.Constants.mazeWidth;
  *
  * @author Dylan Young
  */
-public class GamePlayScreen {
-    private JPanel gamePlayScreen;
+public class GamePlayScreen extends JPanel {
     private JPanel infoPanel;
     private JPanel mazePanel;
     private JLabel[][] cellLabels;
+    private SpriteIcons s;
+    private static JPanel instance = null;
 
     /**
      * returns the GamePlayScreen panel
@@ -37,71 +36,100 @@ public class GamePlayScreen {
      * @return the GamePlayScreen panel
      * @see JPanel
      */
-    public JPanel getGamePlayScreen() {
-        SpriteIcons s = new SpriteIcons();
+    private GamePlayScreen(){
+        s = new SpriteIcons();
         getFrame().addKeyListener(new KeyboardListener());
         GameController.getInstance().startGame();
         cellLabels = new JLabel[mazeWidth][Constants.mazeHeight];
 
-        gamePlayScreen = new JPanel();
-        gamePlayScreen.setLayout(new BoxLayout(gamePlayScreen, BoxLayout.Y_AXIS));
-        gamePlayScreen.setAlignmentY(Component.TOP_ALIGNMENT);
-        gamePlayScreen.addKeyListener(new KeyboardListener());
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setAlignmentY(Component.TOP_ALIGNMENT);
+        this.addKeyListener(new KeyboardListener());
 
         infoPanel = new JPanel();
         infoPanel.setPreferredSize(new Dimension(1920, 30));
         infoPanel.setBackground(Color.LIGHT_GRAY);
         infoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         infoPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-        gamePlayScreen.add(infoPanel);
+        this.add(infoPanel);
 
 
         mazePanel = new JPanel();
         mazePanel.setPreferredSize(new Dimension(mazeWidth * cellWidth, mazeHeight * cellHeight));
         mazePanel.setLayout(new GridLayout(mazeHeight, mazeWidth));
-        gamePlayScreen.add(mazePanel);
+        this.add(mazePanel);
 
-        for(int i = 0; i < mazeHeight; i++){
-            for(int j = 0; j < mazeWidth; j++){
+        for (int i = 0; i < mazeHeight; i++) {
+            for (int j = 0; j < mazeWidth; j++) {
                 JLabel label = new JLabel();
-                if(Maze.getInstance().getCell(j, i).getCellType() == CellType.PATH || Maze.getInstance().getCell(j, i).getCellType() == CellType.START || Maze.getInstance().getCell(j, i).getCellType() == CellType.END){
+                if (Maze.getInstance().getCell(j, i).getCellType() == CellType.PATH || Maze.getInstance().getCell(j, i).getCellType() == CellType.START || Maze.getInstance().getCell(j, i).getCellType() == CellType.END) {
                     label.setIcon(s.getPath());
-                }
-                else{
+                } else {
                     label.setIcon(s.getWall());
                 }
-                cellLabels[j][i]  = label;
+                cellLabels[j][i] = label;
                 mazePanel.add(label);
             }
         }
 
-        for(int i = 0; i < Constants.enemyCount; i++){
-            CharacterModel enemy = GameController.getInstance().getEnemy(i);
-            getCellLabel(enemy.getPosition()).setIcon(s.getEnemy(0));
-        }
-
-        for(int i = 0; i < Constants.rewardCount; i++){
-            Reward reward= GameController.getInstance().getReward(i);
-            getCellLabel(reward.getPosition()).setIcon(s.getReward());
-        }
-
-        for(int i = 0; i < Constants.boobyTrapCount + Constants.trapFallCount; i++){
-            Trap trap = GameController.getInstance().getTrap(i);
-            if(trap.getTrapType() == TrapType.BOOBYTRAP){
-                getCellLabel(trap.getPosition()).setIcon(s.getBoobyTrap());
-            }else {
-                getCellLabel(trap.getPosition()).setIcon(s.getTrapFall());
-            }
-
-        }
-
-        Player player = Player.getInstance();
-        getCellLabel(player.getPosition()).setIcon(s.getPerson(2));
-
-
-        return gamePlayScreen;
+        revalidateMaze();
+        startThread();
     }
-    private JLabel getCellLabel(Position pos){
-        return cellLabels[pos.getX()][pos.getY()];
+
+    public static JPanel getInstance(){
+        if(instance == null)
+            return new GamePlayScreen();
+        return instance;
+    }
+
+    private void startThread() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (GameController.getInstance().getIsRunning() && !GameController.getInstance().isPaused()) {
+                    revalidateMaze();
+                    if (!GameController.getInstance().getQuit() && !GameController.getInstance().getIsRunning() && GameController.getInstance().getHasWon()) {
+                        addGameWonScreen(GameController.getInstance().getPlayer().getScore(), GameController.getInstance().getTimeElapsed());
+                        getSubFrame().setVisible(true);
+                    }
+                    if(!GameController.getInstance().getQuit() && !GameController.getInstance().getIsRunning() && !GameController.getInstance().getHasWon()){
+                        addGameOverScreen(GameController.getInstance().getPlayer().getScore(), GameController.getInstance().getTimeElapsed(), Constants.rewardCount - GameController.getInstance().getRewardCount(), GameController.getInstance().getBonusRewardsCollected());
+                        getSubFrame().setVisible(true);
+                    }
+                }
+            }
+        });
+
+        t.start();
+    }
+    private void revalidateMaze() {
+        for (int i = 0; i < mazeHeight; i++) {
+            for(int j = 0; j < mazeWidth; j++){
+                if(GameController.getInstance().getPlayer().getPosition().getX() == j && GameController.getInstance().getPlayer().getPosition().getY() == i){
+                    cellLabels[j][i].setIcon(s.getPerson(2));
+                }else if(GameController.getInstance().containsEnemy(j, i)){
+                    cellLabels[j][i].setIcon(s.getEnemy(0));
+                }else if(GameController.getInstance().containsReward(j, i)){
+                    Reward reward = GameController.getInstance().getReward(j, i);
+                    if (reward instanceof BonusReward) {
+                        cellLabels[j][i].setIcon(s.getBonusReward());
+                    } else {
+                        cellLabels[j][i].setIcon(s.getReward());
+                    }
+                }else if(GameController.getInstance().containsTrap(j, i)){
+                    Trap trap = GameController.getInstance().getTrap(j,i);
+                    if(trap.getTrapType() == TrapType.BOOBYTRAP){
+                        cellLabels[j][i].setIcon(s.getBoobyTrap());
+                    }else{
+                        cellLabels[j][i].setIcon(s.getTrapFall());
+                    }
+                }else if(Maze.getInstance().getCell(j, i).getCellType() == CellType.PATH || Maze.getInstance().getCell(j, i).getCellType() == CellType.END || Maze.getInstance().getCell(j, i).getCellType() == CellType.START)
+                {
+                    cellLabels[j][i].setIcon(s.getPath());
+                }else{
+                    cellLabels[j][i].setIcon(s.getWall());
+                }
+            }
+        }
     }
 }

@@ -17,9 +17,6 @@ public class InstructionScreen {
     private JPanel instructionScreenPanel;
 
     private JPanel topPanel;
-    private JLabel hTPLabel;
-    private JButton xButton;
-
 
     private JPanel movementPanel;
     private JPanel movementLeftPanel;
@@ -216,7 +213,7 @@ public class InstructionScreen {
         trapfallPanel.add(trapfallLabel);
 
         instructionScreenPanel.add(lowerPanel);
-        addQuitButton(instructionScreenPanel, "Back");
+        addBackButton(instructionScreenPanel, "Back");
 
         return instructionScreenPanel;
     }

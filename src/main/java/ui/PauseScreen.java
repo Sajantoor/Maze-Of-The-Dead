@@ -1,6 +1,8 @@
 package ui;
 
 import javax.swing.*;
+import java.awt.*;
+
 import static ui.components.Buttons.*;
 import static ui.components.Elements.*;
 
@@ -12,26 +14,29 @@ import static ui.components.Elements.*;
  */
 
 public class PauseScreen {
-    private JPanel PauseScreenPanel;
+    private JPanel pauseScreenPanel;
 
     public JPanel getPauseScreen() {
-        PauseScreenPanel = new JPanel();
-        PauseScreenPanel.setLayout(new BoxLayout(PauseScreenPanel, BoxLayout.PAGE_AXIS));
-        UIUtils.addSpace(PauseScreenPanel, 500, 250);
+        pauseScreenPanel = new JPanel();
+        pauseScreenPanel.setLayout(new BoxLayout(pauseScreenPanel, BoxLayout.PAGE_AXIS));
+        UIUtils.addSpace(pauseScreenPanel, 500, 100);
 
         // Game Paused text
-        addPausedLabel(PauseScreenPanel, "Game Paused!");
-        UIUtils.addSpace(PauseScreenPanel, 300, 60);
+        addPausedLabel(pauseScreenPanel, "Game Paused!");
+        UIUtils.addSpace(pauseScreenPanel, 300, 60);
 
         // Resume button
-        addResumeButton(PauseScreenPanel, "Resume");
-        UIUtils.addSpace(PauseScreenPanel, 0, 50);
+        addResumeButton(pauseScreenPanel, "Resume");
+        UIUtils.addSpace(pauseScreenPanel, 0, 50);
 
         // Quit button
-        addQuitButton(PauseScreenPanel, "Quit");
-        UIUtils.addSpace(PauseScreenPanel, 0, 50);
+        addQuitButton(pauseScreenPanel, "Quit");
+        UIUtils.addSpace(pauseScreenPanel, 0, 50);
 
-        return PauseScreenPanel;
+        pauseScreenPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pauseScreenPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+
+        return pauseScreenPanel;
     }
 
 

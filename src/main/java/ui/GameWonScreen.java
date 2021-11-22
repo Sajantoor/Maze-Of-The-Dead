@@ -14,8 +14,6 @@ import static ui.UIUtils.*;
 
 public class GameWonScreen {
     private JPanel gameWonScreenPanel;
-    private JLabel titleLabel;
-
     /**
      *
      * @return the game won screen panel
@@ -23,7 +21,7 @@ public class GameWonScreen {
     public JPanel getGameWonScreen(int score, long timeInSeconds) {
         gameWonScreenPanel = new JPanel();
         gameWonScreenPanel.setLayout(new BoxLayout(gameWonScreenPanel, BoxLayout.PAGE_AXIS));
-        UIUtils.addSpace(gameWonScreenPanel, 200, 250);
+        addSpace(gameWonScreenPanel, 200, 50);
 
         //You Escaped Text
         addEscapedLabel(gameWonScreenPanel, "You Escaped!");
