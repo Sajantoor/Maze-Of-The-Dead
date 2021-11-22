@@ -37,4 +37,21 @@ public class UIUtils {
     public static void addSpace(JPanel panel, int width, int height) {
         panel.add(Box.createRigidArea(new Dimension(width, height)));
     }
+
+    /**
+     * returns the time in a m:ss format
+     * The minute side doesn't have a digit limit
+     *
+     * @param time the time that passes in the game
+     * @return the time in a m:ss format
+     */
+    public static String formatTime(long time){
+        String timeStr = "" + (time % 60);
+        if(timeStr.length() == 1){
+            timeStr = "0" + timeStr;
+        }
+        timeStr = "" + (time / 60) + ":" + timeStr;
+        return timeStr;
+    }
+
 }
