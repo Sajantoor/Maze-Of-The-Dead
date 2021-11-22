@@ -81,7 +81,7 @@ public class GameController {
      *
      * @param isRunning True if the game is running, false otherwise
      */
-    private void setRunning(boolean isRunning) {
+    public void setRunning(boolean isRunning) {
         this.isRunning = isRunning;
     }
 
@@ -95,6 +95,7 @@ public class GameController {
         clearAllEntities();
         moves.add(Movement.STATIONARY);
         player.setPosition(0, 1);
+        player.setScore(0);
         maze = Maze.getInstance();
         maze.newMaze(Constants.mazeWidth, Constants.mazeHeight, Constants.mazeRooms);
         generateEntities();
@@ -944,7 +945,7 @@ public class GameController {
     public int getRewardCount(){
         return rewards.size();
     }
-    public boolean containsEnemy(int x, int y){
+    public boolean containsEnemy(int x, int y) throws NullPointerException{
         for (int i = 0; i < enemies.size(); i++){
             if(enemies.get(i).getPosition().getX() == x && enemies.get(i).getPosition().getY() == y){
                 return true;
@@ -952,7 +953,7 @@ public class GameController {
         }
         return false;
     }
-    public boolean containsTrap(int x, int y){
+    public boolean containsTrap(int x, int y) throws NullPointerException{
         for (int i = 0; i < traps.size(); i++){
             if(traps.get(i).getPosition().getX() == x && traps.get(i).getPosition().getY() == y){
                 return true;
@@ -960,7 +961,7 @@ public class GameController {
         }
         return false;
     }
-    public boolean containsReward(int x, int y){
+    public boolean containsReward(int x, int y) throws NullPointerException{
         for (int i = 0; i < rewards.size(); i++){
             if(rewards.get(i).getPosition().getX() == x && rewards.get(i).getPosition().getY() == y){
                 return true;

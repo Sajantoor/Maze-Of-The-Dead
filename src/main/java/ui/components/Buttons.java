@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import static ui.GameUI.*;
 import static ui.GameUI.revalidateMainScreen;
 import static ui.UIUtils.buttonLayout;
+import static utilities.Constants.playerListSize;
 
 /**
  * Represents UI Button Components
@@ -44,6 +45,25 @@ public class Buttons {
         panel.add(playButton);
     }
 
+    public static void addPlayAgainButton(JPanel panel, String buttonName) {
+        JButton playButton = new JButton(buttonName);
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getSubFrame().remove(panel);
+                getSubFrame().setVisible(false);
+                getFrame().setEnabled(true);
+                GameController.getInstance().setRunning(false);
+                getFrame().requestFocusInWindow();
+                removeGamePlayScreen();
+                addGamePlayScreen();
+                revalidateMainScreen();
+            }
+        });
+        buttonLayout(playButton);
+        panel.add(playButton);
+    }
+
     /**
      * Add Exit Game Button (JButton: Close the application if clicked)
      *
@@ -55,7 +75,9 @@ public class Buttons {
         exitGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Leaderboard.getInstance().writeToFile();
                 getFrame().dispose();
+                System.exit(0);
             }
         });
         buttonLayout(exitGameButton);
@@ -148,8 +170,9 @@ public class Buttons {
             public void actionPerformed(ActionEvent e) {
                 String name = nameTextField.getText();
                 PlayerScore playerScore = new PlayerScore(name, score);
-                getFrame().remove(panel);
+                getSubFrame().remove(panel);
                 addLeaderboardScreen(playerScore);
+                revalidateSubScreen();
                 revalidateMainScreen();
             }
         });
@@ -171,15 +194,15 @@ public class Buttons {
         continueButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(score < Leaderboard.getInstance().getMinimumScore()) {
-                    PlayerScore playerScore = new PlayerScore("",score);
+                if(score < Leaderboard.getInstance().getMinimumScore() && Leaderboard.getInstance().getLeaderboardSize() >= playerListSize) {
                     getSubFrame().remove(panel);
-                    addLeaderboardScreen(playerScore);
+                    addLeaderboardScreen(null);
                 }
                 else{
                     getSubFrame().remove(panel);
                     addNewHighScoreScreen(score);
                 }
+                revalidateSubScreen();
                 revalidateMainScreen();
             }
         });
@@ -206,6 +229,7 @@ public class Buttons {
                 getFrame().setEnabled(true);
                 getFrame().requestFocus();
                 getFrame().requestFocusInWindow();
+                GameController.getInstance().unpauseGame();
                 revalidateMainScreen();
             }
         });

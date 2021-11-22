@@ -44,7 +44,7 @@ public class GameOverScreen {
         addSpace(gameOverScreenPanel, 0, 60);
 
         //Play Again Button
-        addPlayButton(gameOverScreenPanel,"Play Again");
+        addPlayAgainButton(gameOverScreenPanel,"Play Again");
         addSpace(gameOverScreenPanel, 0, 60);
 
         //Quit Button

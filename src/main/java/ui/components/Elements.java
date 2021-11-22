@@ -1,6 +1,7 @@
 package ui.components;
 
 import leaderboard.Leaderboard;
+import ui.SpriteIcons;
 import ui.UIConstants;
 
 import javax.swing.*;
@@ -18,6 +19,7 @@ import static utilities.Constants.rewardCount;
  * @author Kaung Si Thu
  */
 public class Elements {
+    private static SpriteIcons s = new SpriteIcons();
     /**
      * Game Title (JLabel)
      *
@@ -101,7 +103,7 @@ public class Elements {
         JPanel rewardPanel = new JPanel();
         rewardPanel.setLayout(new BoxLayout(rewardPanel, BoxLayout.X_AXIS));
         //Reward Image
-        JLabel rewardImageLabel = new JLabel("Reward Image to be created"); //to change later
+        JLabel rewardImageLabel = new JLabel(s.getReward());
         //Reward Text
         JLabel rewardText = new JLabel(": " + numOfRewards + "/" + rewardCount); //to change later
         rewardText.setFont(plainArial35);
@@ -122,7 +124,7 @@ public class Elements {
         JPanel bonusRewardPanel = new JPanel();
         bonusRewardPanel.setLayout(new BoxLayout(bonusRewardPanel, BoxLayout.X_AXIS));
         //Bonus Reward Image
-        JLabel bonusRewardImageLabel = new JLabel("Bonus Reward Image to be created");//to change later
+        JLabel bonusRewardImageLabel = new JLabel(s.getBonusReward());//to change later
         //BonusReward Text
         JLabel bonusRewardText = new JLabel(": " + numOfBonusRewards);
         bonusRewardText.setFont(plainArial35);

@@ -126,7 +126,7 @@ public class GameUI {
      */
     public static void addLeaderboardScreen(PlayerScore HighPlayerScore) {
         subFrame.add(leaderboardScreen.getLeaderboardScreen(HighPlayerScore));
-        subFrame.setSize(500, 500);
+        subFrame.setSize(750, 1000);
         subFrame.setLocationRelativeTo(null);
     }
 

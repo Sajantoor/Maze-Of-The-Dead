@@ -49,7 +49,7 @@ public class LeaderboardScreen {
         addSpace(leaderBoardPanel, 0, 60);
 
         //Play Again Button
-        addPlayButton(leaderBoardPanel, "Play Again");
+        addPlayAgainButton(leaderBoardPanel, "Play Again");
         addSpace(leaderBoardPanel, 0, 60);
 
         //Quit Button
