@@ -99,6 +99,8 @@ public class Buttons {
                 getSubFrame().setVisible(false);
                 getFrame().setEnabled(true);
                 GameController.getInstance().setRunning(false);
+                GameController.getInstance().unpauseGame();
+                GameController.getInstance().setQuit();
                 removeGamePlayScreen();
                 addTitleScreen();
                 revalidateMainScreen();
@@ -171,11 +173,11 @@ public class Buttons {
             public void actionPerformed(ActionEvent e) {
                 if(score < Leaderboard.getInstance().getMinimumScore()) {
                     PlayerScore playerScore = new PlayerScore("",score);
-                    getFrame().remove(panel);
+                    getSubFrame().remove(panel);
                     addLeaderboardScreen(playerScore);
                 }
                 else{
-                    getFrame().remove(panel);
+                    getSubFrame().remove(panel);
                     addNewHighScoreScreen(score);
                 }
                 revalidateMainScreen();

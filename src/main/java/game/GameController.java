@@ -17,6 +17,9 @@ import utilities.Constants;
 import utilities.Functions;
 import utilities.Position;
 
+import static utilities.Constants.playerStartX;
+import static utilities.Constants.playerStartY;
+
 public class GameController {
     private static GameController instance = null;
     private Maze maze;
@@ -24,11 +27,14 @@ public class GameController {
     private ArrayList<Reward> rewards;
     private ArrayList<Trap> traps;
     private ArrayList<Movement> moves;
+    private Player player;
+    private int bonusRewardsCollected = 0;
     private boolean isRunning;
     private boolean hasWon;
     private boolean isPaused;
     private boolean hasCollectedAllRewards = false;
     private long timeElapsed;
+    private boolean quit;
 
     // #region Constructor and Singleton
     // =========================================================================
@@ -37,6 +43,7 @@ public class GameController {
         instance = this;
         moves = new ArrayList<>();
         moves.add(Movement.STATIONARY);
+        player = Player.getInstance();
         enemies = new ArrayList<CharacterModel>();
         rewards = new ArrayList<Reward>();
         traps = new ArrayList<Trap>();
@@ -72,6 +79,8 @@ public class GameController {
         setRunning(true);
         // Clears all entities and regenerates them
         clearAllEntities();
+        moves.add(Movement.STATIONARY);
+        player.setPosition(0, 1);
         maze = Maze.getInstance();
         maze.newMaze(Constants.mazeWidth, Constants.mazeHeight, Constants.mazeRooms);
         generateEntities();
@@ -189,7 +198,7 @@ public class GameController {
         for (int i = 0; i < size; i++) {
             Reward reward = rewards.get(i);
             // check if it is a bonus reward and cast it to BonusReward
-            if (reward.getPoints() == Constants.bonusRewardPoints) {
+            if (reward instanceof BonusReward) {
                 BonusReward bonusReward = (BonusReward) reward;
                 // if the current time is greater than the bonus reward's end time,
                 // the bonus reward is expired
@@ -227,10 +236,10 @@ public class GameController {
      * checking if the game is over
      */
     public void updateGame() {
+        hasWon();
         if (isRunning && !isPaused) {
             movePlayer(moves.get(0));
             checkCollidables();
-            hasWon();
         }
     }
 
@@ -361,35 +370,6 @@ public class GameController {
     // #region Player input
     // =========================================================================
     /**
-     * Updates the game based on player input and updates the player position
-     * 
-     * @param playerInput String of player input
-     */
-    /*private void updatePlayerInput(Movement playerInput) {
-        // TODO: Not done yet, need input for pausing, etc.
-
-        switch (playerInput) {
-            case UP:
-                movePlayer(Movement.UP);
-                break;
-
-            case Constants.playerMoveDown:
-                movePlayer(Movement.DOWN);
-                break;
-
-            case Constants.playerMoveLeft:
-                movePlayer(Movement.LEFT);
-                break;
-
-            case Constants.playerMoveRight:
-                movePlayer(Movement.RIGHT);
-                break;
-            default:
-                break;
-        }
-    }*/
-
-    /**
      * Move the player in the direction specified by the movement. Checks if there
      * is a collision with a wall and acts accordingly.
      * 
@@ -397,7 +377,6 @@ public class GameController {
      */
     public void movePlayer(Movement movement) {
         // check if there is a wall in the way that would stop movement
-        Player player = Player.getInstance();
         Position position = player.getPosition();
 
         // update the player's position based on the movement
@@ -432,6 +411,9 @@ public class GameController {
         switch (cell.getCellType()) {
             case REWARD:
                 Reward reward = (Reward) object;
+                if(reward instanceof BonusReward){
+                    bonusRewardsCollected += 1;
+                }
                 scoreUpdate = reward.getPoints();
                 removeReward(reward);
                 // check if player has collected all rewards
@@ -462,7 +444,6 @@ public class GameController {
      * the reward. Coliding with a zombie, makes the player lose the game.
      */
     private void checkCollidables() {
-        Player player = Player.getInstance();
         Position position = player.getPosition();
         Cell cell = maze.getCell(position);
 
@@ -668,7 +649,7 @@ public class GameController {
         if (target == null)
             return false;
 
-        Position start = new Position(Constants.playerStartX, Constants.playerStartY);
+        Position start = new Position(playerStartX, playerStartY);
         return maze.isPath(start, target);
     }
 
@@ -874,11 +855,14 @@ public class GameController {
         clearEnemies();
         clearTraps();
         clearRewards();
+        moves.clear();
     }
 
     // =========================================================================
     // #endregion
-
+    public Player getPlayer(){
+        return player;
+    }
     public void addMovement(Movement move){
         moves.add(0, move);
     }
@@ -891,14 +875,6 @@ public class GameController {
     public boolean getIsRunning(){
         return isRunning;
     }
-
-
-    public CharacterModel getEnemy(int i){
-        return enemies.get(i);
-    }
-    public Reward getReward(int i){
-        return rewards.get(i);
-    }
     public Reward getReward(int x, int y){
         for (int i = 0; i < rewards.size(); i++){
             if(rewards.get(i).getPosition().getX() == x && rewards.get(i).getPosition().getY() == y){
@@ -907,9 +883,6 @@ public class GameController {
         }
         return null;
     }
-    public Trap getTrap(int i){
-        return traps.get(i);
-    }
     public Trap getTrap(int x, int y){
         for (int i = 0; i < traps.size(); i++){
             if(traps.get(i).getPosition().getX() == x && traps.get(i).getPosition().getY() == y){
@@ -917,12 +890,6 @@ public class GameController {
             }
         }
         return null;
-    }
-    public int getEnemyCount(){
-        return enemies.size();
-    }
-    public int getTrapCount(){
-        return traps.size();
     }
     public int getRewardCount(){
         return rewards.size();
@@ -950,5 +917,18 @@ public class GameController {
             }
         }
         return false;
+    }
+    public int getBonusRewardsCollected(){
+        return bonusRewardsCollected;
+    }
+    public void setQuit()
+    {
+        quit = true;
+    }
+    public boolean getQuit(){
+        return quit;
+    }
+    public boolean isPaused(){
+        return isPaused;
     }
 }

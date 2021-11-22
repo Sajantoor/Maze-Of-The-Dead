@@ -14,33 +14,32 @@ import static ui.GameUI.*;
  * @author Dylan Young
  */
 public class KeyboardListener extends KeyAdapter {
-    GameController gc = GameController.getInstance();
     @Override
     public void keyPressed(KeyEvent event) {
         switch (event.getKeyCode()) {
             case KeyEvent.VK_W:
-                if(!gc.checkMovement(Movement.UP)){
-                    gc.addMovement(Movement.UP);
+                if(!GameController.getInstance().checkMovement(Movement.UP)){
+                    GameController.getInstance().addMovement(Movement.UP);
                 }
                 break;
             case KeyEvent.VK_A:
-                if(!gc.checkMovement(Movement.LEFT)){
-                    gc.addMovement(Movement.LEFT);
+                if(!GameController.getInstance().checkMovement(Movement.LEFT)){
+                    GameController.getInstance().addMovement(Movement.LEFT);
                 }
                 break;
             case KeyEvent.VK_S:
-                if(!gc.checkMovement(Movement.DOWN)){
-                    gc.addMovement(Movement.DOWN);
+                if(!GameController.getInstance().checkMovement(Movement.DOWN)){
+                    GameController.getInstance().addMovement(Movement.DOWN);
                 }
                 break;
             case KeyEvent.VK_D:
-                if(!gc.checkMovement(Movement.RIGHT)){
-                    gc.addMovement(Movement.RIGHT);
+                if(!GameController.getInstance().checkMovement(Movement.RIGHT)){
+                    GameController.getInstance().addMovement(Movement.RIGHT);
                 }
                 break;
             case KeyEvent.VK_ESCAPE:
-                if(gc.getIsRunning()) {
-                    gc.pauseGame();
+                if(GameController.getInstance().getIsRunning()) {
+                    GameController.getInstance().pauseGame();
                     addPauseScreen();
                     getSubFrame().setVisible(true);
                     getFrame().setEnabled(false);
@@ -55,23 +54,23 @@ public class KeyboardListener extends KeyAdapter {
     public void keyReleased(KeyEvent event) {
         switch (event.getKeyCode()) {
             case KeyEvent.VK_W:
-                if(gc.checkMovement(Movement.UP)){
-                    gc.removeMovement(Movement.UP);
+                if(GameController.getInstance().checkMovement(Movement.UP)){
+                    GameController.getInstance().removeMovement(Movement.UP);
                 }
                 break;
             case KeyEvent.VK_A:
-                if(gc.checkMovement(Movement.LEFT)){
-                    gc.removeMovement(Movement.LEFT);
+                if(GameController.getInstance().checkMovement(Movement.LEFT)){
+                    GameController.getInstance().removeMovement(Movement.LEFT);
                 }
                 break;
             case KeyEvent.VK_S:
-                if(gc.checkMovement(Movement.DOWN)){
-                    gc.removeMovement(Movement.DOWN);
+                if(GameController.getInstance().checkMovement(Movement.DOWN)){
+                    GameController.getInstance().removeMovement(Movement.DOWN);
                 }
                 break;
             case KeyEvent.VK_D:
-                if(gc.checkMovement(Movement.RIGHT)){
-                    gc.removeMovement(Movement.RIGHT);
+                if(GameController.getInstance().checkMovement(Movement.RIGHT)){
+                    GameController.getInstance().removeMovement(Movement.RIGHT);
                 }
                 break;
             default:

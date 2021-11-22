@@ -4,9 +4,6 @@ import leaderboard.PlayerScore;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowStateListener;
 
 /**
  * Controls the calling and displaying all the screens
@@ -16,7 +13,7 @@ import java.awt.event.WindowStateListener;
 public class GameUI {
     private static JFrame frame;
     private static JFrame subFrame;
-    private static GamePlayScreen gamePlayScreen = new GamePlayScreen();
+    private static GamePlayScreen gamePlayScreen = null;
     private static InstructionScreen instructionScreen = new InstructionScreen();
     private static TitleScreen titleScreen = new TitleScreen();
     private static GameWonScreen gameWonScreen = new GameWonScreen();
@@ -35,12 +32,12 @@ public class GameUI {
         frame = new JFrame("Maze of The Dead");
         frame.setLayout(new BorderLayout());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setUndecorated(true);
 
         addTitleScreen();
 
         subFrame = new JFrame();
-        subFrame.setSize(500, 500);
         subFrame.setLocationRelativeTo(null);
         subFrame.setAutoRequestFocus(true);
 
@@ -68,8 +65,9 @@ public class GameUI {
      * Displays the GamePlay screen
      */
     public static void addGamePlayScreen() {
-        gamePanel = gamePlayScreen.getGamePlayScreen();
+        gamePanel = GamePlayScreen.getInstance();
         frame.add(gamePanel);
+        revalidateMainScreen();
     }
     public static void removeGamePlayScreen() {
         frame.remove(gamePanel);
@@ -93,14 +91,20 @@ public class GameUI {
      * Displays the GameOver screen
      */
     public static void addGameWonScreen(int score, long timeInSeconds) {
+        subFrame.setSize(500, 600);
+        subFrame.setLocationRelativeTo(null);
         subFrame.add(gameWonScreen.getGameWonScreen(score, timeInSeconds));
     }
 
     public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
+        subFrame.setSize(new Dimension(700, 900));
+        subFrame.setLocationRelativeTo(null);
         subFrame.add(gameOverScreen.getGameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards));
     }
 
     public static void addPauseScreen() {
+        subFrame.setSize(new Dimension(500, 500));
+        subFrame.setLocationRelativeTo(null);
         subFrame.add(pauseScreen.getPauseScreen());
     }
 
@@ -110,7 +114,9 @@ public class GameUI {
      * @param score the score they the player accumulates through the game.
      */
     public static void addNewHighScoreScreen(int score) {
+        subFrame.setSize(500,500);
         subFrame.add(newHighScoreScreen.getNewHighScoreScreen(score));
+        subFrame.setLocationRelativeTo(null);
     }
 
     /**
@@ -120,6 +126,8 @@ public class GameUI {
      */
     public static void addLeaderboardScreen(PlayerScore HighPlayerScore) {
         subFrame.add(leaderboardScreen.getLeaderboardScreen(HighPlayerScore));
+        subFrame.setSize(500, 500);
+        subFrame.setLocationRelativeTo(null);
     }
 
     /**
