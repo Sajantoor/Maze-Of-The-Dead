@@ -26,10 +26,11 @@ public class Maze {
 
     /**
      * returns an instance of the Maze
+     * 
      * @return an instance of the Maze
      */
-    public static Maze getInstance(){
-        if(instance == null){
+    public static Maze getInstance() {
+        if (instance == null) {
             instance = new Maze();
         }
         return instance;

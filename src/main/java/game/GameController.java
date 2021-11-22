@@ -17,8 +17,6 @@ import utilities.Constants;
 import utilities.Functions;
 import utilities.Position;
 
-import static utilities.Constants.*;
-
 /**
  * This class is the controller of the game. It is in charge of the game logic,
  * handling player input and generation of entities.
@@ -106,6 +104,7 @@ public class GameController {
         generateEntities();
         startThreads();
     }
+
     /**
      * Starts the threads for the game, including game loop, enemy loop and time
      * loop.
@@ -181,10 +180,16 @@ public class GameController {
         setRunning(false);
     }
 
+    /**
+     * Pauses the game
+     */
     public void pauseGame() {
         this.isPaused = true;
     }
 
+    /**
+     * Resumes the game
+     */
     public void unpauseGame() {
         this.isPaused = false;
     }
@@ -197,6 +202,56 @@ public class GameController {
     private void loseGame() {
         setHasWon(false);
         endGame();
+    }
+
+    /**
+     * Returns the number of bonus rewards collected
+     */
+    public int getBonusRewardsCollected() {
+        return bonusRewardsCollected;
+    }
+
+    /**
+     * Sets quit to true to end the game
+     */
+    public void setQuit() {
+        quit = true;
+    }
+
+    /**
+     * Gets the value of the quit state
+     * 
+     * @return the value of quit state
+     */
+    public boolean getQuit() {
+        return quit;
+    }
+
+    /**
+     * Returns the value of the isPaused state
+     * 
+     * @return the value of isPaused state
+     */
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    /**
+     * Returns the value of the isRunning state
+     * 
+     * @return the value of isRunning state
+     */
+    public boolean getIsRunning() {
+        return isRunning;
+    }
+
+    /**
+     * Returns the player
+     * 
+     * @return the player
+     */
+    public Player getPlayer() {
+        return player;
     }
 
     // =========================================================================
@@ -300,8 +355,10 @@ public class GameController {
      * next move
      */
     private void generateEnemyMovement() {
-        for (CharacterModel enemy : enemies) {
-            findNextMove(enemy);
+        if (!isPaused) {
+            for (CharacterModel enemy : enemies) {
+                findNextMove(enemy);
+            }
         }
     }
 
@@ -316,12 +373,15 @@ public class GameController {
                 Comparator.comparing(move -> getDistanceFromPlayer(move)));
 
         Position current = enemy.getPosition();
-
         // generate successors from the current based off the directions the enemy can
         // move find the position which minimizes the distance to the player
         // then move the enemy to that position
         for (Movement movement : Movement.values()) {
+            if (movement == Movement.STATIONARY)
+                continue;
+
             Position successor = Functions.updatePosition(current, movement);
+
             if (validateEnemyMove(successor)) {
                 // add it to the open queue
                 openQueue.add(successor);
@@ -329,6 +389,7 @@ public class GameController {
         }
 
         Position winner = openQueue.poll();
+
         enemy.setPosition(winner);
     }
 
@@ -344,12 +405,6 @@ public class GameController {
         // if there is return false
 
         if (maze.isWall(position))
-            return false;
-
-        if (maze.isTrap(position))
-            return false;
-
-        if (getEnemy(position) != null)
             return false;
 
         return true;
@@ -423,7 +478,8 @@ public class GameController {
         Position nextPosition = Functions.updatePosition(position, movement);
 
         // check if the next position is a valid position, ie is there a wall
-        if(nextPosition.getX() >= 0 && nextPosition.getX() < mazeWidth && nextPosition.getY() >= 0 && nextPosition.getY() < mazeHeight){
+        if (nextPosition.getX() >= 0 && nextPosition.getX() < Constants.mazeWidth && nextPosition.getY() >= 0
+                && nextPosition.getY() < Constants.mazeHeight) {
             Cell cell = maze.getCell(nextPosition);
 
             // if there is not a wall, the player can move
@@ -432,6 +488,35 @@ public class GameController {
             }
         }
     }
+
+    /**
+     * Adds the given move to the list of moves.
+     * 
+     * @param move The move to be added
+     */
+    public void addMovement(Movement move) {
+        moves.add(0, move);
+    }
+
+    /**
+     * Removes the given move from the list of moves.
+     * 
+     * @param move The move we want to remove
+     */
+    public void removeMovement(Movement move) {
+        moves.remove(move);
+    }
+
+    /**
+     * Checks if a the list contains a move
+     * 
+     * @param move The move wae want to check if it is in the list
+     * @return True if the move is in the list, false otherwise
+     */
+    public boolean checkMovement(Movement move) {
+        return moves.contains(move);
+    }
+
     // =========================================================================
     // #endregion
 
@@ -453,7 +538,7 @@ public class GameController {
         switch (cell.getCellType()) {
             case REWARD:
                 Reward reward = (Reward) object;
-                if(reward instanceof BonusReward){
+                if (reward instanceof BonusReward) {
                     bonusRewardsCollected += 1;
                 }
                 scoreUpdate = reward.getPoints();
@@ -690,7 +775,7 @@ public class GameController {
         if (target == null)
             return false;
 
-        Position start = new Position(playerStartX, playerStartY);
+        Position start = new Position(Constants.playerStartX, Constants.playerStartY);
         return maze.isPath(start, target);
     }
 
@@ -725,7 +810,7 @@ public class GameController {
 
         // Checks if there is an enemy
         do {
-            position = findEmptyPosition(width / 2, width, height / 2, height);
+            position = findEmptyPosition(width / 4, width, height / 4, height);
         } while (getEnemy(position) != null);
 
         CharacterModel enemy = new CharacterModel(position);
@@ -819,6 +904,97 @@ public class GameController {
      */
     public Trap getTrap(int i) {
         return traps.get(i);
+    }
+
+    /**
+     * Gets a reward at an x y coordinate in the maze
+     * 
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return The reward if it exists or null
+     */
+    public Reward getReward(int x, int y) {
+        Position position = new Position(x, y);
+        return getReward(position);
+    }
+
+    /**
+     * Gets a trap at an x y coordinate in the maze
+     * 
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return The trap if it exists or null
+     */
+    public Trap getTrap(int x, int y) {
+        Position position = new Position(x, y);
+        return getTrap(position);
+    }
+
+    /**
+     * Gets the number of rewards in the maze
+     * 
+     * @return the number of rewards in the maze
+     */
+    public int getRewardCount() {
+        return rewards.size();
+    }
+
+    /**
+     * Gets the number of bonus rewards in the maze
+     * 
+     * @return the number of bonus rewards in the maze
+     */
+    public int getNumberBonusRewards() {
+        return numberBonusRewards;
+    }
+
+    /**
+     * Checks if an x y coordinate contains an enemy in the maze
+     * 
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return True if the coordinate contains an enemy, false otherwise
+     */
+    public boolean containsEnemy(int x, int y) {
+        Position position = new Position(x, y);
+        CharacterModel enemy = getEnemy(position);
+        if (enemy != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /***
+     * Checks if an x y coordinate contains a trap in the maze
+     * 
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return True if the coordinate contains a trap, false otherwise
+     */
+    public boolean containsTrap(int x, int y) {
+        Trap trap = getTrap(x, y);
+        if (trap != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks if an x y coordinate contains a reward in the maze
+     * 
+     * @param x x coordinate
+     * @param y y coordinate
+     * @return True if the coordinate contains a reward, false otherwise
+     */
+    public boolean containsReward(int x, int y) {
+        Reward reward = getReward(x, y);
+        if (reward != null) {
+            return true;
+        }
+
+        return false;
     }
 
     // =========================================================================
@@ -919,81 +1095,4 @@ public class GameController {
 
     // =========================================================================
     // #endregion
-    public Player getPlayer(){
-        return player;
-    }
-    public void addMovement(Movement move){
-        moves.add(0, move);
-    }
-    public void removeMovement(Movement move){
-        moves.remove(move);
-    }
-    public boolean checkMovement(Movement move){
-        return moves.contains(move);
-    }
-    public boolean getIsRunning(){
-        return isRunning;
-    }
-    public Reward getReward(int x, int y){
-        for (int i = 0; i < rewards.size(); i++){
-            if(rewards.get(i).getPosition().getX() == x && rewards.get(i).getPosition().getY() == y){
-                return rewards.get(i);
-            }
-        }
-        return null;
-    }
-    public Trap getTrap(int x, int y){
-        for (int i = 0; i < traps.size(); i++){
-            if(traps.get(i).getPosition().getX() == x && traps.get(i).getPosition().getY() == y){
-                return traps.get(i);
-            }
-        }
-        return null;
-    }
-    public int getRewardCount(){
-        return rewards.size();
-    }
-    public boolean containsEnemy(int x, int y){
-        if(enemies.size() > 0) {
-            for (int i = 0; i < enemies.size(); i++) {
-                if (enemies.get(i).getPosition().getX() == x && enemies.get(i).getPosition().getY() == y) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public boolean containsTrap(int x, int y){
-        if(traps.size() > 0) {
-            for (int i = 0; i < traps.size(); i++) {
-                if (traps.get(i).getPosition().getX() == x && traps.get(i).getPosition().getY() == y) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public boolean containsReward(int x, int y){
-        if(rewards.size() > 0){
-            for (int i = 0; i < rewards.size(); i++) {
-                if (rewards.get(i).getPosition().getX() == x && rewards.get(i).getPosition().getY() == y) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    public int getBonusRewardsCollected(){
-        return bonusRewardsCollected;
-    }
-    public void setQuit()
-    {
-        quit = true;
-    }
-    public boolean getQuit(){
-        return quit;
-    }
-    public int getNumberBonusRewards(){
-        return numberBonusRewards;
-    }
 }
