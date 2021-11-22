@@ -349,8 +349,10 @@ public class GameController {
      * next move
      */
     private void generateEnemyMovement() {
-        for (CharacterModel enemy : enemies) {
-            findNextMove(enemy);
+        if (!isPaused) {
+            for (CharacterModel enemy : enemies) {
+                findNextMove(enemy);
+            }
         }
     }
 
@@ -365,12 +367,15 @@ public class GameController {
                 Comparator.comparing(move -> getDistanceFromPlayer(move)));
 
         Position current = enemy.getPosition();
-
         // generate successors from the current based off the directions the enemy can
         // move find the position which minimizes the distance to the player
         // then move the enemy to that position
         for (Movement movement : Movement.values()) {
+            if (movement == Movement.STATIONARY)
+                continue;
+
             Position successor = Functions.updatePosition(current, movement);
+
             if (validateEnemyMove(successor)) {
                 // add it to the open queue
                 openQueue.add(successor);
@@ -378,6 +383,16 @@ public class GameController {
         }
 
         Position winner = openQueue.poll();
+        System.out.println("---------------------------");
+        System.out.println(winner + " " + getDistanceFromPlayer(winner));
+        System.out.println(current);
+        System.out.println("others: ");
+        while (!openQueue.isEmpty()) {
+            Position next = openQueue.poll();
+            System.out.println(next + " " + getDistanceFromPlayer(next));
+
+        }
+
         enemy.setPosition(winner);
     }
 
@@ -393,12 +408,6 @@ public class GameController {
         // if there is return false
 
         if (maze.isWall(position))
-            return false;
-
-        if (maze.isTrap(position))
-            return false;
-
-        if (getEnemy(position) != null)
             return false;
 
         return true;
