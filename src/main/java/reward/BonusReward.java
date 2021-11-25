@@ -19,9 +19,8 @@ public class BonusReward extends Reward {
      * @param endTime  Time when the bonus reward disappears
      * @see Position
      */
-    public BonusReward(Position position, long endTime) {
-        super(position);
-        setPoints(Constants.bonusRewardPoints);
+    public BonusReward(Position position, int points, long endTime) {
+        super(position,points);
         this.endTime = endTime;
     }
 

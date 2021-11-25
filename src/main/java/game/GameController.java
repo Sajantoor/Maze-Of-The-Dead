@@ -755,7 +755,7 @@ public class GameController {
             case BONUS:
                 long endTime = Functions.getRandomNumber(timeElapsed + Constants.bonusRewardTimeLower,
                         timeElapsed + Constants.bonusRewardTimeUpper);
-                reward = new BonusReward(position, endTime);
+                reward = new BonusReward(position, Constants.bonusRewardPoints,endTime);
             default:
                 break;
         }
