@@ -1,4 +1,4 @@
-package ui;
+package ui.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,6 +52,11 @@ public class UIUtils {
         }
         timeStr = "" + (time / 60) + ":" + timeStr;
         return timeStr;
+    }
+
+    public static String formatRewardCount(int maxReward, int rewardCollected, int numBonusReward, int bonusRewardCollected){
+        return "" + (maxReward - rewardCollected + numBonusReward - bonusRewardCollected) + "/" + maxReward;
+
     }
 
 }

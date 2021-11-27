@@ -1,20 +1,22 @@
-package ui;
+package ui.Screens;
 
 import javax.swing.*;
 import java.awt.*;
 
 import static ui.GameUI.getFrame;
-import static ui.UIUtils.*;
+import static ui.components.SpriteIcons.*;
+import static ui.components.UIConstants.*;
+import static ui.components.UIUtils.*;
 import static ui.components.Buttons.*;
 import static ui.components.Elements.*;
+import static utilities.Constants.*;
 
 /**
  * Represents the Instruction screen
  *
  * @author Dylan Young
  */
-public class InstructionScreen {
-    private JPanel instructionScreenPanel;
+public class InstructionScreen extends JPanel{
 
     private JPanel topPanel;
 
@@ -45,16 +47,16 @@ public class InstructionScreen {
     private JPanel trapfallPanel;
     private JLabel trapfallLabel;
     private JLabel trapfallImageLabel;
+    private ImageIcon[] enemyIcons;
+    private ImageIcon[] playerIcons;
 
     /**
-     * returns the Instruction screen
-     *
-     * @return the Instruction screen
+     * Represents the Instruction screen
      * @see JPanel
      */
-    public JPanel getInstructionScreen() {
-        SpriteIcons s = new SpriteIcons();
-        instructionScreenPanel = new JPanel();
+    public InstructionScreen() {
+        enemyIcons = getEnemy(cellWidth, cellHeight);
+        playerIcons = getPerson(cellWidth, cellHeight);
 
         //Top Panel
         topPanel = new JPanel();
@@ -65,10 +67,10 @@ public class InstructionScreen {
 
         //How to play Title
         addTitle(topPanel, "How to Play");
-        instructionScreenPanel.add(topPanel);
-        getFrame().add(instructionScreenPanel);
+        this.add(topPanel);
+        getFrame().add(this);
 
-        addSpace(instructionScreenPanel, 0, 400);
+        addSpace(this, 0, 400);
 
         //Movement area
         movementPanel = new JPanel();
@@ -94,7 +96,7 @@ public class InstructionScreen {
 
         //Movement Label
         movementLabel = new JLabel("Movement:");
-        movementLabel.setFont(UIConstants.boldArial35);
+        movementLabel.setFont(boldArial35);
         movementLeftPanel.add(movementLabel);
 
         //W key
@@ -109,7 +111,7 @@ public class InstructionScreen {
         //D key
         keyFormat(movementRightPanelLower, " D ");
 
-        instructionScreenPanel.add(movementPanel);
+        this.add(movementPanel);
 
         //Lower Panel
         lowerPanel = new JPanel();
@@ -129,7 +131,7 @@ public class InstructionScreen {
 
         //Collect Label
         collectLabel = new JLabel("Collect:");
-        collectLabel.setFont(UIConstants.boldArial35);
+        collectLabel.setFont(boldArial35);
         collectPanel.add(collectLabel);
 
         //Reward Panel
@@ -137,14 +139,14 @@ public class InstructionScreen {
         collectPanel.add(rewardPanel);
 
         //Reward Image
-        rewardImageLabel = new JLabel(s.getReward());
+        rewardImageLabel = new JLabel(getReward(cellWidth, cellHeight));
         rewardPanel.add(rewardImageLabel);
 
         addSpace(rewardPanel, 10, 0);
 
         //Reward Label
-        rewardLabel = new JLabel("Collect All to escape (10)");
-        rewardLabel.setFont(UIConstants.plainArial20);
+        rewardLabel = new JLabel("Collect All to escape (" + rewardPoints + ")");
+        rewardLabel.setFont(plainArial20);
         rewardPanel.add(rewardLabel);
 
         //Bonus Panel
@@ -152,19 +154,19 @@ public class InstructionScreen {
         collectPanel.add(bonusPanel);
 
         //Bonus Image
-        bonusImageLabel = new JLabel(s.getBonusReward());
+        bonusImageLabel = new JLabel(getBonusReward(cellWidth, cellHeight));
         bonusPanel.add(bonusImageLabel);
 
         addSpace(bonusPanel, 10, 0);
 
         //Bonus Label
-        bonusLabel = new JLabel("Bonus (50)");
-        bonusLabel.setFont(UIConstants.plainArial20);
+        bonusLabel = new JLabel("Bonus (" + bonusRewardPoints + ")");
+        bonusLabel.setFont(plainArial20);
         bonusPanel.add(bonusLabel);
 
         //Avoid Label
         avoidLabel = new JLabel("Avoid:");
-        avoidLabel.setFont(UIConstants.boldArial35);
+        avoidLabel.setFont(boldArial35);
         avoidPanel.add(avoidLabel);
 
         //Zombie Panel
@@ -172,14 +174,14 @@ public class InstructionScreen {
         avoidPanel.add(zombiePanel);
 
         //Zombie Image
-        zombieImageLabel = new JLabel(s.getEnemy(0));
+        zombieImageLabel = new JLabel(enemyIcons[0]);
         zombiePanel.add(zombieImageLabel);
 
         addSpace(zombiePanel, 10, 0);
 
         //Zombie Label
         zombieLabel = new JLabel("Zombies");
-        zombieLabel.setFont(UIConstants.plainArial20);
+        zombieLabel.setFont(plainArial20);
         zombiePanel.add(zombieLabel);
 
         //Booby Trap Panel
@@ -187,14 +189,14 @@ public class InstructionScreen {
         avoidPanel.add(boobyTrapPanel);
 
         //Booby Trap Image
-        boobyTrapImageLabel = new JLabel(s.getBoobyTrap());
+        boobyTrapImageLabel = new JLabel(getBoobyTrap(cellWidth, cellHeight));
         boobyTrapPanel.add(boobyTrapImageLabel);
 
         addSpace(boobyTrapPanel, 10, 0);
 
         //Booby Trap Label
-        boobyTrapLabel = new JLabel("Booty Trap (-10)");
-        boobyTrapLabel.setFont(UIConstants.plainArial20);
+        boobyTrapLabel = new JLabel("Booby Trap (" + boobyTrapDmg + ")");
+        boobyTrapLabel.setFont(plainArial20);
         boobyTrapPanel.add(boobyTrapLabel);
 
         //Trapfall Panel
@@ -202,26 +204,24 @@ public class InstructionScreen {
         avoidPanel.add(trapfallPanel);
 
         //Trapfall Image
-        trapfallImageLabel = new JLabel(s.getTrapFall());
+        trapfallImageLabel = new JLabel(getTrapFall(cellWidth, cellHeight));
         trapfallPanel.add(trapfallImageLabel);
 
         addSpace(trapfallPanel, 10, 0);
 
         //Trapfall Label
-        trapfallLabel = new JLabel("Trapfall (-20)");
-        trapfallLabel.setFont(UIConstants.plainArial20);
+        trapfallLabel = new JLabel("Trapfall (" + trapFallDmg + ")");
+        trapfallLabel.setFont(plainArial20);
         trapfallPanel.add(trapfallLabel);
 
-        instructionScreenPanel.add(lowerPanel);
-        addBackButton(instructionScreenPanel, "Back");
-
-        return instructionScreenPanel;
+        this.add(lowerPanel);
+        addBackButton(this, "Back");
     }
 
     private void keyFormat(JPanel panel, String letter) {
         JLabel keyLabel = new JLabel(letter);
-        keyLabel.setFont(UIConstants.plainArial35);
-        keyLabel.setBorder(UIConstants.keyBorder);
+        keyLabel.setFont(plainArial35);
+        keyLabel.setBorder(keyBorder);
         panel.add(keyLabel);
     }
 }

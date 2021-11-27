@@ -2,17 +2,16 @@ package ui.components;
 
 import game.GameController;
 import leaderboard.Leaderboard;
-import ui.SpriteIcons;
-import ui.UIConstants;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-import static ui.UIConstants.boldArial35;
-import static ui.UIConstants.plainArial35;
-import static ui.UIUtils.formatTime;
-import static utilities.Constants.rewardCount;
+import static ui.components.SpriteIcons.*;
+import static ui.components.UIConstants.*;
+import static ui.components.UIUtils.formatRewardCount;
+import static ui.components.UIUtils.formatTime;
+import static utilities.Constants.*;
 
 /**
  * Other UI Components
@@ -106,11 +105,14 @@ public class Elements {
         JPanel rewardPanel = new JPanel();
         rewardPanel.setLayout(new BoxLayout(rewardPanel, BoxLayout.X_AXIS));
         //Reward Image
-        SpriteIcons s = new SpriteIcons();
-        JLabel rewardImageLabel = new JLabel(s.getReward());
+        JLabel rewardImageLabel = new JLabel(getReward(cellWidth, cellHeight));
         rewardPanel.add(rewardImageLabel);
         //Reward Text
-        JLabel rewardText = new JLabel(": " + (rewardCount - GameController.getInstance().getRewardCount() + GameController.getInstance().getNumberBonusRewards() - GameController.getInstance().getBonusRewardsCollected()) + "/" + rewardCount);
+        JLabel rewardText = new JLabel(": " +
+                formatRewardCount(rewardCount,
+                GameController.getInstance().getRewardCount(),
+                GameController.getInstance().getNumberBonusRewards(),
+                GameController.getInstance().getBonusRewardsCollected()));
         rewardText.setFont(plainArial35);
         rewardText.setForeground(Color.WHITE);
         rewardText.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -130,9 +132,8 @@ public class Elements {
         JPanel bonusRewardPanel = new JPanel();
         bonusRewardPanel.setLayout(new BoxLayout(bonusRewardPanel, BoxLayout.X_AXIS));
         //Bonus Reward Image
-        SpriteIcons s = new SpriteIcons();
-        JLabel bonusRewardImageLabel = new JLabel(s.getBonusReward());
-        bonusRewardPanel.add(bonusRewardImageLabel); //to change later
+        JLabel bonusRewardImageLabel = new JLabel(getBonusReward(cellWidth, cellHeight));
+        bonusRewardPanel.add(bonusRewardImageLabel);
         //BonusReward Text
         JLabel bonusRewardText = new JLabel(": " + numOfBonusRewards);
         bonusRewardText.setFont(plainArial35);
@@ -218,6 +219,7 @@ public class Elements {
     public static void addEscapedLabel(JPanel panel, String title) {
         JLabel escapedLabel = new JLabel(title);
         escapedLabel.setFont(UIConstants.heading);
+        escapedLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         escapedLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         escapedLabel.setForeground(Color.WHITE);
         panel.add(escapedLabel);

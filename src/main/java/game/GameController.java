@@ -2,6 +2,8 @@ package game;
 
 import utilities.Constants;
 
+import static utilities.Constants.*;
+
 /**
  * This class is the controller of the game. It is in charge of the game logic,
  * handling player input and generation of entities.

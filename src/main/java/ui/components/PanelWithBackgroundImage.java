@@ -1,4 +1,4 @@
-package ui;
+package ui.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.*;
  *
  * @author Kaung Si Thu
  */
-class PanelWithBackgroundImage extends JPanel {
+public class PanelWithBackgroundImage extends JPanel {
 
     private Image image;
 

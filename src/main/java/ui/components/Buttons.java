@@ -3,9 +3,11 @@ package ui.components;
 import game.GameController;
 import leaderboard.PlayerScore;
 import leaderboard.Leaderboard;
-import ui.PauseScreen;
-import ui.TitleScreen;
-import ui.UIUtils;
+import ui.Screens.GamePlayScreen;
+import ui.Screens.InstructionScreen;
+import ui.Screens.LeaderboardScreen;
+import ui.Screens.NewHighScoreScreen;
+import ui.Screens.TitleScreen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +16,7 @@ import java.awt.event.ActionListener;
 
 import static ui.GameUI.*;
 import static ui.GameUI.revalidateMainScreen;
-import static ui.UIUtils.buttonLayout;
+import static ui.components.UIUtils.buttonLayout;
 import static utilities.Constants.playerListSize;
 
 /**
@@ -28,7 +30,7 @@ public class Buttons {
      *
      * @param panel      JPanel to be added to
      * @param buttonName Button Label
-     * @see ui.GamePlayScreen
+     * @see GamePlayScreen
      */
     public static void addPlayButton(JPanel panel, String buttonName) {
         JButton playButton = new JButton(buttonName);
@@ -36,7 +38,7 @@ public class Buttons {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getFrame().remove(panel);
-                getFrame().requestFocusInWindow();
+                mainFrameRefocus();
                 addGamePlayScreen();
                 revalidateMainScreen();
             }
@@ -50,7 +52,7 @@ public class Buttons {
      *
      * @param panel      JPanel to be added to
      * @param buttonName Button Label
-     * @see ui.GamePlayScreen
+     * @see GamePlayScreen
      */
     public static void addPlayAgainButton(JPanel panel, String buttonName) {
         JButton playButton = new JButton(buttonName);
@@ -61,7 +63,7 @@ public class Buttons {
                 getSubFrame().setVisible(false);
                 getFrame().setEnabled(true);
                 GameController.getInstance().setRunning(false);
-                getFrame().requestFocusInWindow();
+                mainFrameRefocus();
                 removeGamePlayScreen();
                 addGamePlayScreen();
                 revalidateMainScreen();
@@ -96,7 +98,7 @@ public class Buttons {
      *
      * @param panel      JPanel to be added to
      * @param buttonName Button Label
-     * @see ui.InstructionScreen
+     * @see InstructionScreen
      */
     public static void addInstructionButton(JPanel panel, String buttonName) {
         JButton instructionButton = new JButton(buttonName);
@@ -133,8 +135,7 @@ public class Buttons {
                 removeGamePlayScreen();
                 addTitleScreen();
                 revalidateMainScreen();
-                getFrame().requestFocus();
-                getFrame().requestFocusInWindow();
+                mainFrameRefocus();
             }
         });
         buttonLayout(quitButton);
@@ -168,10 +169,10 @@ public class Buttons {
      * @param buttonName    Button Label
      * @param nameTextField Name of the player with the new high score
      * @param score         Score of the player
-     * @see ui.LeaderboardScreen
+     * @see LeaderboardScreen
      */
     public static void addSubmitNameButton(JPanel panel, String buttonName, JTextField nameTextField, int score) {
-        JButton submitNameButton = new JButton("Submit");
+        JButton submitNameButton = new JButton(buttonName);
         submitNameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -195,8 +196,8 @@ public class Buttons {
      * @param panel      JPanel to be added to
      * @param buttonName Button Label
      * @param score      Score of the player
-     * @see ui.LeaderboardScreen
-     * @see ui.NewHighScoreScreen
+     * @see LeaderboardScreen
+     * @see NewHighScoreScreen
      */
     public static void addContinueButton(JPanel panel, String buttonName, int score) {
         JButton continueButton = new JButton(buttonName);
@@ -224,7 +225,7 @@ public class Buttons {
      *
      * @param panel      JPanel to be added to
      * @param buttonName Button Label
-     * @see ui.GamePlayScreen
+     * @see GamePlayScreen
      */
     public static void addResumeButton(JPanel panel, String buttonName) {
         JButton resumeButton = new JButton(buttonName);
@@ -236,8 +237,7 @@ public class Buttons {
                 getSubFrame().remove(panel);
                 getSubFrame().setVisible(false);
                 getFrame().setEnabled(true);
-                getFrame().requestFocus();
-                getFrame().requestFocusInWindow();
+                mainFrameRefocus();
                 GameController.getInstance().unpauseGame();
                 revalidateMainScreen();
             }

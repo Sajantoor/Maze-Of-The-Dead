@@ -1,9 +1,9 @@
-package ui;
+package ui.components;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import static ui.GameFonts.getGreatFighterFont;
+import static ui.components.GameFonts.getGreatFighterFont;
 
 /**
  * Constants used for the UI
@@ -20,4 +20,7 @@ public class UIConstants {
     public static final Border keyBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
     public static final int cellHeight = 35;
     public static final int cellWidth = 60;
+
+    public static final int defaultScreenSizeX = 1920;
+    public static final int defaultScreenSizeY = 1080;
 }

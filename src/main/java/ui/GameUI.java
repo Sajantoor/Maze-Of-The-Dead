@@ -1,9 +1,16 @@
 package ui;
 
 import leaderboard.PlayerScore;
+import ui.Frames.GameFrame;
+import ui.Frames.SubFrame;
+import ui.Screens.*;
 
 import javax.swing.*;
 import java.awt.*;
+
+import static ui.components.SpriteIcons.getBackgroundImage;
+import static ui.components.UIConstants.defaultScreenSizeX;
+import static ui.components.UIConstants.defaultScreenSizeY;
 
 /**
  * Controls the calling and displaying all the screens
@@ -11,16 +18,12 @@ import java.awt.*;
  * @author Dylan Young
  */
 public class GameUI {
-    private static JFrame frame;
-    private static JFrame subFrame;
-    private static GamePlayScreen gamePlayScreen = null;
-    private static InstructionScreen instructionScreen = new InstructionScreen();
-    private static TitleScreen titleScreen = new TitleScreen();
-    private static GameWonScreen gameWonScreen = new GameWonScreen();
-    private static GameOverScreen gameOverScreen = new GameOverScreen();
-    private static PauseScreen pauseScreen = new PauseScreen();
-    private static NewHighScoreScreen newHighScoreScreen = new NewHighScoreScreen();
-    private static LeaderboardScreen leaderboardScreen = new LeaderboardScreen();
+
+    private static GameFrame frame;
+    private static SubFrame subFrame;
+    private static JPanel panel;
+    private static JPanel subPanel;
+    private static Image image;
     private static JPanel gamePanel = new JPanel();
 
 
@@ -29,19 +32,10 @@ public class GameUI {
      */
     public GameUI() {
         // Full Screen
-        frame = new JFrame("Maze of The Dead");
-        frame.setLayout(new BorderLayout());
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        frame.setUndecorated(true);
-
+        frame = new GameFrame();
+        subFrame = new SubFrame();
+        image = getBackgroundImage(defaultScreenSizeX, defaultScreenSizeY).getImage();
         addTitleScreen();
-
-        subFrame = new JFrame();
-        subFrame.setLocationRelativeTo(null);
-        subFrame.setAutoRequestFocus(true);
-        subFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
         frame.setVisible(true);
     }
 
@@ -78,35 +72,40 @@ public class GameUI {
      * Displays the Instruction screen
      */
     public static void addInstructionScreen() {
-        frame.add(instructionScreen.getInstructionScreen());
+        panel = new InstructionScreen();
+        frame.add(panel);
     }
 
     /**
      * Displays the Title screen
      */
     public static void addTitleScreen() {
-        frame.add(titleScreen.getTitleScreen());
+        panel = new TitleScreen(image);
+        frame.add(panel);
     }
 
     /**
      * Displays the GameOver screen
      */
     public static void addGameWonScreen(int score, long timeInSeconds) {
-        subFrame.setSize(500, 600);
+        subPanel = new GameWonScreen(score, timeInSeconds, image);
+        subFrame.setSize(600, 600);
         subFrame.setLocationRelativeTo(null);
-        subFrame.add(gameWonScreen.getGameWonScreen(score, timeInSeconds));
+        subFrame.add(subPanel);
     }
 
     public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
+        subPanel = new GameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards, image);
         subFrame.setSize(new Dimension(700, 900));
         subFrame.setLocationRelativeTo(null);
-        subFrame.add(gameOverScreen.getGameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards));
+        subFrame.add(subPanel);
     }
 
     public static void addPauseScreen() {
+        subPanel = new PauseScreen(image);
         subFrame.setSize(new Dimension(500, 500));
         subFrame.setLocationRelativeTo(null);
-        subFrame.add(pauseScreen.getPauseScreen());
+        subFrame.add(subPanel);
     }
 
     /**
@@ -115,18 +114,20 @@ public class GameUI {
      * @param score the score they the player accumulates through the game.
      */
     public static void addNewHighScoreScreen(int score) {
+        subPanel = new NewHighScoreScreen(score, image);
         subFrame.setSize(500,500);
-        subFrame.add(newHighScoreScreen.getNewHighScoreScreen(score));
+        subFrame.add(subPanel);
         subFrame.setLocationRelativeTo(null);
     }
 
     /**
      * Displays the Leaderboard screen
      *
-     * @param HighPlayerScore the name and score of the player
+     * @param highPlayerScore the name and score of the player
      */
-    public static void addLeaderboardScreen(PlayerScore HighPlayerScore) {
-        subFrame.add(leaderboardScreen.getLeaderboardScreen(HighPlayerScore));
+    public static void addLeaderboardScreen(PlayerScore highPlayerScore) {
+        subPanel = new LeaderboardScreen(highPlayerScore, image);
+        subFrame.add(subPanel);
         subFrame.setSize(750, 1000);
         subFrame.setLocationRelativeTo(null);
     }
@@ -148,4 +149,10 @@ public class GameUI {
         frame.setFocusable(true);
     }
 
+    public static void mainFrameRefocus(){
+        frame.requestFocusInWindow();
+    }
+    public static void subFrameRefocus(){
+        subFrame.requestFocusInWindow();
+    }
 }
