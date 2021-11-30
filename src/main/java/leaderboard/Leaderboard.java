@@ -201,5 +201,16 @@ public class Leaderboard {
 		}
 		return 0;
 	}
+
+	//For testing purpose
+	private Leaderboard(ArrayList<PlayerScore> playerScores){
+		this.playerScores=playerScores;
+	}
+
+	public static Leaderboard Clone(){
+		ArrayList<PlayerScore> playerScores = new ArrayList<PlayerScore>();
+		Leaderboard l = new Leaderboard(playerScores);
+		return l;
+	}
 }
 
