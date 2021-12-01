@@ -208,7 +208,7 @@ public class EntitiesGenerator {
             return false;
 
         Position start = new Position(Constants.playerStartX, Constants.playerStartY);
-        return Maze.getInstance().isPath(start, target);
+        return Maze.getInstance().isRoute(start, target);
     }
 
     /***************************************************************************

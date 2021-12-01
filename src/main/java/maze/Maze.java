@@ -291,7 +291,7 @@ public class Maze {
      * @return The number of steps taken to get to the target, or -1 if no path to
      *         target
      */
-    private int isPathHelper(Position current, Position target, int steps, boolean isPlayer) {
+    private int isRouteHelper(Position current, Position target, int steps, boolean isPlayer) {
         Cell cell = getCell(current);
         // we've already looked here
         if (visited.contains(cell))
@@ -314,7 +314,7 @@ public class Maze {
         // look at all adjacent cells and recurse
         for (Cell adjacentCell : adjacentCells) {
             Position adjacentPosition = adjacentCell.getPosition();
-            int val = isPathHelper(adjacentPosition, target, steps + 1, isPlayer);
+            int val = isRouteHelper(adjacentPosition, target, steps + 1, isPlayer);
 
             if (val != -1)
                 return val;
@@ -331,10 +331,10 @@ public class Maze {
      * @param target  The target position
      * @return True if there is a path from the start to the end, false otherwise
      */
-    public boolean isPath(Position current, Position target) {
+    public boolean isRoute(Position current, Position target) {
         // empty visited list
         visited.clear();
-        return isPathHelper(current, target, 0, true) != -1;
+        return isRouteHelper(current, target, 0, true) != -1;
     }
 
     /**
@@ -345,7 +345,7 @@ public class Maze {
      */
     public int getDistance(Position current, Position target) {
         visited.clear();
-        return isPathHelper(current, target, 0, false);
+        return isRouteHelper(current, target, 0, false);
     }
 
     /**
@@ -356,7 +356,7 @@ public class Maze {
     public boolean isSolvable() {
         Position start = new Position(Constants.playerStartX, Constants.playerStartY);
         Position end = new Position(Constants.playerEndX, Constants.playerEndY);
-        return isPath(start, end);
+        return isRoute(start, end);
     }
 
     @Override
