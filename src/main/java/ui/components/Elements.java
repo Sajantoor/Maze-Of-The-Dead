@@ -1,6 +1,6 @@
 package ui.components;
 
-import game.GameController;
+import game.Entities;
 import leaderboard.Leaderboard;
 
 import javax.swing.*;
@@ -69,7 +69,7 @@ public class Elements {
      */
     public static void addLeaderBoard(JPanel panel, Leaderboard leaderboard) {
         JTable leaderBoardTable = new JTable();
-        Object[] columns = {"Rank", "Name", "Score"};
+        Object[] columns = { "Rank", "Name", "Score" };
         DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(columns);
         leaderBoardTable.setModel(model);
@@ -95,24 +95,27 @@ public class Elements {
     }
 
     /**
-     * Reward Label and Count (JPanel: Shows how many Rewards the Player gained throughout the game)
+     * Reward Label and Count (JPanel: Shows how many Rewards the Player gained
+     * throughout the game)
      *
      * @param panel        JPanel to be added to
      * @param numOfRewards Number of Rewards the player gained throughout the game
      */
     public static void addRewardPanel(JPanel panel, int numOfRewards) {
-        //Reward Panel
+        // Reward Panel
         JPanel rewardPanel = new JPanel();
         rewardPanel.setLayout(new BoxLayout(rewardPanel, BoxLayout.X_AXIS));
-        //Reward Image
+        // Reward Image
         JLabel rewardImageLabel = new JLabel(getReward(cellWidth, cellHeight));
         rewardPanel.add(rewardImageLabel);
-        //Reward Text
+        // Reward Text
+        Entities entities = Entities.getInstance();
+
         JLabel rewardText = new JLabel(": " +
                 formatRewardCount(rewardCount,
-                GameController.getInstance().getRewardCount(),
-                GameController.getInstance().getNumberBonusRewards(),
-                GameController.getInstance().getBonusRewardsCollected()));
+                        entities.getRewardCount(),
+                        entities.getNumBonusRewards(),
+                        entities.getBonusRewardsCollected()));
         rewardText.setFont(plainArial35);
         rewardText.setForeground(Color.WHITE);
         rewardText.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -122,19 +125,21 @@ public class Elements {
     }
 
     /**
-     * Bonus Reward Label and Count (JPanel: Shows how many Bonus Rewards the Player gained throughout the game)
+     * Bonus Reward Label and Count (JPanel: Shows how many Bonus Rewards the Player
+     * gained throughout the game)
      *
      * @param panel             JPanel to be added to
-     * @param numOfBonusRewards Number of Bonus Rewards the Player gained throughout the game
+     * @param numOfBonusRewards Number of Bonus Rewards the Player gained throughout
+     *                          the game
      */
     public static void addBonusRewardPanel(JPanel panel, int numOfBonusRewards) {
-        //Bonus Reward Panel
+        // Bonus Reward Panel
         JPanel bonusRewardPanel = new JPanel();
         bonusRewardPanel.setLayout(new BoxLayout(bonusRewardPanel, BoxLayout.X_AXIS));
-        //Bonus Reward Image
+        // Bonus Reward Image
         JLabel bonusRewardImageLabel = new JLabel(getBonusReward(cellWidth, cellHeight));
         bonusRewardPanel.add(bonusRewardImageLabel);
-        //BonusReward Text
+        // BonusReward Text
         JLabel bonusRewardText = new JLabel(": " + numOfBonusRewards);
         bonusRewardText.setFont(plainArial35);
         bonusRewardText.setForeground(Color.WHITE);
@@ -145,7 +150,8 @@ public class Elements {
     }
 
     /**
-     * Score Label and Count (JLabel: Shows how many score the Player gained throughout the game)
+     * Score Label and Count (JLabel: Shows how many score the Player gained
+     * throughout the game)
      *
      * @param panel JPanel to be added to
      * @param score The Score the Player gained throughout the game
@@ -159,10 +165,12 @@ public class Elements {
     }
 
     /**
-     * Time Label and Count (JLabel: Shows how long the player actively played the game before winning or losing)
+     * Time Label and Count (JLabel: Shows how long the player actively played the
+     * game before winning or losing)
      *
      * @param panel         JPanel to be added to
-     * @param timeInSeconds Time the player spent in the game less the Pause time in seconds
+     * @param timeInSeconds Time the player spent in the game less the Pause time in
+     *                      seconds
      */
     public static void addTimeLabel(JPanel panel, long timeInSeconds) {
         JLabel timeText = new JLabel(formatTime(timeInSeconds));
@@ -194,14 +202,14 @@ public class Elements {
      * @return The Name Input reference to JTextField
      */
     public static JTextField getNameInput(JPanel panel) {
-        //Name Panel
+        // Name Panel
         JPanel namePanel = new JPanel();
         namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
         panel.add(namePanel);
-        //Name Label
+        // Name Label
         JLabel nameLabel = new JLabel("Name: ");
         namePanel.add(nameLabel);
-        //Name TextField
+        // Name TextField
         JTextField nameTextField = new JTextField();
         nameTextField.setPreferredSize(new Dimension(200, 30));
         nameTextField.setMaximumSize(nameTextField.getPreferredSize());
