@@ -3,7 +3,7 @@ package character;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import game.Maze;
+import maze.Maze;
 import utilities.Functions;
 import utilities.Movement;
 import utilities.Position;

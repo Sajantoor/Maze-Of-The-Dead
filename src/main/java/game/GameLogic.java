@@ -2,9 +2,10 @@ package game;
 
 import java.util.ArrayList;
 
-import cell.Cell;
 import character.CharacterModel;
 import character.Player;
+import maze.Cell;
+import maze.Maze;
 import reward.BonusReward;
 import reward.Reward;
 import reward.Trap;

@@ -1,4 +1,4 @@
-package cell;
+package maze;
 
 import utilities.Position;
 
@@ -149,9 +149,9 @@ public class Cell {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String str = "";
-        switch(cellType){
+        switch (cellType) {
             case WALL:
                 str = "#";
                 break;

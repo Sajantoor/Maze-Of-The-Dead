@@ -1,10 +1,8 @@
-package game;
+package maze;
 
-import cell.Cell;
 import utilities.Constants;
 import utilities.Functions;
 import utilities.Position;
-import cell.CellType;
 
 import java.util.ArrayList;
 import java.util.HashSet;

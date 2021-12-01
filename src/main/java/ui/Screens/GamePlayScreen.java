@@ -1,8 +1,8 @@
 package ui.Screens;
 
-import cell.CellType;
 import game.GameController;
-import game.Maze;
+import maze.CellType;
+import maze.Maze;
 import reward.BonusReward;
 import reward.Reward;
 import reward.Trap;
@@ -80,7 +80,6 @@ public class GamePlayScreen extends JPanel {
 
         this.add(infoPanel);
 
-
         mazePanel = new JPanel();
         mazePanel.setPreferredSize(new Dimension(mazeWidth * cellWidth, mazeHeight * cellHeight));
         mazePanel.setLayout(new GridLayout(mazeHeight, mazeWidth));
@@ -122,12 +121,18 @@ public class GamePlayScreen extends JPanel {
             public void run() {
                 while (GameController.getInstance().getIsRunning()) {
                     revalidateMaze();
-                    if (!GameController.getInstance().getQuit() && !GameController.getInstance().getIsRunning() && GameController.getInstance().getHasWon()) {
-                        addGameWonScreen(GameController.getInstance().getPlayer().getScore(), GameController.getInstance().getTimeElapsed());
+                    if (!GameController.getInstance().getQuit() && !GameController.getInstance().getIsRunning()
+                            && GameController.getInstance().getHasWon()) {
+                        addGameWonScreen(GameController.getInstance().getPlayer().getScore(),
+                                GameController.getInstance().getTimeElapsed());
                         getSubFrame().setVisible(true);
                     }
-                    if (!GameController.getInstance().getQuit() && !GameController.getInstance().getIsRunning() && !GameController.getInstance().getHasWon()) {
-                        addGameOverScreen(GameController.getInstance().getPlayer().getScore(), GameController.getInstance().getTimeElapsed(), rewardCount - GameController.getInstance().getRewardCount(), GameController.getInstance().getBonusRewardsCollected());
+                    if (!GameController.getInstance().getQuit() && !GameController.getInstance().getIsRunning()
+                            && !GameController.getInstance().getHasWon()) {
+                        addGameOverScreen(GameController.getInstance().getPlayer().getScore(),
+                                GameController.getInstance().getTimeElapsed(),
+                                rewardCount - GameController.getInstance().getRewardCount(),
+                                GameController.getInstance().getBonusRewardsCollected());
                         getSubFrame().setVisible(true);
                     }
                 }
@@ -156,8 +161,9 @@ public class GamePlayScreen extends JPanel {
     private void revalidateMaze() {
         for (int i = 0; i < mazeHeight; i++) {
             for (int j = 0; j < mazeWidth; j++) {
-                if (GameController.getInstance().getPlayer().getPosition().getX() == j && GameController.getInstance().getPlayer().getPosition().getY() == i) {
-                    cellLabels[j][i].setIcon(playerIcons[3]);
+                if (GameController.getInstance().getPlayer().getPosition().getX() == j
+                        && GameController.getInstance().getPlayer().getPosition().getY() == i) {
+                    cellLabels[j][i].setIcon(s.getPerson(2));
                 } else if (GameController.getInstance().containsEnemy(j, i)) {
                     cellLabels[j][i].setIcon(enemyIcons[1]);
                 } else if (GameController.getInstance().containsReward(j, i)) {

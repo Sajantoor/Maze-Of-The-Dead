@@ -1,7 +1,8 @@
 package game;
 
-import cell.Cell;
 import character.Enemy;
+import maze.Cell;
+import maze.Maze;
 import reward.BonusReward;
 import reward.Reward;
 import reward.RewardType;

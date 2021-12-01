@@ -1,4 +1,4 @@
-package cell;
+package maze;
 
 /**
  * Cell types that can be in a cell

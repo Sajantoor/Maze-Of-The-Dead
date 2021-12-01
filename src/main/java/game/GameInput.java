@@ -2,8 +2,9 @@ package game;
 
 import java.util.ArrayList;
 
-import cell.Cell;
 import character.Player;
+import maze.Cell;
+import maze.Maze;
 import utilities.Constants;
 import utilities.Functions;
 import utilities.Movement;
