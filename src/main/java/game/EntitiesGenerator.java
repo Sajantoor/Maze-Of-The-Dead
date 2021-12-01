@@ -68,7 +68,7 @@ public class EntitiesGenerator {
             int y = Functions.getRandomNumber(startY, height - startY);
             Maze maze = Maze.getInstance();
             cell = maze.getCell(x, y);
-        } while (!cell.isEmpty());
+        } while (!cell.isPath());
 
         Position position = new Position(cell.getPosition());
         return position;

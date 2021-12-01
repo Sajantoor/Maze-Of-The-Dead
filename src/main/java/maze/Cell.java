@@ -55,7 +55,7 @@ public class Cell {
      * 
      * @return True if the cell is a path, False otherwise
      */
-    public boolean isEmpty() {
+    public boolean isPath() {
         return getCellType() == CellType.PATH;
     }
 

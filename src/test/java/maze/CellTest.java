@@ -80,7 +80,7 @@ public class CellTest {
     @Test
     void isEmpty() {
         cell.setEmpty();
-        assertTrue(cell.isEmpty());
+        assertTrue(cell.isPath());
     }
 
     @Test

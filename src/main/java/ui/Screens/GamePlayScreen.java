@@ -98,7 +98,7 @@ public class GamePlayScreen extends JPanel {
                 JLabel label = new JLabel();
 
                 // TODO: if path cell
-                if (maze.getCell(j, i).isEmpty()
+                if (maze.getCell(j, i).isPath()
                         || maze.getCell(j, i).isStart()
                         || maze.getCell(j, i).isEnd())
                     label.setIcon(getPath(cellWidth, cellHeight));
@@ -217,7 +217,7 @@ public class GamePlayScreen extends JPanel {
                     continue;
                 }
 
-                if (cell.isEmpty() || cell.isEnd() || cell.isStart()) {
+                if (cell.isPath() || cell.isEnd() || cell.isStart()) {
                     cellLabels[j][i].setIcon(getPath(cellWidth, cellHeight));
                     continue;
                 }

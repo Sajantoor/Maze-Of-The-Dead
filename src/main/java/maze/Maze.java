@@ -87,6 +87,16 @@ public class Maze {
     }
 
     /**
+     * Returns whether or not the cell at position is a path
+     *
+     * @param position the position of the cell in the maze
+     * @return True if it is a path, false otherwise
+     */
+    public boolean isPath(Position position) {
+        return getCell(position).isPath();
+    }
+
+    /**
      * Sets the cell type of cell at position (x, y) to a start point
      *
      * @param x the x position of the cell in the maze
