@@ -24,15 +24,21 @@ public class Maze {
     private int width;
     private HashSet<Cell> visited;
 
+    private Maze() {
+        instance = this;
+        // Initialize the maze
+        regenerateMaze();
+    }
+
     /**
      * returns an instance of the Maze
      * 
      * @return an instance of the Maze
      */
     public static Maze getInstance() {
-        if (instance == null) {
-            instance = new Maze();
-        }
+        if (instance == null)
+            new Maze();
+
         return instance;
     }
 
@@ -115,7 +121,7 @@ public class Maze {
      * @param width  the absolute width of the maze
      * @param height the absolute height of the maze
      */
-    public void newMaze(int width, int height, int numRooms) {
+    private void generateMaze(int width, int height, int numRooms) {
         this.height = height;
         this.width = width;
         maze = new Cell[width][height];
@@ -136,6 +142,10 @@ public class Maze {
 
         connectStartToPath();
         connectEndToPath();
+    }
+
+    public void regenerateMaze() {
+        generateMaze(Constants.mazeRooms, Constants.mazeWidth, Constants.mazeHeight);
     }
 
     /**
