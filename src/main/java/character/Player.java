@@ -10,7 +10,7 @@ import utilities.Position;
  */
 public class Player extends CharacterModel {
     private int score;
-    private static Player playerInstance = null;
+    private static Player instance = null;
 
     private Player(Position position, int score) {
         super(position);
@@ -24,12 +24,12 @@ public class Player extends CharacterModel {
      * @return player instance
      */
     public static Player getInstance() {
-        if (playerInstance == null) {
+        if (instance == null) {
             Position pos = new Position(Constants.playerStartX, Constants.playerStartY);
-            playerInstance = new Player(pos, Constants.playerStartScore);
+            instance = new Player(pos, 0);
         }
 
-        return playerInstance;
+        return instance;
     }
 
     /**
