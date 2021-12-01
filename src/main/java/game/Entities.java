@@ -10,10 +10,18 @@ import reward.Reward;
 import reward.Trap;
 import utilities.Position;
 
+/**
+ * This class contains all the entities for the game generated in
+ * EntitiesGenerator. It provides public read method to get the entities, all
+ * writing is protected and can only be done within game package.
+ * 
+ * @see EntitiesGenerator
+ * @author Sajan Toor
+ * 
+ */
 public class Entities {
     private static Entities instance = null;
     private ArrayList<Reward> rewards;
-    // private ArrayList<BonusReward> bonusRewards;
     private ArrayList<Enemy> enemies;
     private ArrayList<Trap> traps;
     private int numBonusRewards;
@@ -29,6 +37,11 @@ public class Entities {
         bonusRewardsCollected = 0;
     }
 
+    /**
+     * This method returns the instance of GameInput (Singleton).
+     * 
+     * @return instance of GameInput
+     */
     public static Entities getInstance() {
         if (instance == null)
             new Entities();
@@ -36,9 +49,21 @@ public class Entities {
         return instance;
     }
 
+    // #region Getting entities
+    // =========================================================================
+    /**
+     * Returns all rewards
+     * 
+     * @return an arrayList of all rewards
+     */
+    public ArrayList<Reward> getRewards() {
+        return rewards;
+    }
+
     /**
      * Checks if there is a reward at a position and returns it
      * 
+     * @param Position position to check
      * @return the reward at the position, else null
      */
     public Reward getReward(Position position) {
@@ -54,13 +79,10 @@ public class Entities {
         return null;
     }
 
-    public ArrayList<Reward> getRewards() {
-        return rewards;
-    }
-
     /**
      * Checks if there is a trap at a position and returns it
      * 
+     * @param Position position to check
      * @return the trap at the position, else null
      */
     public Trap getTrap(Position position) {
@@ -79,6 +101,7 @@ public class Entities {
     /**
      * Checks if there is a enemy at a position and returns it
      * 
+     * @param Position position to check
      * @return the enemy at the position, else null
      */
     public Enemy getEnemy(Position position) {
@@ -124,6 +147,60 @@ public class Entities {
         return traps.get(i);
     }
 
+    // =========================================================================
+    // #endregion
+
+    // #region Contains entities
+    // =========================================================================
+
+    /**
+     * Checks if an position contains an enemy in the maze
+     * 
+     * @param position The position we want to check for an enemy
+     * @return True if the coordinate contains an enemy, false otherwise
+     */
+    public boolean containsEnemy(Position position) {
+        Enemy enemy = getEnemy(position);
+        if (enemy != null)
+            return true;
+
+        return false;
+    }
+
+    /***
+     * Checks if a position contains a trap in the maze
+     * 
+     * @param position The position we want to check for a trap
+     * @return True if the coordinate contains a trap, false otherwise
+     */
+    public boolean containsTrap(Position position) {
+        Trap trap = getTrap(position);
+        if (trap != null)
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Checks if a position contains a reward in the maze
+     * 
+     * @param position The position we want to check for a reward
+     * @return True if the coordinate contains a reward, false otherwise
+     */
+    public boolean containsReward(Position position) {
+        Reward reward = getReward(position);
+        if (reward != null)
+            return true;
+
+        return false;
+    }
+
+    // =========================================================================
+    // #endregion
+
+    // #region Counts of entities
+    // =========================================================================
+
     /**
      * Gets the number of rewards in the maze
      * 
@@ -142,64 +219,31 @@ public class Entities {
         return numBonusRewards;
     }
 
+    /**
+     * Sets the number of bonus rewards in the maze
+     * 
+     * @param num the number of bonus rewards in the maze
+     */
     protected void setNumBonusRewards(int num) {
         numBonusRewards = num;
     }
 
+    /**
+     * Updates the number of bonus rewards collected by num
+     * 
+     * @param num The update to number of bonus rewards collected
+     */
     protected void updateBonusRewardsCollected(int num) {
         bonusRewardsCollected += num;
     }
 
     /**
      * Returns the number of bonus rewards collected
+     * 
+     * @return the number of bonus rewards collected
      */
     public int getBonusRewardsCollected() {
         return bonusRewardsCollected;
-    }
-
-    /**
-     * Checks if an x y coordinate contains an enemy in the maze
-     * 
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return True if the coordinate contains an enemy, false otherwise
-     */
-    public boolean containsEnemy(Position position) {
-        Enemy enemy = getEnemy(position);
-        if (enemy != null)
-            return true;
-
-        return false;
-    }
-
-    /***
-     * Checks if an x y coordinate contains a trap in the maze
-     * 
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return True if the coordinate contains a trap, false otherwise
-     */
-    public boolean containsTrap(Position position) {
-        Trap trap = getTrap(position);
-        if (trap != null)
-            return true;
-
-        return false;
-    }
-
-    /**
-     * Checks if an x y coordinate contains a reward in the maze
-     * 
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return True if the coordinate contains a reward, false otherwise
-     */
-    public boolean containsReward(Position position) {
-        Reward reward = getReward(position);
-        if (reward != null)
-            return true;
-
-        return false;
     }
 
     // =========================================================================
@@ -241,42 +285,6 @@ public class Entities {
             return;
 
         rewards.remove(reward);
-    }
-
-    /**
-     * Checks whether any bonus rewards have expired, and removes them if they are
-     * expired.
-     *
-     */
-    protected void checkBonusRewardExpired() {
-        int size = rewards.size();
-        for (int i = 0; i < size; i++) {
-            Reward reward = rewards.get(i);
-            // check if it is a bonus reward and cast it to BonusReward
-            if (reward instanceof BonusReward) {
-                BonusReward bonusReward = (BonusReward) reward;
-                // if the current time is greater than the bonus reward's end time,
-                // the bonus reward is expired
-                if (bonusReward.getEndTime() <= Timer.getInstance().getTimeElapsed()) {
-                    rewards.remove(i);
-                    Position position = bonusReward.getPosition();
-                    Cell cell = Maze.getInstance().getCell(position);
-                    cell.setEmpty();
-                }
-            }
-        }
-    }
-
-    /**
-     * Generates the enemy movement by looping through all enemies and finding it's
-     * next move
-     */
-    protected void generateEnemyMovement() {
-        if (!GameController.getInstance().isPaused()) {
-            for (Enemy enemy : enemies) {
-                enemy.move();
-            }
-        }
     }
 
     /**
@@ -332,4 +340,50 @@ public class Entities {
         clearTraps();
         clearRewards();
     }
+
+    // =========================================================================
+    // #endregion
+
+    // #region Entity Management
+    // =========================================================================
+    // TODO: These could be arguably moves to GameLogic, could be easily done.
+    // TODO: Discuss.
+
+    /**
+     * Checks whether any bonus rewards have expired, and removes them if they are
+     * expired.
+     */
+    protected void checkBonusRewardExpired() {
+        int size = rewards.size();
+        for (int i = 0; i < size; i++) {
+            Reward reward = rewards.get(i);
+            // check if it is a bonus reward and cast it to BonusReward
+            if (reward instanceof BonusReward) {
+                BonusReward bonusReward = (BonusReward) reward;
+                // if the current time is greater than the bonus reward's end time,
+                // the bonus reward is expired
+                if (bonusReward.getEndTime() <= Timer.getInstance().getTimeElapsed()) {
+                    rewards.remove(i);
+                    Position position = bonusReward.getPosition();
+                    Cell cell = Maze.getInstance().getCell(position);
+                    cell.setEmpty();
+                }
+            }
+        }
+    }
+
+    /**
+     * Generates the enemy movement by looping through all enemies and finding it's
+     * next move
+     */
+    protected void generateEnemyMovement() {
+        if (!GameController.getInstance().isPaused()) {
+            for (Enemy enemy : enemies) {
+                enemy.move();
+            }
+        }
+    }
+
+    // =========================================================================
+    // #endregion
 }

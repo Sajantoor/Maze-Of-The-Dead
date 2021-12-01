@@ -10,6 +10,11 @@ import utilities.Functions;
 import utilities.Movement;
 import utilities.Position;
 
+/**
+ * This class is responsible for handling the input from the user.
+ * 
+ * @author Sajan Toor
+ */
 public class GameInput {
     private static GameInput instance = null;
     private ArrayList<Movement> moves;
@@ -20,6 +25,11 @@ public class GameInput {
         moves.add(Movement.STATIONARY);
     }
 
+    /**
+     * This method returns the instance of GameInput (Singleton).
+     * 
+     * @return instance of GameInput
+     */
     public static GameInput getInstance() {
         if (instance == null)
             new GameInput();
@@ -54,6 +64,11 @@ public class GameInput {
         }
     }
 
+    /**
+     * Moves the player
+     * 
+     * // TODO: Ask Dylan what this does lmao
+     */
     public void movePlayer() {
         movePlayer(moves.get(0));
     }

@@ -12,6 +12,12 @@ import utilities.Constants;
 import utilities.Functions;
 import utilities.Position;
 
+/**
+ * This class is used to generate the entities of the game (enemies, traps,
+ * rewards) in maze randomly.
+ * 
+ * @author Sajan Toor
+ */
 public class EntitiesGenerator {
     private static EntitiesGenerator instance = null;
 
@@ -19,6 +25,11 @@ public class EntitiesGenerator {
         instance = this;
     }
 
+    /**
+     * This method returns the instance of EntityGenerator (Singleton).
+     * 
+     * @return instance of EntityGenerator
+     */
     public static EntitiesGenerator getInstance() {
         if (instance == null)
             new EntitiesGenerator();

@@ -12,6 +12,12 @@ import reward.Trap;
 import utilities.Constants;
 import utilities.Position;
 
+/**
+ * This class handles the game logic, for example, has the player won, collides
+ * with anything, etc.
+ * 
+ * @author Sajan Toor
+ */
 public class GameLogic {
     private static GameLogic instance = null;
     private boolean hasCollectedAllRewards;
@@ -21,6 +27,11 @@ public class GameLogic {
         hasCollectedAllRewards = false;
     }
 
+    /**
+     * This method returns the instance of GameLogic (Singleton).
+     * 
+     * @return instance of GameLogic
+     */
     public static GameLogic getInstance() {
         if (instance == null)
             new GameLogic();
@@ -92,8 +103,6 @@ public class GameLogic {
         return true;
     }
 
-    // #region Collisions
-    // =========================================================================
     /**
      * Checks if the player has colided with a reward or a trap. If so, the
      * reward/trap is removed from the game and the player's score changes
@@ -111,9 +120,8 @@ public class GameLogic {
         switch (cell.getCellType()) {
             case REWARD:
                 Reward reward = (Reward) object;
-                if (reward instanceof BonusReward) {
+                if (reward instanceof BonusReward)
                     entities.updateBonusRewardsCollected(1);
-                }
 
                 scoreUpdate = reward.getPoints();
                 entities.removeReward(reward);
@@ -162,20 +170,17 @@ public class GameLogic {
             case REWARD:
                 Reward reward = entities.getReward(position);
 
-                if (reward != null) {
+                if (reward != null)
                     collided(reward, cell);
-                }
                 break;
             case TRAP:
                 Trap trap = entities.getTrap(position);
 
-                if (trap != null) {
+                if (trap != null)
                     collided(trap, cell);
-                }
                 break;
             default:
                 break;
         }
     }
-
 }

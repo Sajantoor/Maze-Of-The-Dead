@@ -2,11 +2,9 @@ package game;
 
 import utilities.Constants;
 
-import static utilities.Constants.*;
-
 /**
- * This class is the controller of the game. It is in charge of the game logic,
- * handling player input and generation of entities.
+ * This class is responsible for running the game and handling the states of the
+ * game (i.e paused, won, etc.), it also handles the game loop.
  *
  * @author Sajan Toor
  */
@@ -17,12 +15,8 @@ public class GameController {
     private boolean isPaused;
     private boolean quit;
 
-    // #region Constructor and Singleton
-    // =========================================================================
-
     private GameController() {
         instance = this;
-        // initialize flags
         isRunning = false;
         isPaused = false;
         quit = false;
@@ -40,12 +34,6 @@ public class GameController {
 
         return GameController.instance;
     }
-
-    // =========================================================================
-    // #endregion
-
-    // #region Game state methods
-    // =========================================================================
 
     /**
      * Sets whether or not the game is running
@@ -156,11 +144,17 @@ public class GameController {
         this.isPaused = false;
     }
 
+    /**
+     * Sets the win state of the game to true and ends the game
+     */
     public void winGame() {
         setHasWon(true);
         endGame();
     }
 
+    /**
+     * Sets the win state of the game to false and ends the game
+     */
     public void loseGame() {
         setHasWon(false);
         endGame();
