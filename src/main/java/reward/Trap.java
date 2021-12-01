@@ -56,6 +56,24 @@ public class Trap extends Reward {
     }
 
     /**
+     * Checks if the trap is a booby trap
+     * 
+     * @return true if the trap is a booby trap, else false
+     */
+    public boolean isBoobyTrap() {
+        return trapType == TrapType.BOOBYTRAP;
+    }
+
+    /**
+     * Checks if the trap is a trap fall
+     * 
+     * @return true if the trap is a trap fall, else false
+     */
+    public boolean isTrapFall() {
+        return trapType == TrapType.TRAPFALL;
+    }
+
+    /**
      * Set the type of the trap (Boobytrap, Trapfall)
      *
      * @param trapType The type of the trap (Boobytrap, Trapfall)

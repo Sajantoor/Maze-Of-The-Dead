@@ -125,30 +125,6 @@ public class Entities {
     }
 
     /**
-     * Gets a reward at an x y coordinate in the maze
-     * 
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return The reward if it exists or null
-     */
-    public Reward getReward(int x, int y) {
-        Position position = new Position(x, y);
-        return getReward(position);
-    }
-
-    /**
-     * Gets a trap at an x y coordinate in the maze
-     * 
-     * @param x x coordinate
-     * @param y y coordinate
-     * @return The trap if it exists or null
-     */
-    public Trap getTrap(int x, int y) {
-        Position position = new Position(x, y);
-        return getTrap(position);
-    }
-
-    /**
      * Gets the number of rewards in the maze
      * 
      * @return the number of rewards in the maze
@@ -188,8 +164,7 @@ public class Entities {
      * @param y y coordinate
      * @return True if the coordinate contains an enemy, false otherwise
      */
-    public boolean containsEnemy(int x, int y) {
-        Position position = new Position(x, y);
+    public boolean containsEnemy(Position position) {
         Enemy enemy = getEnemy(position);
         if (enemy != null)
             return true;
@@ -204,8 +179,8 @@ public class Entities {
      * @param y y coordinate
      * @return True if the coordinate contains a trap, false otherwise
      */
-    public boolean containsTrap(int x, int y) {
-        Trap trap = getTrap(x, y);
+    public boolean containsTrap(Position position) {
+        Trap trap = getTrap(position);
         if (trap != null)
             return true;
 
@@ -219,8 +194,8 @@ public class Entities {
      * @param y y coordinate
      * @return True if the coordinate contains a reward, false otherwise
      */
-    public boolean containsReward(int x, int y) {
-        Reward reward = getReward(x, y);
+    public boolean containsReward(Position position) {
+        Reward reward = getReward(position);
         if (reward != null)
             return true;
 

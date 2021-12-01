@@ -1,16 +1,20 @@
 package ui.Screens;
 
 import game.GameController;
-import maze.CellType;
+import game.Entities;
+import game.Timer;
+import maze.Cell;
 import maze.Maze;
 import reward.BonusReward;
 import reward.Reward;
 import reward.Trap;
-import reward.TrapType;
 import ui.components.KeyboardListener;
 import utilities.Constants;
 
 import javax.swing.*;
+
+import character.Player;
+
 import java.awt.*;
 
 import static ui.GameUI.*;
@@ -39,6 +43,7 @@ public class GamePlayScreen extends JPanel {
 
     /**
      * Represents the GamePlayScreen panel
+     * 
      * @see JPanel
      */
     private GamePlayScreen() {
@@ -85,16 +90,19 @@ public class GamePlayScreen extends JPanel {
         mazePanel.setLayout(new GridLayout(mazeHeight, mazeWidth));
         this.add(mazePanel);
 
+        Maze maze = Maze.getInstance();
+
         for (int i = 0; i < mazeHeight; i++) {
             for (int j = 0; j < mazeWidth; j++) {
                 JLabel label = new JLabel();
-                if (Maze.getInstance().getCell(j, i).getCellType() == CellType.PATH ||
-                        Maze.getInstance().getCell(j, i).getCellType() == CellType.START ||
-                        Maze.getInstance().getCell(j, i).getCellType() == CellType.END) {
+
+                if (maze.getCell(j, i).isEmpty()
+                        || maze.getCell(j, i).isStart()
+                        || maze.getCell(j, i).isEnd())
                     label.setIcon(getPath(cellWidth, cellHeight));
-                } else {
+                else
                     label.setIcon(getWall(cellWidth, cellHeight));
-                }
+
                 cellLabels[j][i] = label;
                 mazePanel.add(label);
             }
@@ -119,20 +127,25 @@ public class GamePlayScreen extends JPanel {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (GameController.getInstance().getIsRunning()) {
+                GameController gc = GameController.getInstance();
+                Player player = Player.getInstance();
+                Timer timer = Timer.getInstance();
+
+                while (gc.getIsRunning()) {
                     revalidateMaze();
-                    if (!GameController.getInstance().getQuit() && !GameController.getInstance().getIsRunning()
-                            && GameController.getInstance().getHasWon()) {
-                        addGameWonScreen(GameController.getInstance().getPlayer().getScore(),
-                                GameController.getInstance().getTimeElapsed());
+
+                    if (!gc.getQuit() && !gc.getIsRunning() && gc.getHasWon()) {
+                        addGameWonScreen(player.getScore(), timer.getTimeElapsed());
                         getSubFrame().setVisible(true);
                     }
-                    if (!GameController.getInstance().getQuit() && !GameController.getInstance().getIsRunning()
-                            && !GameController.getInstance().getHasWon()) {
-                        addGameOverScreen(GameController.getInstance().getPlayer().getScore(),
-                                GameController.getInstance().getTimeElapsed(),
-                                rewardCount - GameController.getInstance().getRewardCount(),
-                                GameController.getInstance().getBonusRewardsCollected());
+
+                    if (!gc.getQuit() && !gc.getIsRunning() && !gc.getHasWon()) {
+                        Entities entities = Entities.getInstance();
+                        int collectedRewards = rewardCount - entities.getRewardCount();
+
+                        addGameOverScreen(player.getScore(), timer.getTimeElapsed(),
+                                collectedRewards, entities.getBonusRewardsCollected());
+
                         getSubFrame().setVisible(true);
                     }
                 }
@@ -141,15 +154,19 @@ public class GamePlayScreen extends JPanel {
 
         Thread t2 = new Thread(new Runnable() {
             @Override
-            public void run(){
-                while(GameController.getInstance().getIsRunning()){
+            public void run() {
+                GameController gc = GameController.getInstance();
+                Entities entities = Entities.getInstance();
+                Timer timer = Timer.getInstance();
+
+                while (gc.getIsRunning()) {
                     rewardLabel.setText("Supplies Collected: " +
-                            formatRewardCount(rewardCount ,
-                                    GameController.getInstance().getRewardCount() ,
-                                    GameController.getInstance().getNumberBonusRewards() ,
-                                    GameController.getInstance().getBonusRewardsCollected()));
-                    timerLabel.setText("Time: " + formatTime(GameController.getInstance().getTimeElapsed()));
-                    scoreLabel.setText("Score: " + GameController.getInstance().getPlayer().getScore());
+                            formatRewardCount(rewardCount,
+                                    entities.getRewardCount(),
+                                    entities.getNumBonusRewards(),
+                                    entities.getBonusRewardsCollected()));
+                    timerLabel.setText("Time: " + formatTime(timer.getTimeElapsed()));
+                    scoreLabel.setText("Score: " + Player.getInstance().getScore());
                 }
             }
         });
@@ -158,33 +175,52 @@ public class GamePlayScreen extends JPanel {
         t2.start();
     }
 
+    // TODO: Might want to split these into multiple methods being called instead.
     private void revalidateMaze() {
+        Maze maze = Maze.getInstance();
+        Entities entities = Entities.getInstance();
+
         for (int i = 0; i < mazeHeight; i++) {
             for (int j = 0; j < mazeWidth; j++) {
-                if (GameController.getInstance().getPlayer().getPosition().getX() == j
-                        && GameController.getInstance().getPlayer().getPosition().getY() == i) {
-                    cellLabels[j][i].setIcon(s.getPerson(2));
-                } else if (GameController.getInstance().containsEnemy(j, i)) {
-                    cellLabels[j][i].setIcon(enemyIcons[1]);
-                } else if (GameController.getInstance().containsReward(j, i)) {
-                    Reward reward = GameController.getInstance().getReward(j, i);
-                    if (reward instanceof BonusReward) {
-                        cellLabels[j][i].setIcon(getBonusReward(cellWidth, cellHeight));
-                    } else {
-                        cellLabels[j][i].setIcon(getReward(cellWidth, cellHeight));
-                    }
-                } else if (GameController.getInstance().containsTrap(j, i)) {
-                    Trap trap = GameController.getInstance().getTrap(j, i);
-                    if (trap.getTrapType() == TrapType.BOOBYTRAP) {
-                        cellLabels[j][i].setIcon(getBoobyTrap(cellWidth, cellHeight));
-                    } else {
-                        cellLabels[j][i].setIcon(getTrapFall(cellWidth, cellHeight));
-                    }
-                } else if (Maze.getInstance().getCell(j, i).getCellType() == CellType.PATH || Maze.getInstance().getCell(j, i).getCellType() == CellType.END || Maze.getInstance().getCell(j, i).getCellType() == CellType.START) {
-                    cellLabels[j][i].setIcon(getPath(cellWidth, cellHeight));
-                } else {
-                    cellLabels[j][i].setIcon(getWall(cellWidth, cellHeight));
+                utilities.Position pos = new utilities.Position(j, i);
+                Cell cell = maze.getCell(pos);
+
+                if (Player.getInstance().getPosition().equals(pos)) {
+                    cellLabels[j][i].setIcon(playerIcons[3]);
+                    continue;
                 }
+
+                if (entities.containsEnemy(pos)) {
+                    cellLabels[j][i].setIcon(enemyIcons[1]);
+                    continue;
+                }
+
+                if (entities.containsReward(pos)) {
+                    Reward reward = entities.getReward(pos);
+
+                    if (reward instanceof BonusReward)
+                        cellLabels[j][i].setIcon(getBonusReward(cellWidth, cellHeight));
+                    else
+                        cellLabels[j][i].setIcon(getReward(cellWidth, cellHeight));
+                    continue;
+                }
+
+                if (entities.containsTrap(pos)) {
+                    Trap trap = entities.getTrap(pos);
+
+                    if (trap.isBoobyTrap())
+                        cellLabels[j][i].setIcon(getBoobyTrap(cellWidth, cellHeight));
+                    else
+                        cellLabels[j][i].setIcon(getTrapFall(cellWidth, cellHeight));
+                    continue;
+                }
+
+                if (cell.isEmpty() || cell.isEnd() || cell.isStart()) {
+                    cellLabels[j][i].setIcon(getPath(cellWidth, cellHeight));
+                    continue;
+                }
+
+                cellLabels[j][i].setIcon(getWall(cellWidth, cellHeight));
             }
         }
     }
