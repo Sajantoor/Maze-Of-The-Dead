@@ -39,14 +39,14 @@ public class GameInput {
         Position position = player.getPosition();
 
         // update the player's position based on the movement
-        Position nextPosition = Functions.updatePosition(position, movement);
+        Position nextPos = Functions.updatePosition(position, movement);
 
         // check if the next position is a valid position, ie is there a wall
         // check if it fits in the constants of the maze
-        if (nextPosition.getX() >= 0 && nextPosition.getX() < Constants.mazeWidth && nextPosition.getY() >= 0
-                && nextPosition.getY() < Constants.mazeHeight) {
-            Cell cell = Maze.getInstance().getCell(nextPosition);
-
+        // TODO: I don't like this if statement (it's too long)
+        if (nextPos.getX() >= 0 && nextPos.getX() < Constants.mazeWidth && nextPos.getY() >= 0
+                && nextPos.getY() < Constants.mazeHeight) {
+            Cell cell = Maze.getInstance().getCell(nextPos);
             // if there is not a wall, the player can move
             if (!cell.isWall()) {
                 player.move(movement);
