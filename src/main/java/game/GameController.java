@@ -1,5 +1,7 @@
 package game;
 
+import character.Player;
+import maze.Maze;
 import utilities.Constants;
 
 /**
@@ -50,8 +52,9 @@ public class GameController {
      */
     public void startGame() {
         setRunning(true);
-        // Clears all entities and regenerates them
-        Entities.getInstance().clearAllEntities();
+        Player.getInstance().resetPlayer();
+        GameInput.getInstance().resetMovement();
+        Maze.getInstance().regenerateMaze();
         startThreads();
     }
 

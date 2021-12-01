@@ -22,7 +22,7 @@ public class GameInput {
     private GameInput() {
         instance = this;
         moves = new ArrayList<Movement>();
-        moves.add(Movement.STATIONARY);
+        resetMovement();
     }
 
     /**
@@ -99,5 +99,13 @@ public class GameInput {
      */
     public boolean checkMovement(Movement move) {
         return moves.contains(move);
+    }
+
+    /**
+     * Resets the player's movement inputs.
+     */
+    public void resetMovement() {
+        moves.clear();
+        moves.add(Movement.STATIONARY);
     }
 }

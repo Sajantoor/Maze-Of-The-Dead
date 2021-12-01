@@ -58,4 +58,12 @@ public class Player extends CharacterModel {
     public void updateScore(int score) {
         this.score += score;
     }
+
+    /**
+     * Returns the player to its original state, i.e. resets position and score
+     */
+    public void resetPlayer() {
+        this.score = 0;
+        this.setPosition(new Position(Constants.playerStartX, Constants.playerStartY));
+    }
 }

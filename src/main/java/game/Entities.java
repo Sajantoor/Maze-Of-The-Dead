@@ -12,8 +12,9 @@ import utilities.Position;
 
 /**
  * This class contains all the entities for the game generated in
- * EntitiesGenerator. It provides public read method to get the entities, all
- * writing is protected and can only be done within game package.
+ * EntitiesGenerator. It provides public read methods to get the entities, all
+ * writing (besides clearing all entities) is protected and can only be done
+ * within game package.
  * 
  * @see EntitiesGenerator
  * @author Sajan Toor
@@ -326,7 +327,7 @@ public class Entities {
     /**
      * Removes all entities from the game. Entities are traps, enemies and rewards
      */
-    protected void clearAllEntities() {
+    public void clear() {
         clearEnemies();
         clearTraps();
         clearRewards();

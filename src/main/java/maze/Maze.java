@@ -7,6 +7,7 @@ import utilities.Position;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import game.Entities;
 import game.EntitiesGenerator;
 
 import static utilities.Constants.maxRoomSize;
@@ -25,12 +26,6 @@ public class Maze {
     private int width;
     private HashSet<Cell> visited;
 
-    private Maze() {
-        instance = this;
-        // Initialize the maze
-        regenerateMaze();
-    }
-
     /**
      * returns an instance of the Maze
      *
@@ -38,7 +33,7 @@ public class Maze {
      */
     public synchronized static Maze getInstance() {
         if (instance == null)
-            new Maze();
+            instance = new Maze();
 
         return instance;
     }
@@ -146,9 +141,9 @@ public class Maze {
     }
 
     public void regenerateMaze() {
+        Entities.getInstance().clear();
         generateMaze(Constants.mazeWidth, Constants.mazeHeight, Constants.mazeRooms);
-        EntitiesGenerator generator = EntitiesGenerator.getInstance();
-        generator.generateEntities();
+        EntitiesGenerator.getInstance().generateEntities();
     }
 
     /**
