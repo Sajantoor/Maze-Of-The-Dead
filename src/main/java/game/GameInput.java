@@ -17,7 +17,7 @@ import utilities.Position;
  */
 public class GameInput {
     private static GameInput instance = null;
-    private ArrayList<Movement> moves;
+    private final ArrayList<Movement> moves;
 
     private GameInput() {
         instance = this;

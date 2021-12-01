@@ -220,7 +220,7 @@ public class EntitiesGenerator {
     /**
      * Generates enemies at random locations
      * 
-     * @param num
+     * @param num the number of enemies we want to generate
      */
     private void generateEnemies(int num) {
         for (int i = 0; i < num; i++) {

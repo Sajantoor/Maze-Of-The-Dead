@@ -10,7 +10,7 @@ import utilities.Position;
  */
 
 public class Cell {
-    private Position position;
+    private final Position position;
     private CellType cellType = CellType.WALL;
 
     /**
@@ -87,7 +87,7 @@ public class Cell {
     /**
      * Changes the content of the cell
      * 
-     * @param cellType
+     * @param cellType the CellType we want to change
      */
     public void setCellType(CellType cellType) {
         this.cellType = cellType;
@@ -124,7 +124,7 @@ public class Cell {
     /**
      * Returns the position of the cell
      * 
-     * @return
+     * @return the position of the cell
      */
     public Position getPosition() {
         return position;

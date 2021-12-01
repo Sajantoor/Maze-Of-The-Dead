@@ -45,7 +45,7 @@ public class GameController {
     }
 
     /**
-     * Method to start the game. This will geenrate the maze and entities as well as
+     * Method to start the game. This will generate the maze and entities as well as
      * start the threads.
      */
     public void startGame() {

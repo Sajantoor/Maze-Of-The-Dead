@@ -15,8 +15,7 @@ public class Enemy extends CharacterModel {
 
     /***
      * Moves the enemy to the next given position closes to the player
-     * 
-     * @param enemy The enemy we want to move
+     *
      */
     public void move() {
         // Open queue to keep track of all possible moves the enemy could move to
@@ -44,20 +43,14 @@ public class Enemy extends CharacterModel {
     }
 
     /**
-     * Checks if the enemy can move in the given direction Checks if there is wall,
-     * trap or enemy in the way, therefore cannot move
+     * Checks if the enemy can move in the given direction Checks if there is wall
+     * in the way, which prevents movement.
      * 
      * @param position The position the enemy wants to move to
      * @return True if it can, false if it can't
      */
     private boolean validateEnemyMove(Position position) {
-        // check if there is a wall, trap or enemy in the new position
-        // if there is return false
-
-        if (Maze.getInstance().isWall(position))
-            return false;
-
-        return true;
+        return !Maze.getInstance().isWall(position);
     }
 
     /**

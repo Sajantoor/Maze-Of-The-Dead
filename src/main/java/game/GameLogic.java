@@ -104,7 +104,7 @@ public class GameLogic {
     }
 
     /**
-     * Checks if the player has colided with a reward or a trap. If so, the
+     * Checks if the player has collided with a reward or a trap. If so, the
      * reward/trap is removed from the game and the player's score changes
      * accordingly.
      * 
@@ -149,8 +149,8 @@ public class GameLogic {
 
     /**
      * Checks if the player has collided with any collidables and acts accordingly.
-     * For example, coliding with a reward increases the player's score and removes
-     * the reward. Coliding with a zombie, makes the player lose the game.
+     * For example, colliding with a reward increases the player's score and removes
+     * the reward. colliding with a zombie, makes the player lose the game.
      */
     private void checkCollidables() {
         Position position = Player.getInstance().getPosition();

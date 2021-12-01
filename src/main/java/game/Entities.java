@@ -21,9 +21,9 @@ import utilities.Position;
  */
 public class Entities {
     private static Entities instance = null;
-    private ArrayList<Reward> rewards;
-    private ArrayList<Enemy> enemies;
-    private ArrayList<Trap> traps;
+    private final ArrayList<Reward> rewards;
+    private final ArrayList<Enemy> enemies;
+    private final ArrayList<Trap> traps;
     private int numBonusRewards;
     private int bonusRewardsCollected;
 
@@ -63,7 +63,7 @@ public class Entities {
     /**
      * Checks if there is a reward at a position and returns it
      * 
-     * @param Position position to check
+     * @param position position to check
      * @return the reward at the position, else null
      */
     public Reward getReward(Position position) {
@@ -82,7 +82,7 @@ public class Entities {
     /**
      * Checks if there is a trap at a position and returns it
      * 
-     * @param Position position to check
+     * @param position position to check
      * @return the trap at the position, else null
      */
     public Trap getTrap(Position position) {
@@ -101,7 +101,7 @@ public class Entities {
     /**
      * Checks if there is a enemy at a position and returns it
      * 
-     * @param Position position to check
+     * @param position position to check
      * @return the enemy at the position, else null
      */
     public Enemy getEnemy(Position position) {
@@ -161,10 +161,7 @@ public class Entities {
      */
     public boolean containsEnemy(Position position) {
         Enemy enemy = getEnemy(position);
-        if (enemy != null)
-            return true;
-
-        return false;
+        return enemy != null;
     }
 
     /***
@@ -175,10 +172,7 @@ public class Entities {
      */
     public boolean containsTrap(Position position) {
         Trap trap = getTrap(position);
-        if (trap != null)
-            return true;
-
-        return false;
+        return trap != null;
     }
 
     /**
@@ -189,10 +183,7 @@ public class Entities {
      */
     public boolean containsReward(Position position) {
         Reward reward = getReward(position);
-        if (reward != null)
-            return true;
-
-        return false;
+        return reward != null;
     }
 
     // =========================================================================

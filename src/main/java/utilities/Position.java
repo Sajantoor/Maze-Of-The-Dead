@@ -75,10 +75,7 @@ public class Position {
         if (this.x != position.x)
             return false;
 
-        if (this.y != position.y)
-            return false;
-
-        return true;
+        return this.y == position.y;
     }
 
     @Override

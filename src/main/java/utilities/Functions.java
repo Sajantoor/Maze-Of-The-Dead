@@ -4,9 +4,9 @@ public class Functions {
     /**
      * Update position based off movement enum
      * 
-     * @param position
-     * @param movement
-     * @return New Position
+     * @param position the current position
+     * @param movement the direction we want to move position
+     * @return the updated position after being moved by movement
      */
     public static Position updatePosition(Position position, Movement movement) {
         Position newPosition = new Position(position.getX(), position.getY());
