@@ -22,7 +22,7 @@ public class Timer {
     /**
      * This method sets the time (in seconds) elapsed since the start of the game.
      */
-    public void updateTime() {
+    protected void updateTime() {
         GameController gameController = GameController.getInstance();
 
         if (gameController.isPaused())

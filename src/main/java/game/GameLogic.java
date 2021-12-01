@@ -32,7 +32,7 @@ public class GameLogic {
      * Game loop that runs every 'tick' Involves player input, collidables and
      * checking if the game is over
      */
-    public void updateGame() {
+    protected void updateGame() {
         hasWon();
         GameController gc = GameController.getInstance();
 

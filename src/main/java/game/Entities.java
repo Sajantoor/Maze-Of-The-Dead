@@ -166,11 +166,11 @@ public class Entities {
         return numBonusRewards;
     }
 
-    public void setNumBonusRewards(int num) {
+    protected void setNumBonusRewards(int num) {
         numBonusRewards = num;
     }
 
-    public void updateBonusRewardsCollected(int num) {
+    protected void updateBonusRewardsCollected(int num) {
         bonusRewardsCollected += num;
     }
 
@@ -191,9 +191,8 @@ public class Entities {
     public boolean containsEnemy(int x, int y) {
         Position position = new Position(x, y);
         Enemy enemy = getEnemy(position);
-        if (enemy != null) {
+        if (enemy != null)
             return true;
-        }
 
         return false;
     }
@@ -207,9 +206,8 @@ public class Entities {
      */
     public boolean containsTrap(int x, int y) {
         Trap trap = getTrap(x, y);
-        if (trap != null) {
+        if (trap != null)
             return true;
-        }
 
         return false;
     }
@@ -223,9 +221,8 @@ public class Entities {
      */
     public boolean containsReward(int x, int y) {
         Reward reward = getReward(x, y);
-        if (reward != null) {
+        if (reward != null)
             return true;
-        }
 
         return false;
     }
@@ -240,7 +237,7 @@ public class Entities {
      * 
      * @param enemy The enemy we want to add
      */
-    public void addEnemy(Enemy enemy) {
+    protected void addEnemy(Enemy enemy) {
         if (enemy == null)
             return;
 
@@ -252,7 +249,7 @@ public class Entities {
      * 
      * @param reward The reward we want to add
      */
-    public void addReward(Reward reward) {
+    protected void addReward(Reward reward) {
         if (reward == null)
             return;
 
@@ -264,7 +261,7 @@ public class Entities {
      * 
      * @param reward the reward we want to remove
      */
-    public void removeReward(Reward reward) {
+    protected void removeReward(Reward reward) {
         if (reward == null)
             return;
 
@@ -276,7 +273,7 @@ public class Entities {
      * expired.
      *
      */
-    public void checkBonusRewardExpired() {
+    protected void checkBonusRewardExpired() {
         int size = rewards.size();
         for (int i = 0; i < size; i++) {
             Reward reward = rewards.get(i);
@@ -299,7 +296,7 @@ public class Entities {
      * Generates the enemy movement by looping through all enemies and finding it's
      * next move
      */
-    public void generateEnemyMovement() {
+    protected void generateEnemyMovement() {
         if (!GameController.getInstance().isPaused()) {
             for (Enemy enemy : enemies) {
                 enemy.move();
@@ -312,7 +309,7 @@ public class Entities {
      * 
      * @param trap The trap we want to add
      */
-    public void addTrap(Trap trap) {
+    protected void addTrap(Trap trap) {
         if (trap == null)
             return;
 
@@ -324,7 +321,7 @@ public class Entities {
      * 
      * @param trap the trap we want to remove
      */
-    public void removeTrap(Trap trap) {
+    protected void removeTrap(Trap trap) {
         if (trap == null)
             return;
 
@@ -355,7 +352,7 @@ public class Entities {
     /**
      * Removes all entities from the game. Entities are traps, enemies and rewards
      */
-    public void clearAllEntities() {
+    protected void clearAllEntities() {
         clearEnemies();
         clearTraps();
         clearRewards();

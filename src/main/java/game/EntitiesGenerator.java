@@ -147,7 +147,7 @@ public class EntitiesGenerator {
         }
     }
 
-    public void generateBonusReward() {
+    protected void generateBonusReward() {
         generateReward(RewardType.BONUS);
     }
 
