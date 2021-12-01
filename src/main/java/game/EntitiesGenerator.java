@@ -1,7 +1,7 @@
 package game;
 
 import cell.Cell;
-import character.CharacterModel;
+import character.Enemy;
 import reward.BonusReward;
 import reward.Reward;
 import reward.RewardType;
@@ -233,7 +233,7 @@ public class EntitiesGenerator {
             position = findEmptyPosition(width / 4, width, height / 4, height);
         } while (Entities.getInstance().getEnemy(position) != null);
 
-        CharacterModel enemy = new CharacterModel(position);
+        Enemy enemy = new Enemy(position);
         Entities.getInstance().addEnemy(enemy);
     }
 }
