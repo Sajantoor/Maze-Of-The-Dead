@@ -52,4 +52,30 @@ public class Functions {
     public static int getRandomNumber(int min, int max) {
         return (int) (Math.random() * (max - min + 1)) + min;
     }
+
+    /**
+     * Get a random position in some range
+     * 
+     * @param minX Min X of the range
+     * @param maxX Max X of the range
+     * @param minY Min Y of the range
+     * @param maxY Max Y of the range
+     * @return Random position within some range
+     */
+    public static Position getRandomPosition(int minX, int maxX, int minY, int maxY) {
+        int x = getRandomNumber(minX, maxX);
+        int y = getRandomNumber(minY, maxY);
+        return new Position(x, y);
+    }
+
+    /**
+     * Get a random position in the maze
+     * 
+     * @return Random position in the maze
+     */
+    public static Position getRandomPosition() {
+        int x = getRandomNumber(0, Constants.mazeWidth - 1);
+        int y = getRandomNumber(0, Constants.mazeHeight - 1);
+        return new Position(x, y);
+    }
 }
