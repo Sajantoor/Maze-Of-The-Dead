@@ -2,6 +2,7 @@ package game;
 
 import cell.Cell;
 import utilities.Constants;
+import utilities.Functions;
 import utilities.Position;
 import cell.CellType;
 
@@ -32,7 +33,7 @@ public class Maze {
 
     /**
      * returns an instance of the Maze
-     * 
+     *
      * @return an instance of the Maze
      */
     public static Maze getInstance() {
@@ -56,7 +57,7 @@ public class Maze {
 
     /***
      * Returns a cell at the position object
-     * 
+     *
      * @param position the position of the cell in the maze
      * @return the cell of the maze at the position object
      * @see Cell
@@ -72,7 +73,7 @@ public class Maze {
 
     /**
      * Returns whether or not the cell at position is a wall
-     * 
+     *
      * @param position the position of the cell in the maze
      * @return True if it is a wall, false otherwise
      */
@@ -82,7 +83,7 @@ public class Maze {
 
     /**
      * Returns whether or not the cell at position is a trap
-     * 
+     *
      * @param position the position of the cell in the maze
      * @return True if it is a trap, false otherwise
      */
@@ -157,8 +158,8 @@ public class Maze {
     public void addRooms(int numRooms, int mazeWidth, int mazeHeight) {
         for (int i = 0; i < numRooms; i++) {
 
-            int x = (int) ((Math.random() * (mazeWidth - 2)) + 1);
-            int y = (int) ((Math.random() * (mazeHeight - 2)) + 1);
+            int x = Functions.getRandomNumber(mazeWidth - 2, 1);
+            int y = Functions.getRandomNumber(mazeHeight - 2, 1);
             int width = 0;
             int height = 0;
 
@@ -183,21 +184,21 @@ public class Maze {
     }
 
     private int randomDimension() {
-        return (int) (Math.random() * (maxRoomSize - minRoomSize) + minRoomSize);
+        return Functions.getRandomNumber(minRoomSize, maxRoomSize);
     }
 
     private void generateMaze(int height, int width) {
         ArrayList<Cell> cells = new ArrayList<>();
 
-        int x = (int) ((Math.random() * (width - 2)) + 1);
-        int y = (int) ((Math.random() * (height - 2)) + 1);
+        int x = Functions.getRandomNumber(1, width - 2);
+        int y = Functions.getRandomNumber(1, height - 2);
 
         maze[x][y].setCellType(CellType.PATH);
 
         cells = addCellsToList(cells, height, width, x, y);
 
         while (cells.size() > 0) {
-            int i = (int) (Math.random() * cells.size() - 1);
+            int i = Functions.getRandomNumber(0, cells.size() - 1);
 
             x = cells.get(i).getX();
             y = cells.get(i).getY();
@@ -262,7 +263,7 @@ public class Maze {
     /**
      * Returns all adjacent cells of the current position, looking up, down, left,
      * right
-     * 
+     *
      * @param position the position we want to get adjacent cells of
      * @return ArrayList of adjacent cells
      */
@@ -284,14 +285,14 @@ public class Maze {
     /**
      * Recursive method to find a path from the start to the end of the maze, made
      * up of player moves, uses breadth first search algorithm.
-     * 
+     *
      * @param current  The current position
      * @param target   The target position
      * @param steps    the number of steps in the current iteration
      * @param isPlayer true if it's the player we're looking a path for, false if
      *                 it's an enemy
      * @return The number of steps taken to get to the target, or -1 if no path to
-     *         target
+     * target
      */
     private int isPathHelper(Position current, Position target, int steps, boolean isPlayer) {
         Cell cell = getCell(current);
@@ -328,7 +329,7 @@ public class Maze {
     /**
      * Checks if there is a path from the current point to the target point, using
      * player moves ie, without going through traps or walls.
-     * 
+     *
      * @param current The current position
      * @param target  The target position
      * @return True if there is a path from the start to the end, false otherwise
@@ -343,7 +344,7 @@ public class Maze {
      * @param current The current position
      * @param target  The target position
      * @return Returns number of steps from the current point to the target point,
-     *         using player moves ie, without going through traps or walls.
+     * using player moves ie, without going through traps or walls.
      */
     public int getDistance(Position current, Position target) {
         visited.clear();
