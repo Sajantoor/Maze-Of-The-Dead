@@ -16,7 +16,7 @@ import static utilities.Constants.*;
  *
  * @author Dylan Young
  */
-public class InstructionScreen extends JPanel{
+public class InstructionScreen extends JPanel {
 
     private JPanel topPanel;
 
@@ -48,168 +48,170 @@ public class InstructionScreen extends JPanel{
     private JLabel trapfallLabel;
     private JLabel trapfallImageLabel;
     private ImageIcon[] enemyIcons;
+    // todo: get rid of this??
     private ImageIcon[] playerIcons;
 
     /**
      * Represents the Instruction screen
+     * 
      * @see JPanel
      */
     public InstructionScreen() {
         enemyIcons = getEnemy(cellWidth, cellHeight);
         playerIcons = getPerson(cellWidth, cellHeight);
 
-        //Top Panel
+        // Top Panel
         topPanel = new JPanel();
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.LINE_AXIS));
         topPanel.setPreferredSize(new Dimension(1920, 100));
         topPanel.setBackground(Color.BLACK);
         addSpace(topPanel, 820, 0);
 
-        //How to play Title
+        // How to play Title
         addTitle(topPanel, "How to Play");
         this.add(topPanel);
         getFrame().add(this);
 
         addSpace(this, 0, 400);
 
-        //Movement area
+        // Movement area
         movementPanel = new JPanel();
         movementPanel.setLayout(new BoxLayout(movementPanel, BoxLayout.LINE_AXIS));
         movementPanel.setPreferredSize(new Dimension(1000, 120));
 
-        //Left movement area
+        // Left movement area
         movementLeftPanel = new JPanel();
         movementPanel.add(movementLeftPanel);
 
-        //Right movement area
+        // Right movement area
         movementRightPanel = new JPanel();
         movementRightPanel.setLayout(new BoxLayout(movementRightPanel, BoxLayout.Y_AXIS));
         movementPanel.add(movementRightPanel);
 
-        //Right movement upper area
+        // Right movement upper area
         movementRightPanelUpper = new JPanel();
         movementRightPanel.add(movementRightPanelUpper);
 
-        //Right movement lower area
+        // Right movement lower area
         movementRightPanelLower = new JPanel();
         movementRightPanel.add(movementRightPanelLower);
 
-        //Movement Label
+        // Movement Label
         movementLabel = new JLabel("Movement:");
         movementLabel.setFont(boldArial35);
         movementLeftPanel.add(movementLabel);
 
-        //W key
+        // W key
         keyFormat(movementRightPanelUpper, " W ");
 
-        //A key
+        // A key
         keyFormat(movementRightPanelLower, " A ");
 
-        //S key
+        // S key
         keyFormat(movementRightPanelLower, " S ");
 
-        //D key
+        // D key
         keyFormat(movementRightPanelLower, " D ");
 
         this.add(movementPanel);
 
-        //Lower Panel
+        // Lower Panel
         lowerPanel = new JPanel();
         lowerPanel.setPreferredSize(new Dimension(1920, 200));
 
-        //Collect Panel
+        // Collect Panel
         collectPanel = new JPanel();
         collectPanel.setLayout(new BoxLayout(collectPanel, BoxLayout.Y_AXIS));
         lowerPanel.add(collectPanel);
 
         addSpace(lowerPanel, 400, 0);
 
-        //Avoid Panel
+        // Avoid Panel
         avoidPanel = new JPanel();
         avoidPanel.setLayout(new BoxLayout(avoidPanel, BoxLayout.Y_AXIS));
         lowerPanel.add(avoidPanel);
 
-        //Collect Label
+        // Collect Label
         collectLabel = new JLabel("Collect:");
         collectLabel.setFont(boldArial35);
         collectPanel.add(collectLabel);
 
-        //Reward Panel
+        // Reward Panel
         rewardPanel = new JPanel();
         collectPanel.add(rewardPanel);
 
-        //Reward Image
+        // Reward Image
         rewardImageLabel = new JLabel(getReward(cellWidth, cellHeight));
         rewardPanel.add(rewardImageLabel);
 
         addSpace(rewardPanel, 10, 0);
 
-        //Reward Label
+        // Reward Label
         rewardLabel = new JLabel("Collect All to escape (" + rewardPoints + ")");
         rewardLabel.setFont(plainArial20);
         rewardPanel.add(rewardLabel);
 
-        //Bonus Panel
+        // Bonus Panel
         bonusPanel = new JPanel();
         collectPanel.add(bonusPanel);
 
-        //Bonus Image
+        // Bonus Image
         bonusImageLabel = new JLabel(getBonusReward(cellWidth, cellHeight));
         bonusPanel.add(bonusImageLabel);
 
         addSpace(bonusPanel, 10, 0);
 
-        //Bonus Label
+        // Bonus Label
         bonusLabel = new JLabel("Bonus (" + bonusRewardPoints + ")");
         bonusLabel.setFont(plainArial20);
         bonusPanel.add(bonusLabel);
 
-        //Avoid Label
+        // Avoid Label
         avoidLabel = new JLabel("Avoid:");
         avoidLabel.setFont(boldArial35);
         avoidPanel.add(avoidLabel);
 
-        //Zombie Panel
+        // Zombie Panel
         zombiePanel = new JPanel();
         avoidPanel.add(zombiePanel);
 
-        //Zombie Image
+        // Zombie Image
         zombieImageLabel = new JLabel(enemyIcons[0]);
         zombiePanel.add(zombieImageLabel);
 
         addSpace(zombiePanel, 10, 0);
 
-        //Zombie Label
+        // Zombie Label
         zombieLabel = new JLabel("Zombies");
         zombieLabel.setFont(plainArial20);
         zombiePanel.add(zombieLabel);
 
-        //Booby Trap Panel
+        // Booby Trap Panel
         boobyTrapPanel = new JPanel();
         avoidPanel.add(boobyTrapPanel);
 
-        //Booby Trap Image
+        // Booby Trap Image
         boobyTrapImageLabel = new JLabel(getBoobyTrap(cellWidth, cellHeight));
         boobyTrapPanel.add(boobyTrapImageLabel);
 
         addSpace(boobyTrapPanel, 10, 0);
 
-        //Booby Trap Label
+        // Booby Trap Label
         boobyTrapLabel = new JLabel("Booby Trap (" + boobyTrapDmg + ")");
         boobyTrapLabel.setFont(plainArial20);
         boobyTrapPanel.add(boobyTrapLabel);
 
-        //Trapfall Panel
+        // Trapfall Panel
         trapfallPanel = new JPanel();
         avoidPanel.add(trapfallPanel);
 
-        //Trapfall Image
+        // Trapfall Image
         trapfallImageLabel = new JLabel(getTrapFall(cellWidth, cellHeight));
         trapfallPanel.add(trapfallImageLabel);
 
         addSpace(trapfallPanel, 10, 0);
 
-        //Trapfall Label
+        // Trapfall Label
         trapfallLabel = new JLabel("Trapfall (" + trapFallDmg + ")");
         trapfallLabel.setFont(plainArial20);
         trapfallPanel.add(trapfallLabel);
@@ -218,6 +220,7 @@ public class InstructionScreen extends JPanel{
         addBackButton(this, "Back");
     }
 
+    // TODO: Add javadoc
     private void keyFormat(JPanel panel, String letter) {
         JLabel keyLabel = new JLabel(letter);
         keyLabel.setFont(plainArial35);

@@ -18,14 +18,12 @@ import static ui.components.UIConstants.defaultScreenSizeY;
  * @author Dylan Young
  */
 public class GameUI {
-
     private static GameFrame frame;
     private static SubFrame subFrame;
     private static JPanel panel;
     private static JPanel subPanel;
     private static Image image;
     private static JPanel gamePanel = new JPanel();
-
 
     /**
      * Represents the controls for calling and displaying all the screens
@@ -47,6 +45,7 @@ public class GameUI {
     public static JFrame getFrame() {
         return frame;
     }
+
     /**
      * returns the sub-frame for the game
      *
@@ -64,6 +63,8 @@ public class GameUI {
         frame.add(gamePanel);
         revalidateMainScreen();
     }
+
+    // TOOD: javadoc
     public static void removeGamePlayScreen() {
         frame.remove(gamePanel);
     }
@@ -90,10 +91,12 @@ public class GameUI {
     public static void addGameWonScreen(int score, long timeInSeconds) {
         subPanel = new GameWonScreen(score, timeInSeconds, image);
         subFrame.setSize(600, 600);
+        // TODO: Small method for these 2 lines
         subFrame.setLocationRelativeTo(null);
         subFrame.add(subPanel);
     }
 
+    // TODO: Javadoc
     public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
         subPanel = new GameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards, image);
         subFrame.setSize(new Dimension(700, 900));
@@ -101,6 +104,7 @@ public class GameUI {
         subFrame.add(subPanel);
     }
 
+    // TODO: Javadoc
     public static void addPauseScreen() {
         subPanel = new PauseScreen(image);
         subFrame.setSize(new Dimension(500, 500));
@@ -115,7 +119,7 @@ public class GameUI {
      */
     public static void addNewHighScoreScreen(int score) {
         subPanel = new NewHighScoreScreen(score, image);
-        subFrame.setSize(500,500);
+        subFrame.setSize(500, 500);
         subFrame.add(subPanel);
         subFrame.setLocationRelativeTo(null);
     }
@@ -127,9 +131,9 @@ public class GameUI {
      */
     public static void addLeaderboardScreen(PlayerScore highPlayerScore) {
         subPanel = new LeaderboardScreen(highPlayerScore, image);
-        subFrame.add(subPanel);
         subFrame.setSize(750, 1000);
         subFrame.setLocationRelativeTo(null);
+        subFrame.add(subPanel);
     }
 
     /**
@@ -140,6 +144,7 @@ public class GameUI {
         frame.repaint();
         frame.setFocusable(true);
     }
+
     /**
      * Refreshes the sub-screen
      */
@@ -149,10 +154,13 @@ public class GameUI {
         frame.setFocusable(true);
     }
 
-    public static void mainFrameRefocus(){
+    // TODO: Javadoc
+    public static void mainFrameRefocus() {
         frame.requestFocusInWindow();
     }
-    public static void subFrameRefocus(){
+
+    // TODO: Javadoc
+    public static void subFrameRefocus() {
         subFrame.requestFocusInWindow();
     }
 }

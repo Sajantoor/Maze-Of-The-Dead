@@ -10,7 +10,7 @@ import java.awt.*;
  * @author Dylan Young
  */
 public class GameFrame extends JFrame {
-    public GameFrame(){
+    public GameFrame() {
         this.setTitle("Maze of The Dead");
         this.setLayout(new BorderLayout());
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);

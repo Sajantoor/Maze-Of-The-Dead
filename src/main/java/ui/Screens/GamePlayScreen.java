@@ -68,6 +68,7 @@ public class GamePlayScreen extends JPanel {
         addSpace(infoPanel, 750, 0);
 
         timerLabel = new JLabel();
+        // 3 lines method
         timerLabel.setFont(plainArial20);
         infoPanel.add(timerLabel);
         addSpace(infoPanel, 100, 0);
@@ -96,6 +97,7 @@ public class GamePlayScreen extends JPanel {
             for (int j = 0; j < mazeWidth; j++) {
                 JLabel label = new JLabel();
 
+                // TODO: if path cell
                 if (maze.getCell(j, i).isEmpty()
                         || maze.getCell(j, i).isStart()
                         || maze.getCell(j, i).isEnd())

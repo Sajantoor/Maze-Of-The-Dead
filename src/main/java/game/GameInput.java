@@ -65,9 +65,7 @@ public class GameInput {
     }
 
     /**
-     * Moves the player
-     * 
-     * // TODO: Ask Dylan what this does lmao
+     * Moves the player in the direction most recently specified by the player.
      */
     public void movePlayer() {
         movePlayer(moves.get(0));

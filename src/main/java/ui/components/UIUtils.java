@@ -45,18 +45,19 @@ public class UIUtils {
      * @param time the time that passes in the game
      * @return the time in a m:ss format
      */
-    public static String formatTime(long time){
+    public static String formatTime(long time) {
         String timeStr = "" + (time % 60);
-        if(timeStr.length() == 1){
+        if (timeStr.length() == 1) {
             timeStr = "0" + timeStr;
         }
         timeStr = "" + (time / 60) + ":" + timeStr;
         return timeStr;
     }
 
-    public static String formatRewardCount(int maxReward, int rewardCollected, int numBonusReward, int bonusRewardCollected){
+    public static String formatRewardCount(int maxReward, int rewardCollected, int numBonusReward,
+            int bonusRewardCollected) {
+        // calculating number of rewards collected
         return "" + (maxReward - rewardCollected + numBonusReward - bonusRewardCollected) + "/" + maxReward;
-
     }
 
 }

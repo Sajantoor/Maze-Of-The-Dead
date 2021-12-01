@@ -8,6 +8,7 @@ import static ui.components.FontPathString.GREAT_FIGHTER_FONT_LOCATION;
 
 /**
  * Creates custom font styles
+ * 
  * @author Dylan Young
  */
 public class GameFonts {
@@ -18,7 +19,7 @@ public class GameFonts {
      *
      * @return the font GreatFighter font
      */
-    //https://www.fontspace.com/great-fighter-font-f39648
+    // https://www.fontspace.com/great-fighter-font-f39648
     public static Font getGreatFighterFont() {
         try {
             greatFighterFont = Font.createFont(Font.TRUETYPE_FONT, new File(GREAT_FIGHTER_FONT_LOCATION));
