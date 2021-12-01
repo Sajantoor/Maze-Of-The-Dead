@@ -7,6 +7,8 @@ import utilities.Position;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import game.EntitiesGenerator;
+
 import static utilities.Constants.maxRoomSize;
 import static utilities.Constants.minRoomSize;
 
@@ -34,7 +36,7 @@ public class Maze {
      *
      * @return an instance of the Maze
      */
-    public static Maze getInstance() {
+    public synchronized static Maze getInstance() {
         if (instance == null)
             new Maze();
 
@@ -144,7 +146,9 @@ public class Maze {
     }
 
     public void regenerateMaze() {
-        generateMaze(Constants.mazeRooms, Constants.mazeWidth, Constants.mazeHeight);
+        generateMaze(Constants.mazeWidth, Constants.mazeHeight, Constants.mazeRooms);
+        EntitiesGenerator generator = EntitiesGenerator.getInstance();
+        generator.generateEntities();
     }
 
     /**
@@ -290,7 +294,7 @@ public class Maze {
      * @param isPlayer true if it's the player we're looking a path for, false if
      *                 it's an enemy
      * @return The number of steps taken to get to the target, or -1 if no path to
-     * target
+     *         target
      */
     private int isPathHelper(Position current, Position target, int steps, boolean isPlayer) {
         Cell cell = getCell(current);
@@ -342,7 +346,7 @@ public class Maze {
      * @param current The current position
      * @param target  The target position
      * @return Returns number of steps from the current point to the target point,
-     * using player moves ie, without going through traps or walls.
+     *         using player moves ie, without going through traps or walls.
      */
     public int getDistance(Position current, Position target) {
         visited.clear();
