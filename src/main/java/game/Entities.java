@@ -3,9 +3,6 @@ package game;
 import java.util.ArrayList;
 
 import character.Enemy;
-import maze.Cell;
-import maze.Maze;
-import reward.BonusReward;
 import reward.Reward;
 import reward.Trap;
 import utilities.Position;
@@ -97,6 +94,15 @@ public class Entities {
         }
 
         return null;
+    }
+
+    /**
+     * Returns all enemies
+     * 
+     * @return an arrayList of all enemies
+     */
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
     }
 
     /**
@@ -331,49 +337,6 @@ public class Entities {
         clearEnemies();
         clearTraps();
         clearRewards();
-    }
-
-    // =========================================================================
-    // #endregion
-
-    // #region Entity Management
-    // =========================================================================
-    // TODO: These could be arguably moves to GameLogic, could be easily done.
-    // TODO: Discuss.
-
-    /**
-     * Checks whether any bonus rewards have expired, and removes them if they are
-     * expired.
-     */
-    protected void checkBonusRewardExpired() {
-        int size = rewards.size();
-        for (int i = 0; i < size; i++) {
-            Reward reward = rewards.get(i);
-            // check if it is a bonus reward and cast it to BonusReward
-            if (reward instanceof BonusReward) {
-                BonusReward bonusReward = (BonusReward) reward;
-                // if the current time is greater than the bonus reward's end time,
-                // the bonus reward is expired
-                if (bonusReward.getEndTime() <= Timer.getInstance().getTimeElapsed()) {
-                    rewards.remove(i);
-                    Position position = bonusReward.getPosition();
-                    Cell cell = Maze.getInstance().getCell(position);
-                    cell.setEmpty();
-                }
-            }
-        }
-    }
-
-    /**
-     * Generates the enemy movement by looping through all enemies and finding it's
-     * next move
-     */
-    protected void generateEnemyMovement() {
-        if (!GameController.getInstance().isPaused()) {
-            for (Enemy enemy : enemies) {
-                enemy.move();
-            }
-        }
     }
 
     // =========================================================================

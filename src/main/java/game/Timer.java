@@ -1,8 +1,5 @@
 package game;
 
-import utilities.Constants;
-import utilities.Functions;
-
 /**
  * This class is used to keep track of the time in the game.
  * 
@@ -39,12 +36,6 @@ public class Timer {
             return;
 
         timeElapsed++;
-        // check if any bonus rewards have expired
-        Entities.getInstance().checkBonusRewardExpired();
-        // have a random chance of generating a new bonus reward
-        if (Functions.getRandomNumber(0, 100) < Constants.bonusRewardChance) {
-            EntitiesGenerator.getInstance().generateBonusReward();
-        }
     }
 
     // TODO: This could be static... 🤔, discuss.

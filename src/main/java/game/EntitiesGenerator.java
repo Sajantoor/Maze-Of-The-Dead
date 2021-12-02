@@ -158,6 +158,9 @@ public class EntitiesGenerator {
         }
     }
 
+    /**
+     * Generates a bonus reward
+     */
     protected void generateBonusReward() {
         generateReward(RewardType.BONUS);
     }
@@ -185,8 +188,10 @@ public class EntitiesGenerator {
                 break;
             case BONUS:
                 long timeElapsed = Timer.getInstance().getTimeElapsed();
-                long endTime = Functions.getRandomNumber(timeElapsed + Constants.bonusRewardTimeLower,
-                        timeElapsed + Constants.bonusRewardTimeUpper);
+                // pick a random time between lower and upper bounds
+                long lower = timeElapsed + Constants.bonusRewardTimeLower;
+                long upper = timeElapsed + Constants.bonusRewardTimeUpper;
+                long endTime = Functions.getRandomNumber(lower, upper);
                 reward = new BonusReward(position, Constants.bonusRewardPoints, endTime);
             default:
                 break;

@@ -63,6 +63,8 @@ public class GameController {
      * loop.
      */
     private void startThreads() {
+        GameLogic gameLogic = GameLogic.getInstance();
+
         Thread gameLoop = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -81,7 +83,7 @@ public class GameController {
             @Override
             public void run() {
                 while (isRunning) {
-                    Entities.getInstance().generateEnemyMovement();
+                    gameLogic.generateEnemyMovement();
                     try {
                         Thread.sleep(Constants.enemyLoopSleep);
                     } catch (InterruptedException e) {
@@ -96,6 +98,21 @@ public class GameController {
             public void run() {
                 while (isRunning) {
                     Timer.getInstance().updateTime();
+                    gameLogic.bonusRewardLoop();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+        Thread bonusRewardLoop = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isRunning) {
+                    gameLogic.bonusRewardLoop();
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -108,6 +125,7 @@ public class GameController {
         timeLoop.start();
         gameLoop.start();
         enemyLoop.start();
+        bonusRewardLoop.start();
     }
 
     /**

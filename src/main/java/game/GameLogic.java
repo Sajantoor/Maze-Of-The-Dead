@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 
 import character.CharacterModel;
+import character.Enemy;
 import character.Player;
 import maze.Cell;
 import maze.Maze;
@@ -10,6 +11,7 @@ import reward.BonusReward;
 import reward.Reward;
 import reward.Trap;
 import utilities.Constants;
+import utilities.Functions;
 import utilities.Position;
 
 /**
@@ -181,6 +183,61 @@ public class GameLogic {
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * Checks if bonus rewards have expried, and if so, removes them from the
+     * game. Also generates new bonus rewards randomly.
+     */
+    public void bonusRewardLoop() {
+        // check if any bonus rewards have expired
+        checkBonusRewardExpired();
+        // have a random chance of generating a new bonus reward
+        if (Functions.getRandomNumber(0, 100) < Constants.bonusRewardChance) {
+            EntitiesGenerator.getInstance().generateBonusReward();
+        }
+    }
+
+    /**
+     * Checks whether any bonus rewards have expired, and removes them if they are
+     * expired.
+     */
+    protected synchronized void checkBonusRewardExpired() {
+        Entities entities = Entities.getInstance();
+        ArrayList<Reward> rewards = entities.getRewards();
+
+        for (int i = 0; i < rewards.size(); i++) {
+            Reward reward = rewards.get(i);
+
+            // check if it is a bonus reward and cast it to BonusReward
+            if (reward instanceof BonusReward) {
+                BonusReward bonusReward = (BonusReward) reward;
+                // if the current time is greater than the bonus reward's end time,
+                // the bonus reward is expired
+                if (bonusReward.getEndTime() <= Timer.getInstance().getTimeElapsed()) {
+                    Position position = bonusReward.getPosition();
+                    Cell cell = Maze.getInstance().getCell(position);
+                    cell.setEmpty();
+                    rewards.remove(i);
+                    i--;
+                }
+            }
+        }
+    }
+
+    /**
+     * Generates the enemy movement by looping through all enemies and finding it's
+     * next move
+     */
+    protected void generateEnemyMovement() {
+        Entities entities = Entities.getInstance();
+        ArrayList<Enemy> enemies = entities.getEnemies();
+
+        if (!GameController.getInstance().isPaused()) {
+            for (Enemy enemy : enemies) {
+                enemy.move();
+            }
         }
     }
 }
