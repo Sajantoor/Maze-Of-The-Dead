@@ -22,7 +22,7 @@ public class GameInput {
     private GameInput() {
         instance = this;
         moves = new ArrayList<Movement>();
-        resetMovement();
+        reset();
     }
 
     /**
@@ -100,7 +100,7 @@ public class GameInput {
     /**
      * Resets the player's movement inputs.
      */
-    public void resetMovement() {
+    public void reset() {
         moves.clear();
         moves.add(Movement.STATIONARY);
     }

@@ -53,8 +53,8 @@ public class GameController {
     public void startGame() {
         setRunning(true);
         Timer.getInstance().reset();
-        Player.getInstance().resetPlayer();
-        GameInput.getInstance().resetMovement();
+        Player.getInstance().reset();
+        GameInput.getInstance().reset();
         Maze.getInstance().regenerateMaze();
         startThreads();
     }
