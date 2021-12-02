@@ -38,7 +38,6 @@ public class Timer {
         timeElapsed++;
     }
 
-    // TODO: This could be static... 🤔, discuss.
     /**
      * This method returns the time (in seconds) elapsed since the start of the
      * game.
@@ -49,4 +48,10 @@ public class Timer {
         return timeElapsed;
     }
 
+    /**
+     * This method resets the timer to 0.
+     */
+    protected void reset() {
+        timeElapsed = 0;
+    }
 }
