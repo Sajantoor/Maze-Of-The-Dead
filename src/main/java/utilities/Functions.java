@@ -78,4 +78,21 @@ public class Functions {
         int y = getRandomNumber(0, Constants.mazeHeight - 1);
         return new Position(x, y);
     }
+
+    /**
+     * Checks if a given position is in the maze
+     * 
+     * @return true if the position is in the maze, false otherwise
+     */
+    public static boolean validatePosition(Position position) {
+        if (position.getX() < 0 || position.getX() >= Constants.mazeWidth) {
+            return false;
+        }
+
+        if (position.getY() < 0 || position.getY() >= Constants.mazeHeight) {
+            return false;
+        }
+
+        return true;
+    }
 }

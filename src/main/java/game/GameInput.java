@@ -53,9 +53,7 @@ public class GameInput {
 
         // check if the next position is a valid position, ie is there a wall
         // check if it fits in the constants of the maze
-        // TODO: I don't like this if statement (it's too long)
-        if (nextPos.getX() >= 0 && nextPos.getX() < Constants.mazeWidth && nextPos.getY() >= 0
-                && nextPos.getY() < Constants.mazeHeight) {
+        if (Functions.validatePosition(nextPos)) {
             Cell cell = Maze.getInstance().getCell(nextPos);
             // if there is not a wall, the player can move
             if (!cell.isWall()) {
