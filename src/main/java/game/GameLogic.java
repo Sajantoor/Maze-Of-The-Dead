@@ -210,6 +210,11 @@ public class GameLogic {
         for (int i = 0; i < rewards.size(); i++) {
             Reward reward = rewards.get(i);
 
+            if (reward == null) {
+                rewards.remove(i);
+                continue;
+            }
+
             // check if it is a bonus reward and cast it to BonusReward
             if (reward instanceof BonusReward) {
                 BonusReward bonusReward = (BonusReward) reward;
@@ -220,7 +225,6 @@ public class GameLogic {
                     Cell cell = Maze.getInstance().getCell(position);
                     cell.setEmpty();
                     rewards.remove(i);
-                    i--;
                 }
             }
         }

@@ -68,7 +68,12 @@ public class Entities {
         if (position == null)
             return null;
 
-        for (Reward reward : rewards) {
+        for (int i = 0; i < rewards.size(); i++) {
+            Reward reward = rewards.get(i);
+
+            if (reward == null)
+                continue;
+
             if (reward.getPosition().equals(position)) {
                 return reward;
             }
@@ -87,7 +92,12 @@ public class Entities {
         if (position == null)
             return null;
 
-        for (Trap trap : traps) {
+        for (int i = 0; i < traps.size(); i++) {
+            Trap trap = traps.get(i);
+
+            if (trap == null)
+                continue;
+
             if (trap.getPosition().equals(position)) {
                 return trap;
             }
