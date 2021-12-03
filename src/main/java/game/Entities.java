@@ -12,10 +12,9 @@ import utilities.Position;
  * EntitiesGenerator. It provides public read methods to get the entities, all
  * writing (besides clearing all entities) is protected and can only be done
  * within game package.
- * 
- * @see EntitiesGenerator
+ *
  * @author Sajan Toor
- * 
+ * @see EntitiesGenerator
  */
 public class Entities {
     private static Entities instance = null;
@@ -37,7 +36,7 @@ public class Entities {
 
     /**
      * This method returns the instance of GameInput (Singleton).
-     * 
+     *
      * @return instance of GameInput
      */
     public static Entities getInstance() {
@@ -49,9 +48,10 @@ public class Entities {
 
     // #region Getting entities
     // =========================================================================
+
     /**
      * Returns all rewards
-     * 
+     *
      * @return an arrayList of all rewards
      */
     public ArrayList<Reward> getRewards() {
@@ -60,7 +60,7 @@ public class Entities {
 
     /**
      * Checks if there is a reward at a position and returns it
-     * 
+     *
      * @param position position to check
      * @return the reward at the position, else null
      */
@@ -93,7 +93,7 @@ public class Entities {
 
     /**
      * Checks if there is a trap at a position and returns it
-     * 
+     *
      * @param position position to check
      * @return the trap at the position, else null
      */
@@ -117,7 +117,7 @@ public class Entities {
 
     /**
      * Returns all enemies
-     * 
+     *
      * @return an arrayList of all enemies
      */
     public ArrayList<Enemy> getEnemies() {
@@ -125,8 +125,17 @@ public class Entities {
     }
 
     /**
-     * Checks if there is a enemy at a position and returns it
-     * 
+     * Returns all traps
+     *
+     * @return an arrayList of all traps
+     */
+    public ArrayList<Trap> getTraps() {
+        return traps;
+    }
+
+    /**
+     * Checks if there is an enemy at a position and returns it
+     *
      * @param position position to check
      * @return the enemy at the position, else null
      */
@@ -181,7 +190,7 @@ public class Entities {
 
     /**
      * Checks if an position contains an enemy in the maze
-     * 
+     *
      * @param position The position we want to check for an enemy
      * @return True if the coordinate contains an enemy, false otherwise
      */
@@ -192,7 +201,7 @@ public class Entities {
 
     /***
      * Checks if a position contains a trap in the maze
-     * 
+     *
      * @param position The position we want to check for a trap
      * @return True if the coordinate contains a trap, false otherwise
      */
@@ -203,7 +212,7 @@ public class Entities {
 
     /**
      * Checks if a position contains a reward in the maze
-     * 
+     *
      * @param position The position we want to check for a reward
      * @return True if the coordinate contains a reward, false otherwise
      */
@@ -220,7 +229,7 @@ public class Entities {
 
     /**
      * Gets the number of rewards in the maze
-     * 
+     *
      * @return the number of rewards in the maze
      */
     public int getRewardCount() {
@@ -229,7 +238,7 @@ public class Entities {
 
     /**
      * Gets the number of bonus rewards in the maze
-     * 
+     *
      * @return the number of bonus rewards in the maze
      */
     public int getNumBonusRewards() {
@@ -238,7 +247,7 @@ public class Entities {
 
     /**
      * Sets the number of bonus rewards in the maze
-     * 
+     *
      * @param num the number of bonus rewards in the maze
      */
     protected void setNumBonusRewards(int num) {
@@ -247,7 +256,7 @@ public class Entities {
 
     /**
      * Updates the number of bonus rewards collected by num
-     * 
+     *
      * @param num The update to number of bonus rewards collected
      */
     protected void updateBonusRewardsCollected(int num) {
@@ -256,7 +265,7 @@ public class Entities {
 
     /**
      * Returns the number of bonus rewards collected
-     * 
+     *
      * @return the number of bonus rewards collected
      */
     public int getBonusRewardsCollected() {
@@ -268,9 +277,10 @@ public class Entities {
 
     // #region Adding and removing entities
     // =========================================================================
+
     /**
-     * Adds a enemy to the list of enemies
-     * 
+     * Adds an enemy to the list of enemies
+     *
      * @param enemy The enemy we want to add
      */
     protected void addEnemy(Enemy enemy) {
@@ -282,7 +292,7 @@ public class Entities {
 
     /**
      * Adds a reward to the list of rewards
-     * 
+     *
      * @param reward The reward we want to add
      */
     protected void addReward(Reward reward) {
@@ -294,7 +304,7 @@ public class Entities {
 
     /**
      * Removes a reward from the list of rewards
-     * 
+     *
      * @param reward the reward we want to remove
      */
     protected void removeReward(Reward reward) {
@@ -306,7 +316,7 @@ public class Entities {
 
     /**
      * Adds a trap to the list of traps
-     * 
+     *
      * @param trap The trap we want to add
      */
     protected void addTrap(Trap trap) {
@@ -318,7 +328,7 @@ public class Entities {
 
     /**
      * Removes a trap from the list of traps
-     * 
+     *
      * @param trap the trap we want to remove
      */
     protected void removeTrap(Trap trap) {
@@ -356,6 +366,8 @@ public class Entities {
         clearEnemies();
         clearTraps();
         clearRewards();
+        numBonusRewards = 0;
+        bonusRewardsCollected = 0;
     }
 
     // =========================================================================
