@@ -1,22 +1,25 @@
 package character;
 
 import org.junit.Test;
+import utilities.Constants;
+import utilities.Position;
 
 import static org.junit.Assert.*;
 
 public class PlayerTest {
-    private Player player = null;
+    private Player player = Player.getInstance();
     private int testScore = 10;
 
     @Test
     public void getInstance() {
-        player = Player.getInstance();
-        assertNotNull(player);
+        Player player2 = Player.getInstance();
+        player.setScore(10);
+        assertEquals(player2, player);
     }
 
     @Test
     public void setScore() {
-        player = Player.getInstance();
+        player.reset();
         player.setScore(testScore);
         int score = player.getScore();
         assertEquals(testScore, score);
@@ -32,7 +35,7 @@ public class PlayerTest {
     @Test
     public void updateScore() {
         //with score = 0 initially
-        player = Player.getInstance();
+        player.reset();
         player.updateScore(testScore);
         int score = player.getScore();
         assertEquals(testScore, score);
@@ -44,5 +47,13 @@ public class PlayerTest {
         assertEquals(result, score2);
     }
 
+    @Test
+    public void reset() {
+        player.reset();
+        Position newPos = new Position(Constants.playerStartX, Constants.playerStartY);
+        int score = 0;
+        assertEquals(newPos, player.getPosition());
+        assertEquals(score, player.getScore());
+    }
 
 }
