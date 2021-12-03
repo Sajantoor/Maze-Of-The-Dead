@@ -15,7 +15,7 @@ public class Enemy extends CharacterModel {
     private void generatePath() {
         Maze maze = Maze.getInstance();
         Position player = Player.getInstance().getPosition();
-        path = maze.generatePath(getPosition(), player);
+        path = maze.getPath(getPosition(), player);
     }
 
     /***

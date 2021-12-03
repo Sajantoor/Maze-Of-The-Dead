@@ -5,6 +5,7 @@ import utilities.Functions;
 import utilities.Position;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import game.Entities;
@@ -289,7 +290,7 @@ public class Maze {
         return cells;
     }
 
-    private ArrayList<Position> generatePathHelper(Position current, Position target, ArrayList<Position> path,
+    private ArrayList<Position> getPathHelper(Position current, Position target, ArrayList<Position> path,
             HashSet<Cell> visited) {
         Cell cell = getCell(current);
         // we've already looked here
@@ -313,7 +314,7 @@ public class Maze {
         for (Cell adjacentCell : adjacentCells) {
             Position adjacentPosition = adjacentCell.getPosition();
 
-            if (generatePathHelper(adjacentPosition, target, path, visited) != null) {
+            if (getPathHelper(adjacentPosition, target, path, visited) != null) {
                 path.add(adjacentPosition);
                 return path;
             }
@@ -322,8 +323,51 @@ public class Maze {
         return null;
     }
 
-    public ArrayList<Position> generatePath(Position current, Position target) {
-        return generatePathHelper(current, target, new ArrayList<Position>(), new HashSet<Cell>());
+    public ArrayList<Position> getPath(Position current, Position target) {
+        ArrayList<Position> path = getPathHelper(current, target, new ArrayList<Position>(), new HashSet<Cell>());
+
+        // simplify the path, remove any times it loops back on itself
+        HashMap<Position, Integer> map = new HashMap<>();
+
+        // basic O(n) solution to finding duplicates, add to hashmap
+        // add number of instances we've seen of this position in the hashmap as well
+        // if we've seen it before, increment the value
+        for (int i = 0; i < path.size(); i++) {
+            if (map.containsKey(path.get(i))) {
+                map.put(path.get(i), map.get(path.get(i)) + 1);
+            } else {
+                map.put(path.get(i), 1);
+            }
+        }
+
+        // filter out unnecessary moves, remove any times it loops back on itself
+        Position previous = null;
+        for (int i = 0; i < path.size(); i++) {
+            // get the number of instances we've seen of this position
+            previous = path.get(i);
+            int count = map.get(path.get(i));
+
+            while (count > 1 && i < path.size()) {
+                // update the hashmap with stuff we've see
+                Position pos = path.get(i);
+
+                if (pos == previous) {
+                    count--;
+                }
+
+                map.put(pos, map.get(pos) - 1);
+                // remove all paths that are after previous
+                path.remove(i);
+                i++;
+            }
+        }
+
+        // print path
+        for (Position pos : path) {
+            System.out.println(pos.toString());
+        }
+        System.out.println("==========================");
+        return path;
     }
 
     /**
