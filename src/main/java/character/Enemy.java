@@ -21,6 +21,7 @@ public class Enemy extends CharacterModel {
     private void generatePath() {
         Position player = Player.getInstance().getPosition();
         path = getPath(getPosition(), player);
+        path.remove(0); // remove the current position
     }
 
     // dfs solution
@@ -63,24 +64,20 @@ public class Enemy extends CharacterModel {
         return null;
     }
 
-    private void regeneratePath() {
-        Thread regenThread = new Thread(new Runnable() {
-            Position player = Player.getInstance().getPosition();
+    public void regeneratePath() {
+        // check if player moved
+        Position player = Player.getInstance().getPosition();
 
-            @Override
-            public void run() {
-                while (nextPath == null) {
-                    nextPath = getPath(getPosition(), player);
-                }
+        if (player.equals(path.get(path.size() - 1))) {
+            // System.out.println("they are the same");
+            return;
+        }
+        // System.out.println("regenerating path");
 
-                System.out.println("regenerating path");
-
-                path = nextPath;
-                nextPath = null;
-            }
-        });
-
-        regenThread.start();
+        nextPath = getPath(getPosition(), player);
+        nextPath.remove(0); // remove the current position
+        // path = nextPath;
+        // nextPath = null;
     }
 
     /***
@@ -88,23 +85,13 @@ public class Enemy extends CharacterModel {
      *
      */
     public void move() {
-        if (path == null) {
-            return;
+        if (nextPath != null) {
+            path = nextPath;
+            nextPath = null;
         }
 
         // // pop last position from path and move to it
         Position nextPos = path.remove(0);
         setPosition(nextPos);
-
-        // check if player has moved
-        Player player = Player.getInstance();
-
-        // since path is generated from player to enemy, just look at the last position
-        // in the path
-        Position lastPlayerPos = path.get(path.size() - 1);
-
-        if (!player.getPosition().equals(lastPlayerPos)) {
-            regeneratePath();
-        }
     }
 }

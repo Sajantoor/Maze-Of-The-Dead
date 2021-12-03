@@ -99,6 +99,10 @@ public class Entities {
         return null;
     }
 
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
     /**
      * Checks if there is a enemy at a position and returns it
      * 

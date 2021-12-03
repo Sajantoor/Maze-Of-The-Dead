@@ -269,25 +269,25 @@ public class Maze {
     }
 
     /**
-     * Returns all adjacent cells of the current position, looking up, down, left,
-     * right
+     * Returns all adjacent Positions of the current position, looking up, down,
+     * left, right
      *
-     * @param position the position we want to get adjacent cells of
-     * @return ArrayList of adjacent cells
+     * @param position the position we want to get adjacent positions of
+     * @return ArrayList of adjacent positions
      */
-    public ArrayList<Cell> getAdjacentCells(Position position) {
-        ArrayList<Cell> cells = new ArrayList<>();
+    public ArrayList<Position> getAdjacentPositions(Position position) {
+        ArrayList<Position> positions = new ArrayList<>();
 
         if (position.getY() != 0)
-            cells.add(getCell(position.getX(), position.getY() - 1));
+            positions.add(new Position(position.getX(), position.getY() - 1));
         if (position.getY() != height - 1)
-            cells.add(getCell(position.getX(), position.getY() + 1));
+            positions.add(new Position(position.getX(), position.getY() + 1));
         if (position.getX() != 0)
-            cells.add(getCell(position.getX() - 1, position.getY()));
+            positions.add(new Position(position.getX() - 1, position.getY()));
         if (position.getX() != width - 1)
-            cells.add(getCell(position.getX() + 1, position.getY()));
+            positions.add(new Position(position.getX() + 1, position.getY()));
 
-        return cells;
+        return positions;
     }
 
     /**
@@ -316,13 +316,11 @@ public class Maze {
             return false;
 
         // if cell is not wall or path, get adjacent cells
-        ArrayList<Cell> adjacentCells = getAdjacentCells(current);
+        ArrayList<Position> adjacentPositions = getAdjacentPositions(current);
 
         // look at all adjacent cells and recurse
-        for (Cell adjacentCell : adjacentCells) {
-            Position adjacentPosition = adjacentCell.getPosition();
-
-            if (isRouteHelper(adjacentPosition, target))
+        for (Position adjacent : adjacentPositions) {
+            if (isRouteHelper(adjacent, target))
                 return true;
         }
 
