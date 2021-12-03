@@ -1,5 +1,6 @@
 package character;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -9,8 +10,17 @@ import utilities.Movement;
 import utilities.Position;
 
 public class Enemy extends CharacterModel {
+    ArrayList<Position> path;
+
     public Enemy(Position pos) {
         super(pos);
+        generatePath();
+    }
+
+    private void generatePath() {
+        Maze maze = Maze.getInstance();
+        Position player = Player.getInstance().getPosition();
+        path = maze.generatePath(getPosition(), player);
     }
 
     /***
@@ -18,28 +28,9 @@ public class Enemy extends CharacterModel {
      *
      */
     public void move() {
-        // Open queue to keep track of all possible moves the enemy could move to
-        PriorityQueue<Position> openQueue = new PriorityQueue<Position>(100,
-                Comparator.comparing(move -> getDistanceFromPlayer(move)));
-
-        Position current = getPosition();
-        // generate successors from the current based off the directions the enemy can
-        // move find the position which minimizes the distance to the player
-        // then move the enemy to that position
-        for (Movement movement : Movement.values()) {
-            if (movement == Movement.STATIONARY)
-                continue;
-
-            Position successor = Functions.updatePosition(current, movement);
-
-            if (validateEnemyMove(successor)) {
-                // add it to the open queue
-                openQueue.add(successor);
-            }
-        }
-
-        Position winner = openQueue.poll();
-        setPosition(winner);
+        // pop last position from path and move to it
+        setPosition(path.get(path.size() - 1));
+        path.remove(path.size() - 1);
     }
 
     /**

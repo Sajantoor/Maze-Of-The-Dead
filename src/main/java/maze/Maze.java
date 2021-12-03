@@ -289,6 +289,43 @@ public class Maze {
         return cells;
     }
 
+    private ArrayList<Position> generatePathHelper(Position current, Position target, ArrayList<Position> path,
+            HashSet<Cell> visited) {
+        Cell cell = getCell(current);
+        // we've already looked here
+        if (visited.contains(cell))
+            return null;
+
+        visited.add(cell);
+
+        // if cell is a wall, we can't move through it
+        if (cell.isWall())
+            return null;
+
+        // if we have reached our target, there must be a path.
+        if (cell.getPosition().equals(target))
+            return path;
+
+        // if cell is not wall or path, get adjacent cells
+        ArrayList<Cell> adjacentCells = getAdjacentCells(current);
+
+        // look at all adjacent cells and recurse
+        for (Cell adjacentCell : adjacentCells) {
+            Position adjacentPosition = adjacentCell.getPosition();
+
+            if (generatePathHelper(adjacentPosition, target, path, visited) != null) {
+                path.add(adjacentPosition);
+                return path;
+            }
+        }
+
+        return null;
+    }
+
+    public ArrayList<Position> generatePath(Position current, Position target) {
+        return generatePathHelper(current, target, new ArrayList<Position>(), new HashSet<Cell>());
+    }
+
     /**
      * Recursive method to find a path from the start to the end of the maze, made
      * up of player moves, uses breadth first search algorithm.
