@@ -237,9 +237,9 @@ public class Buttons {
                 getSubFrame().remove(panel);
                 getSubFrame().setVisible(false);
                 getFrame().setEnabled(true);
-                mainFrameRefocus();
                 GameController.getInstance().unpauseGame();
                 revalidateMainScreen();
+                mainFrameRefocus();
             }
         });
         panel.add(resumeButton);

@@ -156,6 +156,7 @@ public class GameUI {
 
     // TODO: Javadoc
     public static void mainFrameRefocus() {
+        frame.requestFocus();
         frame.requestFocusInWindow();
     }
 
