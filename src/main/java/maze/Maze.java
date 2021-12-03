@@ -275,129 +275,45 @@ public class Maze {
      * @param position the position we want to get adjacent cells of
      * @return ArrayList of adjacent cells
      */
-    private ArrayList<Cell> getAdjacentCells(Position position) {
+    public ArrayList<Cell> getAdjacentCells(Position position) {
         ArrayList<Cell> cells = new ArrayList<>();
 
-        if (position.getX() != 0)
-            cells.add(getCell(position.getX() - 1, position.getY()));
-        if (position.getX() != width - 1)
-            cells.add(getCell(position.getX() + 1, position.getY()));
         if (position.getY() != 0)
             cells.add(getCell(position.getX(), position.getY() - 1));
         if (position.getY() != height - 1)
             cells.add(getCell(position.getX(), position.getY() + 1));
+        if (position.getX() != 0)
+            cells.add(getCell(position.getX() - 1, position.getY()));
+        if (position.getX() != width - 1)
+            cells.add(getCell(position.getX() + 1, position.getY()));
 
         return cells;
-    }
-
-    private ArrayList<Position> getPathHelper(Position current, Position target, ArrayList<Position> path,
-            HashSet<Cell> visited) {
-        Cell cell = getCell(current);
-        // we've already looked here
-        if (visited.contains(cell))
-            return null;
-
-        visited.add(cell);
-
-        // if cell is a wall, we can't move through it
-        if (cell.isWall())
-            return null;
-
-        // if we have reached our target, there must be a path.
-        if (cell.getPosition().equals(target))
-            return path;
-
-        // if cell is not wall or path, get adjacent cells
-        ArrayList<Cell> adjacentCells = getAdjacentCells(current);
-
-        // look at all adjacent cells and recurse
-        for (Cell adjacentCell : adjacentCells) {
-            Position adjacentPosition = adjacentCell.getPosition();
-
-            if (getPathHelper(adjacentPosition, target, path, visited) != null) {
-                path.add(adjacentPosition);
-                return path;
-            }
-        }
-
-        return null;
-    }
-
-    public ArrayList<Position> getPath(Position current, Position target) {
-        ArrayList<Position> path = getPathHelper(current, target, new ArrayList<Position>(), new HashSet<Cell>());
-
-        // simplify the path, remove any times it loops back on itself
-        HashMap<Position, Integer> map = new HashMap<>();
-
-        // basic O(n) solution to finding duplicates, add to hashmap
-        // add number of instances we've seen of this position in the hashmap as well
-        // if we've seen it before, increment the value
-        for (int i = 0; i < path.size(); i++) {
-            if (map.containsKey(path.get(i))) {
-                map.put(path.get(i), map.get(path.get(i)) + 1);
-            } else {
-                map.put(path.get(i), 1);
-            }
-        }
-
-        // filter out unnecessary moves, remove any times it loops back on itself
-        Position previous = null;
-        for (int i = 0; i < path.size(); i++) {
-            // get the number of instances we've seen of this position
-            previous = path.get(i);
-            int count = map.get(path.get(i));
-
-            while (count > 1 && i < path.size()) {
-                // update the hashmap with stuff we've see
-                Position pos = path.get(i);
-
-                if (pos == previous) {
-                    count--;
-                }
-
-                map.put(pos, map.get(pos) - 1);
-                // remove all paths that are after previous
-                path.remove(i);
-                i++;
-            }
-        }
-
-        // print path
-        for (Position pos : path) {
-            System.out.println(pos.toString());
-        }
-        System.out.println("==========================");
-        return path;
     }
 
     /**
      * Recursive method to find a path from the start to the end of the maze, made
      * up of player moves, uses breadth first search algorithm.
      *
-     * @param current  The current position
-     * @param target   The target position
-     * @param steps    the number of steps in the current iteration
-     * @param isPlayer true if it's the player we're looking a path for, false if
-     *                 it's an enemy
-     * @return The number of steps taken to get to the target, or -1 if no path to
-     *         target
+     * @param current The current position
+     * @param target  The target position
+     * @return True if there is a path from the current position to the target
      */
-    private int isRouteHelper(Position current, Position target, int steps, boolean isPlayer) {
+    private boolean isRouteHelper(Position current, Position target) {
         Cell cell = getCell(current);
         // we've already looked here
         if (visited.contains(cell))
-            return -1;
+            return false;
 
         visited.add(cell);
 
         // if we have reached our target, there must be a path.
         if (cell.getPosition().equals(target))
-            return steps;
+            return true;
 
         // if cell is a wall, we can't move through it
         // if it's the player traversing and it's a trap, then cannot move through it
-        if (cell.isWall() || isPlayer && cell.isTrap())
-            return -1;
+        if (cell.isWall() || cell.isTrap())
+            return false;
 
         // if cell is not wall or path, get adjacent cells
         ArrayList<Cell> adjacentCells = getAdjacentCells(current);
@@ -405,13 +321,12 @@ public class Maze {
         // look at all adjacent cells and recurse
         for (Cell adjacentCell : adjacentCells) {
             Position adjacentPosition = adjacentCell.getPosition();
-            int val = isRouteHelper(adjacentPosition, target, steps + 1, isPlayer);
 
-            if (val != -1)
-                return val;
+            if (isRouteHelper(adjacentPosition, target))
+                return true;
         }
 
-        return -1;
+        return false;
     }
 
     /**
@@ -425,18 +340,7 @@ public class Maze {
     public boolean isRoute(Position current, Position target) {
         // empty visited list
         visited.clear();
-        return isRouteHelper(current, target, 0, true) != -1;
-    }
-
-    /**
-     * @param current The current position
-     * @param target  The target position
-     * @return Returns number of steps from the current point to the target point,
-     *         using player moves ie, without going through traps or walls.
-     */
-    public int getDistance(Position current, Position target) {
-        visited.clear();
-        return isRouteHelper(current, target, 0, false);
+        return isRouteHelper(current, target);
     }
 
     /**
