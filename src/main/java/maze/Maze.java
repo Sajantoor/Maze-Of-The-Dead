@@ -5,7 +5,6 @@ import utilities.Functions;
 import utilities.Position;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import game.Entities;
