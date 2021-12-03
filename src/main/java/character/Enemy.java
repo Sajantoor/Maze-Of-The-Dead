@@ -1,12 +1,7 @@
 package character;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-
 import maze.Maze;
-import utilities.Functions;
-import utilities.Movement;
 import utilities.Position;
 
 public class Enemy extends CharacterModel {
@@ -28,6 +23,17 @@ public class Enemy extends CharacterModel {
      *
      */
     public void move() {
+        // check if player has moved
+        Player player = Player.getInstance();
+
+        // since path is generated from player to enemy, just look at the first position
+        // in the path
+        Position lastPlayerPos = path.get(0);
+
+        if (!player.getPosition().equals(lastPlayerPos)) {
+            generatePath();
+        }
+
         // pop last position from path and move to it
         setPosition(path.get(path.size() - 1));
         path.remove(path.size() - 1);
