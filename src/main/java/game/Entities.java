@@ -87,7 +87,7 @@ public class Entities {
      *
      * @return an arrayList of all traps
      */
-    public ArrayList<Trap> getTraps(){
+    public ArrayList<Trap> getTraps() {
         return traps;
     }
 
@@ -115,10 +115,6 @@ public class Entities {
         return null;
     }
 
-    public ArrayList<Enemy> getEnemies() {
-        return enemies;
-    }
-
     /**
      * Returns all enemies
      *
@@ -126,15 +122,6 @@ public class Entities {
      */
     public ArrayList<Enemy> getEnemies() {
         return enemies;
-    }
-
-    /**
-     * Returns all traps
-     *
-     * @return an arrayList of all traps
-     */
-    public ArrayList<Trap> getTraps() {
-        return traps;
     }
 
     /**
