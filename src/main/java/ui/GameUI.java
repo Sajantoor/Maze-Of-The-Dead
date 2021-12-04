@@ -103,7 +103,7 @@ public class GameUI {
      */
     public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
         subPanel = new GameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards, image);
-        subFrameFormat(700, 700);
+        subFrameFormat(700, 800);
         subFrame.add(subPanel);
     }
 
