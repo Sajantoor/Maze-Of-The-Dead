@@ -27,14 +27,13 @@ public class SpriteIcons {
 
     /**
      * returns the Path sprite
-     * 
+     *
      * @param width  the width of the image
      * @param height the height of the image
      * @return the Path sprite
      */
     public static ImageIcon getPath(int width, int height) {
-        // TOOD: change if to method
-        if (path == null || width != path.getIconWidth() || height != path.getIconHeight())
+        if (isValidImage(path, width, height))
             path = new ImageIcon(
                     new ImageIcon(PATH_LOCATION).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         return path;
@@ -42,13 +41,13 @@ public class SpriteIcons {
 
     /**
      * returns the Wall sprite
-     * 
+     *
      * @param width  the width of the image
      * @param height the height of the image
      * @return the Wall sprite
      */
     public static ImageIcon getWall(int width, int height) {
-        if (wall == null || width != wall.getIconWidth() || height != wall.getIconHeight())
+        if (isValidImage(wall, width, height))
             wall = new ImageIcon(
                     new ImageIcon(WALL_LOCATION).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         return wall;
@@ -62,21 +61,12 @@ public class SpriteIcons {
      * @return the Player sprites
      */
     public static ImageIcon[] getPerson(int width, int height) {
-        // TODO: change if to method
-        if (persons[0] == null || width != persons[0].getIconWidth() || height != persons[0].getIconHeight()) {
-            // TODO: maybe try method
-            ImageIcon person1 = new ImageIcon(
-                    new ImageIcon(PLAYER_UP_LOCATION).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            persons[0] = person1;
-            ImageIcon person2 = new ImageIcon(new ImageIcon(PLAYER_DOWN_LOCATION).getImage().getScaledInstance(width,
-                    height, Image.SCALE_SMOOTH));
-            persons[1] = person2;
-            ImageIcon person3 = new ImageIcon(new ImageIcon(PLAYER_LEFT_LOCATION).getImage().getScaledInstance(width,
-                    height, Image.SCALE_SMOOTH));
-            persons[2] = person3;
-            ImageIcon person4 = new ImageIcon(new ImageIcon(PLAYER_RIGHT_LOCATION).getImage().getScaledInstance(width,
-                    height, Image.SCALE_SMOOTH));
-            persons[3] = person4;
+        if (isValidImage(persons[0], width, height)) {
+            String[] arr = { PLAYER_UP_LOCATION,
+                    PLAYER_DOWN_LOCATION,
+                    PLAYER_LEFT_LOCATION,
+                    PLAYER_RIGHT_LOCATION };
+            addImageToArray(persons, arr, width, height);
         }
         return persons;
     }
@@ -89,20 +79,12 @@ public class SpriteIcons {
      * @return the Zombie sprites
      */
     public static ImageIcon[] getEnemy(int width, int height) {
-        // TODO: same thing as last method
-        if (enemies[0] == null || width != enemies[0].getIconWidth() || height != enemies[0].getIconHeight()) {
-            ImageIcon enemy1 = new ImageIcon(
-                    new ImageIcon(ENEMY_UP_LOCATION).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            enemies[0] = enemy1;
-            ImageIcon enemy2 = new ImageIcon(
-                    new ImageIcon(ENEMY_DOWN_LOCATION).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            enemies[1] = enemy2;
-            ImageIcon enemy3 = new ImageIcon(
-                    new ImageIcon(ENEMY_LEFT_LOCATION).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-            enemies[2] = enemy3;
-            ImageIcon enemy4 = new ImageIcon(new ImageIcon(ENEMY_RIGHT_LOCATION).getImage().getScaledInstance(width,
-                    height, Image.SCALE_SMOOTH));
-            enemies[3] = enemy4;
+        if (isValidImage(enemies[0], width, height)) {
+            String[] arr = { ENEMY_UP_LOCATION,
+                    ENEMY_DOWN_LOCATION,
+                    ENEMY_LEFT_LOCATION,
+                    ENEMY_RIGHT_LOCATION };
+            addImageToArray(enemies, arr, width, height);
         }
         return enemies;
     }
@@ -115,7 +97,7 @@ public class SpriteIcons {
      * @return the Reward sprite
      */
     public static ImageIcon getReward(int width, int height) {
-        if (reward == null || width != reward.getIconWidth() || height != reward.getIconHeight())
+        if (isValidImage(reward, width, height))
             reward = new ImageIcon(
                     new ImageIcon(REWARD_LOCATION).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         return reward;
@@ -123,13 +105,13 @@ public class SpriteIcons {
 
     /**
      * returns the BonusReward sprite
-     * 
+     *
      * @param width  the width of the image
      * @param height the height of the image
      * @return the BonusReward sprite
      */
     public static ImageIcon getBonusReward(int width, int height) {
-        if (bonusReward == null || width != bonusReward.getIconWidth() || height != bonusReward.getIconHeight())
+        if (isValidImage(bonusReward, width, height))
             bonusReward = new ImageIcon(new ImageIcon(BONUS_REWARD_LOCATION).getImage().getScaledInstance(width, height,
                     Image.SCALE_SMOOTH));
         return bonusReward;
@@ -137,13 +119,13 @@ public class SpriteIcons {
 
     /**
      * returns the TrapFall sprite
-     * 
+     *
      * @param width  the width of the image
      * @param height the height of the image
      * @return the TrapFall sprite
      */
     public static ImageIcon getTrapFall(int width, int height) {
-        if (trapFall == null || width != trapFall.getIconWidth() || height != trapFall.getIconHeight())
+        if (isValidImage(trapFall, width, height))
             trapFall = new ImageIcon(
                     new ImageIcon(TRAP_FALL_LOCATION).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         return trapFall;
@@ -151,13 +133,13 @@ public class SpriteIcons {
 
     /**
      * returns the BoobyTrap sprite
-     * 
+     *
      * @param width  the width of the image
      * @param height the height of the image
      * @return the BoobyTrap sprite
      */
     public static ImageIcon getBoobyTrap(int width, int height) {
-        if (boobyTrap == null || width != boobyTrap.getIconWidth() || height != boobyTrap.getIconHeight())
+        if (isValidImage(boobyTrap, width, height))
             boobyTrap = new ImageIcon(
                     new ImageIcon(BOOBY_TRAP_LOCATION).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         return boobyTrap;
@@ -165,16 +147,27 @@ public class SpriteIcons {
 
     /**
      * returns the Background image
-     * 
+     *
      * @param width  the width of the image
      * @param height the height of the image
      * @return the Background image
      */
     public static ImageIcon getBackgroundImage(int width, int height) {
-        if (background == null || width != background.getIconWidth() || height != background.getIconHeight()) {
+        if (isValidImage(background, width, height)) {
             background = new ImageIcon(
                     new ImageIcon(BACKGROUND_LOCATION).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         }
         return background;
+    }
+
+    private static boolean isValidImage(ImageIcon icon, int width, int height) {
+        return icon == null || width != icon.getIconWidth() || height != icon.getIconHeight();
+    }
+
+    private static void addImageToArray(ImageIcon[] icons, String[] arr, int width, int height) {
+        for (int i = 0; i < arr.length; i++) {
+            icons[i] = new ImageIcon(
+                    new ImageIcon(arr[i]).getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+        }
     }
 }

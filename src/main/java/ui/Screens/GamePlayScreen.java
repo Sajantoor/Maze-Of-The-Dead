@@ -43,7 +43,7 @@ public class GamePlayScreen extends JPanel {
 
     /**
      * Represents the GamePlayScreen panel
-     * 
+     *
      * @see JPanel
      */
     private GamePlayScreen() {
@@ -96,11 +96,7 @@ public class GamePlayScreen extends JPanel {
         for (int i = 0; i < mazeHeight; i++) {
             for (int j = 0; j < mazeWidth; j++) {
                 JLabel label = new JLabel();
-
-                // TODO: if path cell
-                if (maze.getCell(j, i).isPath()
-                        || maze.getCell(j, i).isStart()
-                        || maze.getCell(j, i).isEnd())
+                if (isValidPathImage(j, i))
                     label.setIcon(getPath(cellWidth, cellHeight));
                 else
                     label.setIcon(getWall(cellWidth, cellHeight));
@@ -226,4 +222,10 @@ public class GamePlayScreen extends JPanel {
             }
         }
     }
+
+    private static boolean isValidPathImage(int x, int y) {
+        Maze maze = Maze.getInstance();
+        return maze.getCell(x, y).isPath() || maze.getCell(x, y).isStart() || maze.getCell(x, y).isEnd();
+    }
+
 }

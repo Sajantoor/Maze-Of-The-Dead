@@ -90,30 +90,34 @@ public class GameUI {
      */
     public static void addGameWonScreen(int score, long timeInSeconds) {
         subPanel = new GameWonScreen(score, timeInSeconds, image);
-        subFrame.setSize(600, 600);
-        // TODO: Small method for these 2 lines
-        subFrame.setLocationRelativeTo(null);
-        subFrame.add(subPanel);
-    }
-
-    // TODO: Javadoc
-    public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
-        subPanel = new GameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards, image);
-        subFrame.setSize(new Dimension(700, 900));
-        subFrame.setLocationRelativeTo(null);
-        subFrame.add(subPanel);
-    }
-
-    // TODO: Javadoc
-    public static void addPauseScreen() {
-        subPanel = new PauseScreen(image);
-        subFrame.setSize(new Dimension(500, 500));
-        subFrame.setLocationRelativeTo(null);
+        subFrameFormat(600,600);
         subFrame.add(subPanel);
     }
 
     /**
-     * Displays the NewHighScore screen
+     * Displays the Game Over Screen
+     * @param score the score the player accumulated through the game
+     * @param timeInSeconds the time the player spent playing the game
+     * @param numOfRewards the number of rewards the player collected in the game
+     * @param numOfBonusRewards the number of bonus rewards the player collected in the game
+     */
+    public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
+        subPanel = new GameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards, image);
+        subFrameFormat(700, 700);
+        subFrame.add(subPanel);
+    }
+
+    /**
+     * Displays the Pause Screen
+     */
+    public static void addPauseScreen() {
+        subPanel = new PauseScreen(image);
+        subFrameFormat(500,500);
+        subFrame.add(subPanel);
+    }
+
+    /**
+     * Displays the New High Score Screen
      *
      * @param score the score they the player accumulates through the game.
      */
@@ -131,8 +135,7 @@ public class GameUI {
      */
     public static void addLeaderboardScreen(PlayerScore highPlayerScore) {
         subPanel = new LeaderboardScreen(highPlayerScore, image);
-        subFrame.setSize(750, 1000);
-        subFrame.setLocationRelativeTo(null);
+        subFrameFormat(750,1000);
         subFrame.add(subPanel);
     }
 
@@ -154,14 +157,17 @@ public class GameUI {
         frame.setFocusable(true);
     }
 
-    // TODO: Javadoc
+    /**
+     * Request the focus from the device for the Main Frame
+     */
     public static void mainFrameRefocus() {
         frame.requestFocus();
         frame.requestFocusInWindow();
     }
 
-    // TODO: Javadoc
-    public static void subFrameRefocus() {
-        subFrame.requestFocusInWindow();
+    private static void subFrameFormat(int width, int height) {
+        subFrame.setSize(width, height);
+        subFrame.setLocationRelativeTo(null);
     }
+
 }

@@ -48,8 +48,6 @@ public class InstructionScreen extends JPanel {
     private JLabel trapfallLabel;
     private JLabel trapfallImageLabel;
     private ImageIcon[] enemyIcons;
-    // todo: get rid of this??
-    private ImageIcon[] playerIcons;
 
     /**
      * Represents the Instruction screen
@@ -58,7 +56,6 @@ public class InstructionScreen extends JPanel {
      */
     public InstructionScreen() {
         enemyIcons = getEnemy(cellWidth, cellHeight);
-        playerIcons = getPerson(cellWidth, cellHeight);
 
         // Top Panel
         topPanel = new JPanel();
@@ -220,7 +217,6 @@ public class InstructionScreen extends JPanel {
         addBackButton(this, "Back");
     }
 
-    // TODO: Add javadoc
     private void keyFormat(JPanel panel, String letter) {
         JLabel keyLabel = new JLabel(letter);
         keyLabel.setFont(plainArial35);
