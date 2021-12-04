@@ -268,69 +268,62 @@ public class Maze {
     }
 
     /**
-     * Returns all adjacent cells of the current position, looking up, down, left,
-     * right
+     * Returns all adjacent Positions of the current position, looking up, down,
+     * left, right
      *
-     * @param position the position we want to get adjacent cells of
-     * @return ArrayList of adjacent cells
+     * @param position the position we want to get adjacent positions of
+     * @return ArrayList of adjacent positions
      */
-    private ArrayList<Cell> getAdjacentCells(Position position) {
-        ArrayList<Cell> cells = new ArrayList<>();
+    public ArrayList<Position> getAdjacentPositions(Position position) {
+        ArrayList<Position> positions = new ArrayList<>();
 
-        if (position.getX() != 0)
-            cells.add(getCell(position.getX() - 1, position.getY()));
-        if (position.getX() != width - 1)
-            cells.add(getCell(position.getX() + 1, position.getY()));
         if (position.getY() != 0)
-            cells.add(getCell(position.getX(), position.getY() - 1));
+            positions.add(new Position(position.getX(), position.getY() - 1));
         if (position.getY() != height - 1)
-            cells.add(getCell(position.getX(), position.getY() + 1));
+            positions.add(new Position(position.getX(), position.getY() + 1));
+        if (position.getX() != 0)
+            positions.add(new Position(position.getX() - 1, position.getY()));
+        if (position.getX() != width - 1)
+            positions.add(new Position(position.getX() + 1, position.getY()));
 
-        return cells;
+        return positions;
     }
 
     /**
      * Recursive method to find a path from the start to the end of the maze, made
      * up of player moves, uses breadth first search algorithm.
      *
-     * @param current  The current position
-     * @param target   The target position
-     * @param steps    the number of steps in the current iteration
-     * @param isPlayer true if it's the player we're looking a path for, false if
-     *                 it's an enemy
-     * @return The number of steps taken to get to the target, or -1 if no path to
-     *         target
+     * @param current The current position
+     * @param target  The target position
+     * @return True if there is a path from the current position to the target
      */
-    private int isRouteHelper(Position current, Position target, int steps, boolean isPlayer) {
+    private boolean isRouteHelper(Position current, Position target) {
         Cell cell = getCell(current);
         // we've already looked here
         if (visited.contains(cell))
-            return -1;
+            return false;
 
         visited.add(cell);
 
         // if we have reached our target, there must be a path.
         if (cell.getPosition().equals(target))
-            return steps;
+            return true;
 
         // if cell is a wall, we can't move through it
         // if it's the player traversing and it's a trap, then cannot move through it
-        if (cell.isWall() || isPlayer && cell.isTrap())
-            return -1;
+        if (cell.isWall() || cell.isTrap())
+            return false;
 
         // if cell is not wall or path, get adjacent cells
-        ArrayList<Cell> adjacentCells = getAdjacentCells(current);
+        ArrayList<Position> adjacentPositions = getAdjacentPositions(current);
 
         // look at all adjacent cells and recurse
-        for (Cell adjacentCell : adjacentCells) {
-            Position adjacentPosition = adjacentCell.getPosition();
-            int val = isRouteHelper(adjacentPosition, target, steps + 1, isPlayer);
-
-            if (val != -1)
-                return val;
+        for (Position adjacent : adjacentPositions) {
+            if (isRouteHelper(adjacent, target))
+                return true;
         }
 
-        return -1;
+        return false;
     }
 
     /**
@@ -344,18 +337,7 @@ public class Maze {
     public boolean isRoute(Position current, Position target) {
         // empty visited list
         visited.clear();
-        return isRouteHelper(current, target, 0, true) != -1;
-    }
-
-    /**
-     * @param current The current position
-     * @param target  The target position
-     * @return Returns number of steps from the current point to the target point,
-     *         using player moves ie, without going through traps or walls.
-     */
-    public int getDistance(Position current, Position target) {
-        visited.clear();
-        return isRouteHelper(current, target, 0, false);
+        return isRouteHelper(current, target);
     }
 
     /**

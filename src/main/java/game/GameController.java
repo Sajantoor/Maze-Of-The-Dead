@@ -1,5 +1,8 @@
 package game;
 
+import java.util.ArrayList;
+
+import character.Enemy;
 import character.Player;
 import maze.Maze;
 import utilities.Constants;
@@ -94,6 +97,29 @@ public class GameController {
             }
         });
 
+        Thread enemyRegenPath = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Entities entities = Entities.getInstance();
+                ArrayList<Enemy> enemies = entities.getEnemies();
+                while (isRunning) {
+                    if (isPaused)
+                        continue;
+
+                    for (int i = 0; i < enemies.size(); i++) {
+                        Enemy enemy = enemies.get(i);
+                        enemy.regeneratePath();
+                    }
+
+                    try {
+                        Thread.sleep(Constants.gameLoopSleep);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
         Thread timeLoop = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -127,6 +153,7 @@ public class GameController {
         gameLoop.start();
         enemyLoop.start();
         bonusRewardLoop.start();
+        enemyRegenPath.start();
     }
 
     /**

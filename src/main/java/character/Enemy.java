@@ -1,16 +1,115 @@
 package character;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 
+import game.Entities;
 import maze.Maze;
-import utilities.Functions;
-import utilities.Movement;
 import utilities.Position;
 
 public class Enemy extends CharacterModel {
+    ArrayList<Position> currentPath;
+    ArrayList<Position> nextPath;
+
     public Enemy(Position pos) {
         super(pos);
+        currentPath = generatePath();
+        nextPath = null;
+    }
+
+    private ArrayList<Position> generatePath() {
+        Position player = Player.getInstance().getPosition();
+        ArrayList<Position> generatedPath = getPath(getPosition(), player);
+
+        if (generatedPath == null)
+            return null;
+
+        generatedPath.remove(0); // remove the current position
+        return generatedPath;
+    }
+
+    /**
+     * Checks if the enemy can move to the given position.
+     * The enemy cannot go through walls
+     * 
+     * @param position the position to check
+     * @return true if the enemy can move to the given position
+     */
+    private boolean validateMovement(Position position) {
+        // if there's a wall at the position, can't go there
+        return !Maze.getInstance().isWall(position);
+    }
+
+    /**
+     * Get the shortest path from the current position to the target. Uses
+     * breadth-first search.
+     * 
+     * @param current The current position
+     * @param target  The target position
+     * @return A list of positions representing the path, this is the shortest path
+     *         from current to target
+     */
+    private ArrayList<Position> getPath(Position current, Position target) {
+        // To mark visited positions
+        HashSet<Position> visited = new HashSet<Position>();
+        // To store the current path in bfs
+        Queue<ArrayList<Position>> queue = new LinkedList<ArrayList<Position>>();
+        // Start initial path from current position
+        ArrayList<Position> initialPath = new ArrayList<Position>();
+        initialPath.add(current);
+        queue.add(initialPath);
+
+        while (!queue.isEmpty()) {
+            ArrayList<Position> path = queue.remove();
+
+            for (Position position : path) {
+                visited.add(position);
+            }
+
+            Position last = path.get(path.size() - 1);
+
+            // if cell is a wall or another enemy
+            if (!validateMovement(last))
+                continue;
+
+            // if we have reached our target, this must be the shortest path
+            if (last.equals(target))
+                return path;
+
+            ArrayList<Position> adjacentPos = Maze.getInstance().getAdjacentPositions(last);
+
+            // traverse through all adjacent positions
+            for (Position adjacent : adjacentPos) {
+                if (!visited.contains(adjacent)) {
+                    // add the adjacent position to the current path and the queue and iterate
+                    ArrayList<Position> newPath = new ArrayList<Position>(path);
+                    newPath.add(adjacent);
+                    queue.add(newPath);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * If the player has moved, regenerate the path to the player
+     */
+    public void regeneratePath() {
+        // check if player moved
+        Position player = Player.getInstance().getPosition();
+
+        // the end of the path contains the player's position by definition
+        if (currentPath.size() - 1 >= 0) {
+            if (player.equals(currentPath.get(currentPath.size() - 1))) {
+                return;
+            }
+        }
+
+        do {
+            nextPath = generatePath();
+        } while (nextPath == null);
     }
 
     /***
@@ -18,49 +117,20 @@ public class Enemy extends CharacterModel {
      *
      */
     public void move() {
-        // Open queue to keep track of all possible moves the enemy could move to
-        PriorityQueue<Position> openQueue = new PriorityQueue<Position>(100,
-                Comparator.comparing(move -> getDistanceFromPlayer(move)));
-
-        Position current = getPosition();
-        // generate successors from the current based off the directions the enemy can
-        // move find the position which minimizes the distance to the player
-        // then move the enemy to that position
-        for (Movement movement : Movement.values()) {
-            if (movement == Movement.STATIONARY)
-                continue;
-
-            Position successor = Functions.updatePosition(current, movement);
-
-            if (validateEnemyMove(successor)) {
-                // add it to the open queue
-                openQueue.add(successor);
-            }
+        if (currentPath == null) {
+            return;
         }
 
-        Position winner = openQueue.poll();
-        setPosition(winner);
-    }
+        // check if a new path has been generated and use that instead
+        if (nextPath != null) {
+            currentPath = nextPath;
+            nextPath = null;
+        }
 
-    /**
-     * Checks if the enemy can move in the given direction Checks if there is wall
-     * in the way, which prevents movement.
-     * 
-     * @param position The position the enemy wants to move to
-     * @return True if it can, false if it can't
-     */
-    private boolean validateEnemyMove(Position position) {
-        return !Maze.getInstance().isWall(position);
-    }
-
-    /**
-     * Gets the distance from the player in number of steps to the given position
-     * 
-     * @param position The current position we want to calculate the distance from
-     * @return The distance between the given position and the player
-     */
-    private int getDistanceFromPlayer(Position position) {
-        Position playerPos = Player.getInstance().getPosition();
-        return Maze.getInstance().getDistance(position, playerPos);
+        // pop last position from path and move to it
+        if (currentPath != null && currentPath.size() > 0) {
+            Position nextPos = currentPath.remove(0);
+            setPosition(nextPos);
+        }
     }
 }

@@ -115,6 +115,10 @@ public class Entities {
         return null;
     }
 
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
     /**
      * Returns all enemies
      *
