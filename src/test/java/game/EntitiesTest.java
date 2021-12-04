@@ -1,10 +1,13 @@
 package game;
 
+import character.Player;
+import maze.Maze;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import character.Enemy;
+import org.junit.jupiter.api.BeforeEach;
 import reward.*;
 import utilities.Position;
 
@@ -91,6 +94,8 @@ public class EntitiesTest {
 
     @Test
     public void getEnemy() {
+        Maze maze = Maze.getInstance();
+        maze.regenerateMaze();
         entities.clear();
         //with null position
         Enemy outcome = entities.getEnemy(null);
@@ -114,6 +119,8 @@ public class EntitiesTest {
 
     @Test
     public void containsEnemy() {
+        Maze maze = Maze.getInstance();
+        maze.regenerateMaze();
         entities.clear();
         //with null position
         boolean outcome = entities.containsEnemy(null);
@@ -233,6 +240,8 @@ public class EntitiesTest {
 
     @Test
     public void addEnemy() {
+        Maze maze = Maze.getInstance();
+        maze.regenerateMaze();
         entities.clear();
         //with null enemy
         entities.addEnemy(null);

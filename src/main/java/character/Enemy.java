@@ -25,7 +25,9 @@ public class Enemy extends CharacterModel {
 
     private ArrayList<Position> generatePath() {
         Position player = Player.getInstance().getPosition();
-        ArrayList<Position> generatedPath = getPath(getPosition(), player);
+        ArrayList<Position> generatedPath = null;
+        if(getPosition() != null)
+            generatedPath = getPath(getPosition(), player);
 
         if (generatedPath == null)
             return null;

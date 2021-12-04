@@ -225,6 +225,9 @@ public class GameLogic {
                     Cell cell = Maze.getInstance().getCell(position);
                     cell.setEmpty();
                     rewards.remove(i);
+                    int j = entities.getNumBonusRewards();
+                    j--;
+                    Entities.getInstance().setNumBonusRewards(j);
                 }
             }
         }
