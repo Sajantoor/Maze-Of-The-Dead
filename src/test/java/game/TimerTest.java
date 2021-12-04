@@ -28,4 +28,9 @@ class TimerTest {
         timer.updateTime();
         assertEquals(1, timer.getTimeElapsed());
     }
+    @Test
+    void reset(){
+        timer.reset();
+        assertEquals(0, timer.getTimeElapsed());
+    }
 }
