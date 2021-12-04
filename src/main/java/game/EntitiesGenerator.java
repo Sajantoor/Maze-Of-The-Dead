@@ -255,14 +255,4 @@ public class EntitiesGenerator {
         Enemy enemy = new Enemy(position);
         Entities.getInstance().addEnemy(enemy);
     }
-
-    //for testing purpose
-    private EntitiesGenerator(String dummyParameter){
-        //do nothing
-    }
-
-    public static EntitiesGenerator Clone(){
-        EntitiesGenerator EG = new EntitiesGenerator("DoNothingDummy");
-        return EG;
-    }
 }
