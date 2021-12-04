@@ -8,9 +8,12 @@ public class LeaderboardTest {
     @Test
     public void getInstance() {
         Leaderboard instance1 = Leaderboard.getInstance();
+        //testing if the instance is not null
+        assertNotNull(instance1);
         Leaderboard instance2 = Leaderboard.getInstance();
         instance1.addPlayerScore(new PlayerScore("Jeff", 200));
-        assertEquals(instance1.toString(), instance2.toString());
+        //testing if the two instances point to a singleton object
+        assertSame(instance1, instance2);
     }
 
     @Test

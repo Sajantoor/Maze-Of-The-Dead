@@ -2,7 +2,7 @@ package leaderboard;
 
 /**
  * Stores the player's names and corresponding scores
- * 
+ *
  * @author Maisha Supritee Chowdhury
  */
 public class PlayerScore {

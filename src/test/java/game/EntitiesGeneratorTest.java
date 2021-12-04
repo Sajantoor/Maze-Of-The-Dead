@@ -31,19 +31,21 @@ class EntitiesGeneratorTest {
 
     @Test
     void getInstance() {
-        //create two instances and check if they point to the same object
+        //testing if the instance is not null
+        assertNotNull(EG);
         EntitiesGenerator EG2 = EntitiesGenerator.getInstance();
+        //testing if the two instances point to the same singleton object
         assertSame(EG, EG2);
     }
 
     @Test
     void generateEntities() {
-        //Before generating entities
+        //testing if there is no entities before generating entities
         assertTrue(entities.getRewards().isEmpty());
         assertTrue(entities.getTraps().isEmpty());
         assertTrue(entities.getEnemies().isEmpty());
         EG.generateEntities();
-        //After generating entities
+        //testing if there are entities after generating entities
         assertFalse(entities.getRewards().isEmpty());
         assertFalse(entities.getTraps().isEmpty());
         assertFalse(entities.getEnemies().isEmpty());

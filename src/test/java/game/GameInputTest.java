@@ -41,21 +41,11 @@ class GameInputTest {
 
     @Test
     void getInstance() {
+        //testing if the instance is not null
+        assertNotNull(GI);
         GameInput GI2 = GameInput.getInstance();
-        GI2.reset();
-        GI.addMovement(RIGHT);
-        //Both Instances must have the same arrayList, only the added Movement and STATIONARY movement
-        //must be in the arrayList of both instances
-        assertTrue(GI.checkMovement(RIGHT));
-        assertFalse(GI.checkMovement(LEFT));
-        assertFalse(GI.checkMovement(UP));
-        assertFalse(GI.checkMovement(DOWN));
-        assertTrue(GI.checkMovement(STATIONARY));
-        assertTrue(GI2.checkMovement(RIGHT));
-        assertFalse(GI2.checkMovement(LEFT));
-        assertFalse(GI2.checkMovement(UP));
-        assertFalse(GI2.checkMovement(DOWN));
-        assertTrue(GI2.checkMovement(STATIONARY));
+        //testing if the two instances point to the same singleton object
+        assertSame(GI, GI2);
     }
 
     //movePlayer() test helper functions
@@ -84,6 +74,7 @@ class GameInputTest {
         //Moving Player before adding any Movement (after resetting Movement)
         //The player's only movement must be STATIONARY
         GI.movePlayer();
+        //testing if the player's movement is STATIONARY
         assertEquals(new Position(playerStartX, playerStartY), player.getPosition());
         //Testing if player moves right or does not move at all
         movePlayerCheck(RIGHT);
@@ -97,11 +88,11 @@ class GameInputTest {
     }
 
     //addMovement(), removeMovement() and checkMovement() test helper functions
-    private void checkTrue(Movement movement) {
+    private void checkHasMove(Movement movement) {
         assertTrue(GI.checkMovement(movement));
     }
 
-    private void checkFalse(Movement movement) {
+    private void checkDoesNotHaveMove(Movement movement) {
         assertFalse(GI.checkMovement(movement));
     }
 
@@ -110,30 +101,30 @@ class GameInputTest {
     void addMovement() {
         //testing after adding RIGHT
         GI.addMovement(RIGHT);
-        checkTrue(RIGHT);
-        checkFalse(LEFT);
-        checkFalse(UP);
-        checkFalse(DOWN);
+        checkHasMove(RIGHT);
+        checkDoesNotHaveMove(LEFT);
+        checkDoesNotHaveMove(UP);
+        checkDoesNotHaveMove(DOWN);
         //testing after adding LEFT
         GI.addMovement(LEFT);
-        checkTrue(RIGHT);
-        checkTrue(LEFT);
-        checkFalse(UP);
-        checkFalse(DOWN);
+        checkHasMove(RIGHT);
+        checkHasMove(LEFT);
+        checkDoesNotHaveMove(UP);
+        checkDoesNotHaveMove(DOWN);
         //testing after adding UP
         GI.addMovement(UP);
-        checkTrue(RIGHT);
-        checkTrue(LEFT);
-        checkTrue(UP);
-        checkFalse(DOWN);
+        checkHasMove(RIGHT);
+        checkHasMove(LEFT);
+        checkHasMove(UP);
+        checkDoesNotHaveMove(DOWN);
         //testing after adding DOWN
         GI.addMovement(DOWN);
-        checkTrue(RIGHT);
-        checkTrue(LEFT);
-        checkTrue(UP);
-        checkTrue(DOWN);
+        checkHasMove(RIGHT);
+        checkHasMove(LEFT);
+        checkHasMove(UP);
+        checkHasMove(DOWN);
         //testing STATIONARY
-        checkTrue(STATIONARY);
+        checkHasMove(STATIONARY);
     }
 
     @Test
@@ -144,34 +135,34 @@ class GameInputTest {
         GI.addMovement(UP);
         GI.addMovement(DOWN);
         //testing before removing anything
-        checkTrue(RIGHT);
-        checkTrue(LEFT);
-        checkTrue(UP);
-        checkTrue(DOWN);
+        checkHasMove(RIGHT);
+        checkHasMove(LEFT);
+        checkHasMove(UP);
+        checkHasMove(DOWN);
         //testing after removing RIGHT
         GI.removeMovement(RIGHT);
-        checkFalse(RIGHT);
-        checkTrue(LEFT);
-        checkTrue(UP);
-        checkTrue(DOWN);
+        checkDoesNotHaveMove(RIGHT);
+        checkHasMove(LEFT);
+        checkHasMove(UP);
+        checkHasMove(DOWN);
         //testing after removing LEFT
         GI.removeMovement(LEFT);
-        checkFalse(RIGHT);
-        checkFalse(LEFT);
-        checkTrue(UP);
-        checkTrue(DOWN);
+        checkDoesNotHaveMove(RIGHT);
+        checkDoesNotHaveMove(LEFT);
+        checkHasMove(UP);
+        checkHasMove(DOWN);
         //testing after removing UP
         GI.removeMovement(UP);
-        checkFalse(RIGHT);
-        checkFalse(LEFT);
-        checkFalse(UP);
-        checkTrue(DOWN);
+        checkDoesNotHaveMove(RIGHT);
+        checkDoesNotHaveMove(LEFT);
+        checkDoesNotHaveMove(UP);
+        checkHasMove(DOWN);
         //testing after removing DOWN
         GI.removeMovement(DOWN);
-        checkFalse(RIGHT);
-        checkFalse(LEFT);
-        checkFalse(UP);
-        checkFalse(DOWN);
+        checkDoesNotHaveMove(RIGHT);
+        checkDoesNotHaveMove(LEFT);
+        checkDoesNotHaveMove(UP);
+        checkDoesNotHaveMove(DOWN);
     }
 
     @Test
@@ -183,13 +174,13 @@ class GameInputTest {
     void resetMovement() {
         //adding a movement to GI
         GI.addMovement(RIGHT);
-        checkTrue(RIGHT);
+        checkHasMove(RIGHT);
         //adding another movement to GI
         GI.addMovement(LEFT);
-        checkTrue(LEFT);
+        checkHasMove(LEFT);
         //testing after resetting the GI
         GI.reset();
-        checkFalse(RIGHT);
-        checkFalse(LEFT);
+        checkDoesNotHaveMove(RIGHT);
+        checkDoesNotHaveMove(LEFT);
     }
 }
