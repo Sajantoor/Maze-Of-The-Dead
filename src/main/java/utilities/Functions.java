@@ -95,4 +95,24 @@ public class Functions {
 
         return true;
     }
+
+    /**
+     * Checks if a given coordinates is in the maze
+     * 
+     * @param x X coordinates
+     * @param y Y coordinates
+     * @return true if the coordinates is in the maze, false otherwise
+     */
+    public static boolean validatePosition(int x, int y) {
+        // wanted to create new position but more memory?? this is better.
+        if (x < 0 || x >= Constants.mazeWidth) {
+            return false;
+        }
+
+        if (y < 0 || y >= Constants.mazeHeight) {
+            return false;
+        }
+
+        return true;
+    }
 }

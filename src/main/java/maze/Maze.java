@@ -44,9 +44,14 @@ public class Maze {
      * @param x the x position of the cell in the maze
      * @param y the y position of the cell in the maze
      * @return the cell of the maze the position (x,y)
+     * @throws IndexOutOfBoundsException if the position (x,y) is not in the maze
      * @see Cell
      */
     public Cell getCell(int x, int y) {
+        if (!Functions.validatePosition(x, y)) {
+            throw new IllegalArgumentException("Invalid position, outside of maze bounds");
+        }
+
         return maze[x][y];
     }
 
@@ -104,7 +109,7 @@ public class Maze {
      * @see Cell
      * @see CellType
      */
-    public void setStart(int x, int y) {
+    private void setStart(int x, int y) {
         maze[x][y].setCellType(CellType.START);
     }
 
@@ -116,7 +121,7 @@ public class Maze {
      * @see Cell
      * @see CellType
      */
-    public void setEnd(int x, int y) {
+    private void setEnd(int x, int y) {
         maze[x][y].setCellType(CellType.END);
     }
 
@@ -162,7 +167,7 @@ public class Maze {
      *
      * @param numRooms the number of rooms that will be generated in the maze
      */
-    public void addRooms(int numRooms, int mazeWidth, int mazeHeight) {
+    private void addRooms(int numRooms, int mazeWidth, int mazeHeight) {
         for (int i = 0; i < numRooms; i++) {
 
             int x = Functions.getRandomNumber(mazeWidth - 2, 1);
@@ -268,8 +273,9 @@ public class Maze {
     }
 
     /**
-     * Returns all adjacent Positions of the current position, looking up, down,
-     * left, right
+     * Returns all adjacent positions of the current position, looking up, down,
+     * right, left. These positons don't have to be in the maze, could be out of
+     * bounds.
      *
      * @param position the position we want to get adjacent positions of
      * @return ArrayList of adjacent positions
@@ -304,15 +310,14 @@ public class Maze {
             return false;
 
         visited.add(cell);
-
-        // if we have reached our target, there must be a path.
-        if (cell.getPosition().equals(target))
-            return true;
-
         // if cell is a wall, we can't move through it
         // if it's the player traversing and it's a trap, then cannot move through it
         if (cell.isWall() || cell.isTrap())
             return false;
+
+        // if we have reached our target, there must be a path.
+        if (cell.getPosition().equals(target))
+            return true;
 
         // if cell is not wall or path, get adjacent cells
         ArrayList<Position> adjacentPositions = getAdjacentPositions(current);
