@@ -151,7 +151,7 @@ public class Leaderboard {
     private void readFromFile() {
         try {
             File file = new File(Constants.leaderboardFile);
-            //if a file doesn't exist
+            // if a file doesn't exist
             if (!(file.isFile()))
                 file.createNewFile();
 
@@ -203,7 +203,7 @@ public class Leaderboard {
         return 0;
     }
 
-    //For testing purpose
+    // For testing purpose
     private Leaderboard(ArrayList<PlayerScore> playerScores) {
         this.playerScores = playerScores;
     }
@@ -214,4 +214,3 @@ public class Leaderboard {
         return l;
     }
 }
-

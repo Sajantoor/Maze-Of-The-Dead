@@ -1,4 +1,5 @@
 package reward;
+
 /**
  * Traps that are found in the maze
  *
@@ -13,7 +14,6 @@ public enum TrapType {
      * Trap fall trap type
      */
     TRAPFALL(1);
-
 
     private int value;
 

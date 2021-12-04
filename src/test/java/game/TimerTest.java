@@ -7,8 +7,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TimerTest {
     private Timer timer = null;
+
     @BeforeEach
-    void setup(){
+    void setup() {
         timer = Timer.getInstance();
     }
 
@@ -28,8 +29,9 @@ class TimerTest {
         timer.updateTime();
         assertEquals(1, timer.getTimeElapsed());
     }
+
     @Test
-    void reset(){
+    void reset() {
         timer.reset();
         assertEquals(0, timer.getTimeElapsed());
     }

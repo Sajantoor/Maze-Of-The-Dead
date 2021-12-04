@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class TrapTest {
     private Trap trap;
+
     @BeforeEach
     void setUp() {
         trap = new Trap(new Position(1, 1), TrapType.TRAPFALL);

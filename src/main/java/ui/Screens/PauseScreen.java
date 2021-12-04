@@ -1,6 +1,5 @@
 package ui.Screens;
 
-import ui.GameUI;
 import ui.components.PanelWithBackgroundImage;
 import ui.components.UIUtils;
 

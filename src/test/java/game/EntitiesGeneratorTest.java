@@ -4,9 +4,6 @@ import maze.Maze;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import reward.Reward;
-
-import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,21 +28,21 @@ class EntitiesGeneratorTest {
 
     @Test
     void getInstance() {
-        //testing if the instance is not null
+        // testing if the instance is not null
         assertNotNull(EG);
         EntitiesGenerator EG2 = EntitiesGenerator.getInstance();
-        //testing if the two instances point to the same singleton object
+        // testing if the two instances point to the same singleton object
         assertSame(EG, EG2);
     }
 
     @Test
     void generateEntities() {
-        //testing if there is no entities before generating entities
+        // testing if there is no entities before generating entities
         assertTrue(entities.getRewards().isEmpty());
         assertTrue(entities.getTraps().isEmpty());
         assertTrue(entities.getEnemies().isEmpty());
         EG.generateEntities();
-        //testing if there are entities after generating entities
+        // testing if there are entities after generating entities
         assertFalse(entities.getRewards().isEmpty());
         assertFalse(entities.getTraps().isEmpty());
         assertFalse(entities.getEnemies().isEmpty());
@@ -53,10 +50,10 @@ class EntitiesGeneratorTest {
 
     @Test
     void generateBonusReward() {
-        //Before generating bonus rewards
-        assertTrue(entities.getNumBonusRewards()==0);
+        // Before generating bonus rewards
+        assertTrue(entities.getNumBonusRewards() == 0);
         EG.generateBonusReward();
-        //After generating bonus rewards
-        assertFalse(entities.getNumBonusRewards()==0);
+        // After generating bonus rewards
+        assertFalse(entities.getNumBonusRewards() == 0);
     }
 }

@@ -90,16 +90,19 @@ public class GameUI {
      */
     public static void addGameWonScreen(int score, long timeInSeconds) {
         subPanel = new GameWonScreen(score, timeInSeconds, image);
-        subFrameFormat(600,600);
+        subFrameFormat(600, 600);
         subFrame.add(subPanel);
     }
 
     /**
      * Displays the Game Over Screen
-     * @param score the score the player accumulated through the game
-     * @param timeInSeconds the time the player spent playing the game
-     * @param numOfRewards the number of rewards the player collected in the game
-     * @param numOfBonusRewards the number of bonus rewards the player collected in the game
+     * 
+     * @param score             the score the player accumulated through the game
+     * @param timeInSeconds     the time the player spent playing the game
+     * @param numOfRewards      the number of rewards the player collected in the
+     *                          game
+     * @param numOfBonusRewards the number of bonus rewards the player collected in
+     *                          the game
      */
     public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
         subPanel = new GameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards, image);
@@ -112,7 +115,7 @@ public class GameUI {
      */
     public static void addPauseScreen() {
         subPanel = new PauseScreen(image);
-        subFrameFormat(500,500);
+        subFrameFormat(500, 500);
         subFrame.add(subPanel);
     }
 
@@ -135,7 +138,7 @@ public class GameUI {
      */
     public static void addLeaderboardScreen(PlayerScore highPlayerScore) {
         subPanel = new LeaderboardScreen(highPlayerScore, image);
-        subFrameFormat(750,1000);
+        subFrameFormat(750, 1000);
         subFrame.add(subPanel);
     }
 

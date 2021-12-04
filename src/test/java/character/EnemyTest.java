@@ -12,14 +12,17 @@ class EnemyTest {
     private Enemy enemy;
     private Player player;
     Position ePos = null;
+
     @BeforeEach
-    void setup(){
+    void setup() {
         int i = 0;
         maze = Maze.getInstance();
         maze.regenerateMaze();
-        do{
+
+        do {
             ePos = new Position(10, i++);
-        }while(maze.getCell(ePos).isWall());
+        } while (maze.getCell(ePos).isWall());
+
         player = Player.getInstance();
         enemy = new Enemy(ePos);
     }
@@ -31,9 +34,9 @@ class EnemyTest {
     }
 
     @Test
-    void reachesPlayer(){
+    void reachesPlayer() {
         int i = 0;
-        while(!(Player.getInstance().getPosition()).equals(enemy.getPosition()) && i < 1000){
+        while (!(Player.getInstance().getPosition()).equals(enemy.getPosition()) && i < 1000) {
             enemy.move();
             i++;
         }

@@ -34,13 +34,13 @@ public class PlayerTest {
 
     @Test
     public void updateScore() {
-        //with score = 0 initially
+        // with score = 0 initially
         player.reset();
         player.updateScore(testScore);
         int score = player.getScore();
         assertEquals(testScore, score);
 
-        //with score>0 initially
+        // with score>0 initially
         int result = 20;
         player.updateScore(testScore);
         int score2 = player.getScore();

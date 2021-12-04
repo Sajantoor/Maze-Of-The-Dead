@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BonusRewardTest {
     private BonusReward bonusReward;
+
     @BeforeEach
     void setUp() {
         bonusReward = new BonusReward(new Position(1, 1), 2, 10);

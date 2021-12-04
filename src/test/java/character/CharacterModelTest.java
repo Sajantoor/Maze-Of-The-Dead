@@ -23,13 +23,13 @@ public class CharacterModelTest {
 
     @Test
     void setPosition() {
-        //for setter with position parameter
+        // for setter with position parameter
         Position testPos = new Position(100, 100);
         characterModel.setPosition(testPos);
         Position outcome = characterModel.getPosition();
         assertEquals(testPos, outcome);
 
-        //for setter with x,y coordinates as parameter
+        // for setter with x,y coordinates as parameter
         characterModel.setPosition(200, 200);
         Position result = characterModel.getPosition();
         assertEquals((new Position(200, 200)), result);
@@ -66,6 +66,5 @@ public class CharacterModelTest {
         Position outcome = characterModel.getPosition();
         assertEquals(testPos, outcome);
     }
-
 
 }

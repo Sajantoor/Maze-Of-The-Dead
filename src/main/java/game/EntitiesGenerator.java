@@ -164,7 +164,7 @@ public class EntitiesGenerator {
     protected void generateBonusReward() {
         generateReward(RewardType.BONUS);
         int oldNumBonusRewards = Entities.getInstance().getNumBonusRewards();
-        Entities.getInstance().setNumBonusRewards(oldNumBonusRewards+1);
+        Entities.getInstance().setNumBonusRewards(oldNumBonusRewards + 1);
     }
 
     /**

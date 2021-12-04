@@ -48,7 +48,8 @@ public class Buttons {
     }
 
     /**
-     * Add Play Button (JButton: Open the GameOverScreen and LeaderboardScreen if clicked)
+     * Add Play Button (JButton: Open the GameOverScreen and LeaderboardScreen if
+     * clicked)
      *
      * @param panel      JPanel to be added to
      * @param buttonName Button Label
@@ -141,6 +142,7 @@ public class Buttons {
         buttonLayout(quitButton);
         panel.add(quitButton);
     }
+
     /**
      * Add Back Button (JButton: Open the TitleScreen if clicked)
      *
@@ -163,7 +165,8 @@ public class Buttons {
     }
 
     /**
-     * Add Submit Name Button (JButton: Submit the name from the nameTextField and the score to LeaderBoardScreen if clicked)
+     * Add Submit Name Button (JButton: Submit the name from the nameTextField and
+     * the score to LeaderBoardScreen if clicked)
      *
      * @param panel         JPanel to be added to
      * @param buttonName    Button Label
@@ -177,7 +180,7 @@ public class Buttons {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameTextField.getText();
-                if(!name.contains("#")) {
+                if (!name.contains("#")) {
                     PlayerScore playerScore = new PlayerScore(name, score);
                     getSubFrame().remove(panel);
                     addLeaderboardScreen(playerScore);
@@ -191,7 +194,8 @@ public class Buttons {
     }
 
     /**
-     * Add Continue Button (JButton: Takes to Leaderboard screen if score not high enough, or to the New High Score screen)
+     * Add Continue Button (JButton: Takes to Leaderboard screen if score not high
+     * enough, or to the New High Score screen)
      *
      * @param panel      JPanel to be added to
      * @param buttonName Button Label
@@ -204,11 +208,11 @@ public class Buttons {
         continueButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(score < Leaderboard.getInstance().getMinimumScore() && Leaderboard.getInstance().getLeaderboardSize() >= playerListSize) {
+                if (score < Leaderboard.getInstance().getMinimumScore()
+                        && Leaderboard.getInstance().getLeaderboardSize() >= playerListSize) {
                     getSubFrame().remove(panel);
                     addLeaderboardScreen(null);
-                }
-                else{
+                } else {
                     getSubFrame().remove(panel);
                     addNewHighScoreScreen(score);
                 }
@@ -221,7 +225,8 @@ public class Buttons {
     }
 
     /**
-     * Add Resume Button (JButton: Takes player back to game screen to resume playing)
+     * Add Resume Button (JButton: Takes player back to game screen to resume
+     * playing)
      *
      * @param panel      JPanel to be added to
      * @param buttonName Button Label
@@ -245,5 +250,3 @@ public class Buttons {
         panel.add(resumeButton);
     }
 }
-
-

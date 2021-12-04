@@ -2,8 +2,6 @@ package maze;
 
 import org.junit.jupiter.api.Test;
 
-import maze.Cell;
-import maze.Maze;
 import utilities.Constants;
 import utilities.Position;
 

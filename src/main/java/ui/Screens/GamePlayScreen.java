@@ -91,8 +91,6 @@ public class GamePlayScreen extends JPanel {
         mazePanel.setLayout(new GridLayout(mazeHeight, mazeWidth));
         this.add(mazePanel);
 
-        Maze maze = Maze.getInstance();
-
         for (int i = 0; i < mazeHeight; i++) {
             for (int j = 0; j < mazeWidth; j++) {
                 JLabel label = new JLabel();
@@ -173,7 +171,6 @@ public class GamePlayScreen extends JPanel {
         t2.start();
     }
 
-    // TODO: Might want to split these into multiple methods being called instead.
     private void revalidateMaze() {
         Maze maze = Maze.getInstance();
         Entities entities = Entities.getInstance();

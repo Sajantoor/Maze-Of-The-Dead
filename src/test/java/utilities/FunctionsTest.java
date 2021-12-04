@@ -52,7 +52,7 @@ class FunctionsTest {
         int maxX = 10;
         int minY = 0;
         int maxY = 10;
-        for(int i = 0; i < 1000; i++){
+        for (int i = 0; i < 1000; i++) {
             Position pos = Functions.getRandomPosition(minX, maxX, minY, maxY);
             assertNotNull(pos);
             assertTrue(pos.getX() >= minX && pos.getX() <= maxX);
@@ -64,7 +64,7 @@ class FunctionsTest {
 
     @Test
     void validatePosition() {
-        Position validPos = new Position(1,1);
+        Position validPos = new Position(1, 1);
         Position invalidPos = new Position(-1, -1);
         assertTrue(Functions.validatePosition(validPos));
         assertFalse(Functions.validatePosition(invalidPos));

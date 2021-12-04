@@ -1,6 +1,5 @@
 package reward;
 
-import utilities.Constants;
 import utilities.Position;
 
 /**
@@ -20,7 +19,7 @@ public class BonusReward extends Reward {
      * @see Position
      */
     public BonusReward(Position position, int points, long endTime) {
-        super(position,points);
+        super(position, points);
         this.endTime = endTime;
     }
 
