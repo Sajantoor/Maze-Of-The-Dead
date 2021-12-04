@@ -26,23 +26,23 @@ class GameInputTest {
     @BeforeEach
     void setUp() {
         GI = GameInput.getInstance();
-        GI.resetMovement();
+        GI.reset();
         player = Player.getInstance();
-        player.resetPlayer();
+        player.reset();
         m = Maze.getInstance();
         m.regenerateMaze();
     }
 
     @AfterEach
     void reset() {
-        GI.resetMovement();
-        player.resetPlayer();
+        GI.reset();
+        player.reset();
     }
 
     @Test
     void getInstance() {
         GameInput GI2 = GameInput.getInstance();
-        GI2.resetMovement();
+        GI2.reset();
         GI.addMovement(RIGHT);
         //Both Instances must have the same arrayList, only the added Movement and STATIONARY movement
         //must be in the arrayList of both instances
@@ -71,9 +71,6 @@ class GameInputTest {
             default -> newPos = new Position(oldPos);
         }
         GI.movePlayer();
-        System.out.println(oldPos.toString());
-        System.out.println(newPos.toString());
-        System.out.println(player.getPosition().toString());
         //Player moves to latest added direction or does not move
         boolean playerMove = Objects.equals(player.getPosition().toString(), newPos.toString());
         boolean playerDidNotMove = Objects.equals(player.getPosition().toString(), oldPos.toString());
@@ -96,7 +93,7 @@ class GameInputTest {
         movePlayerCheck(UP);
         //Testing if player moves down or does not move at all
         movePlayerCheck(DOWN);
-        GI.resetMovement();
+        GI.reset();
     }
 
     //addMovement(), removeMovement() and checkMovement() test helper functions
@@ -191,7 +188,7 @@ class GameInputTest {
         GI.addMovement(LEFT);
         checkTrue(LEFT);
         //testing after resetting the GI
-        GI.resetMovement();
+        GI.reset();
         checkFalse(RIGHT);
         checkFalse(LEFT);
     }
