@@ -56,7 +56,7 @@ public class Enemy extends CharacterModel {
     }
 
     /**
-     * Get the shorest path from the current position to the target. Uses
+     * Get the shortest path from the current position to the target. Uses
      * breadth-first search.
      * 
      * @param current The current position
@@ -69,12 +69,11 @@ public class Enemy extends CharacterModel {
         HashSet<Position> visited = new HashSet<Position>();
         // To store the current path in bfs
         Queue<ArrayList<Position>> queue = new LinkedList<ArrayList<Position>>();
-        // Start intiial path from current position
+        // Start initial path from current position
         ArrayList<Position> initialPath = new ArrayList<Position>();
         initialPath.add(current);
         queue.add(initialPath);
 
-        Maze maze = Maze.getInstance();
 
         while (!queue.isEmpty()) {
             ArrayList<Position> path = queue.remove();
@@ -93,7 +92,7 @@ public class Enemy extends CharacterModel {
             if (last.equals(target))
                 return path;
 
-            ArrayList<Position> adjacentPos = maze.getAdjacentPositions(last);
+            ArrayList<Position> adjacentPos = Maze.getInstance().getAdjacentPositions(last);
 
             // traverse through all adjacent positions
             for (Position adjacent : adjacentPos) {
@@ -105,23 +104,25 @@ public class Enemy extends CharacterModel {
                 }
             }
         }
-
         return null;
     }
 
     /**
-     * If the player has moved, regeneate the path to the player
+     * If the player has moved, regenerate the path to the player
      */
     public void regeneratePath() {
         // check if player moved
         Position player = Player.getInstance().getPosition();
 
         // the end of the path contains the player's position by definition
-        if (player.equals(currentPath.get(currentPath.size() - 1))) {
-            return;
+        if(currentPath.size() - 1 >= 0) {
+            if (player.equals(currentPath.get(currentPath.size() - 1))) {
+                return;
+            }
         }
-
-        nextPath = generatePath();
+        do {
+            nextPath = generatePath();
+        }while(nextPath == null);
     }
 
     /***
@@ -140,7 +141,10 @@ public class Enemy extends CharacterModel {
         }
 
         // pop last position from path and move to it
-        Position nextPos = currentPath.remove(0);
-        setPosition(nextPos);
+
+        if(currentPath != null){
+            Position nextPos = currentPath.remove(0);
+            setPosition(nextPos);
+        }
     }
 }
