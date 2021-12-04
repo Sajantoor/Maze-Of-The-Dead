@@ -240,8 +240,7 @@ public class MazeTest {
 
     @Test
     public void getAdjacentPositions() {
-        // get random position in the maze
-        Position pos = getRandomMazePosition();
+        Position pos = new Position(8, 8);
 
         // get adjacent positions
         ArrayList<Position> adjPos = maze.getAdjacentPositions(pos);

@@ -274,8 +274,7 @@ public class Maze {
 
     /**
      * Returns all adjacent positions of the current position, looking up, down,
-     * right, left. These positons don't have to be in the maze, could be out of
-     * bounds.
+     * right, left.
      *
      * @param position the position we want to get adjacent positions of
      * @return ArrayList of adjacent positions
