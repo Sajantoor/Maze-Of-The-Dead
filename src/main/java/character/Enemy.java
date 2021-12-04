@@ -32,27 +32,14 @@ public class Enemy extends CharacterModel {
 
     /**
      * Checks if the enemy can move to the given position.
-     * The enemy cannot go through other enemies or walls.
+     * The enemy cannot go through walls
      * 
      * @param position the position to check
      * @return true if the enemy can move to the given position
      */
     private boolean validateMovement(Position position) {
-        Maze maze = Maze.getInstance();
-
-        // TODO: After merged check if it's in bounds, that's in functions already
-
         // if there's a wall at the position, can't go there
-        if (maze.isWall(position))
-            return false;
-
-        // if there's another enemy at the position, can't go there
-        Entities entities = Entities.getInstance();
-
-        if (entities.containsEnemy(position))
-            return false;
-
-        return true;
+        return !Maze.getInstance().isWall(position);
     }
 
     /**
@@ -73,7 +60,6 @@ public class Enemy extends CharacterModel {
         ArrayList<Position> initialPath = new ArrayList<Position>();
         initialPath.add(current);
         queue.add(initialPath);
-
 
         while (!queue.isEmpty()) {
             ArrayList<Position> path = queue.remove();
@@ -115,14 +101,15 @@ public class Enemy extends CharacterModel {
         Position player = Player.getInstance().getPosition();
 
         // the end of the path contains the player's position by definition
-        if(currentPath.size() - 1 >= 0) {
+        if (currentPath.size() - 1 >= 0) {
             if (player.equals(currentPath.get(currentPath.size() - 1))) {
                 return;
             }
         }
+
         do {
             nextPath = generatePath();
-        }while(nextPath == null);
+        } while (nextPath == null);
     }
 
     /***
@@ -141,8 +128,7 @@ public class Enemy extends CharacterModel {
         }
 
         // pop last position from path and move to it
-
-        if(currentPath != null){
+        if (currentPath != null && currentPath.size() > 0) {
             Position nextPos = currentPath.remove(0);
             setPosition(nextPos);
         }

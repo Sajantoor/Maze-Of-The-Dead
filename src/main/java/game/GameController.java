@@ -109,7 +109,7 @@ public class GameController {
                     }
 
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(Constants.gameLoopSleep);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
