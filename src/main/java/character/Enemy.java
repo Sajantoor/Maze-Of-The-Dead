@@ -8,6 +8,11 @@ import java.util.Queue;
 import maze.Maze;
 import utilities.Position;
 
+/**
+ * This class represents an enemy in the game.
+ * 
+ * @author Sajan Toor
+ */
 public class Enemy extends CharacterModel {
     ArrayList<Position> currentPath;
     ArrayList<Position> nextPath;
