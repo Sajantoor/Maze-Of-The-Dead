@@ -83,6 +83,15 @@ public class Entities {
     }
 
     /**
+     * Returns all traps
+     *
+     * @return an arrayList of all traps
+     */
+    public ArrayList<Trap> getTraps(){
+        return traps;
+    }
+
+    /**
      * Checks if there is a trap at a position and returns it
      * 
      * @param position position to check
