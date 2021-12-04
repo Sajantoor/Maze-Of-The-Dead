@@ -103,9 +103,6 @@ public class GameController {
                 Entities entities = Entities.getInstance();
                 ArrayList<Enemy> enemies = entities.getEnemies();
                 while (isRunning) {
-                    if (isPaused)
-                        continue;
-
                     for (int i = 0; i < enemies.size(); i++) {
                         Enemy enemy = enemies.get(i);
                         enemy.regeneratePath();
