@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import game.Entities;
 import maze.Maze;
 import utilities.Position;
 
@@ -26,7 +25,9 @@ public class Enemy extends CharacterModel {
         if (generatedPath == null)
             return null;
 
-        generatedPath.remove(0); // remove the current position
+        if (generatedPath.size() > 0)
+            generatedPath.remove(0); // remove the current position
+
         return generatedPath;
     }
 
@@ -52,6 +53,10 @@ public class Enemy extends CharacterModel {
      *         from current to target
      */
     private ArrayList<Position> getPath(Position current, Position target) {
+        // check if positions are equal and return empty list if they are
+        if (current.equals(target))
+            return new ArrayList<Position>();
+
         // To mark visited positions
         HashSet<Position> visited = new HashSet<Position>();
         // To store the current path in bfs
