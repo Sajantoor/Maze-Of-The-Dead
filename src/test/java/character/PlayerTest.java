@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class PlayerTest {
     private Player player = Player.getInstance();
-    private int testScore = 10;
+    private final int testScore = 10;
 
     @Test
     public void getInstance() {

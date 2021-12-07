@@ -41,7 +41,7 @@ public class GameOverScreen extends PanelWithBackgroundImage {
         addSpace(this, 0, 60);
 
         // Reward Panel
-        addRewardPanel(this, numOfRewards);
+        addRewardPanel(this);
         addSpace(this, 0, 60);
 
         // Bonus Reward Panel

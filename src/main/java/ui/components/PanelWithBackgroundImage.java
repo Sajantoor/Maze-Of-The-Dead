@@ -10,7 +10,7 @@ import java.awt.*;
  */
 public class PanelWithBackgroundImage extends JPanel {
 
-    private Image image;
+    private final Image image;
 
     /**
      * Constructor function for Panel with background image

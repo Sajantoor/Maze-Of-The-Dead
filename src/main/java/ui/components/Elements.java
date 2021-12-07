@@ -50,7 +50,7 @@ public class Elements {
      * Title for certain components (JLabel)
      *
      * @param panel JPanel to be added to
-     * @param title
+     * @param title Title of screen
      */
     public static void addSmallTitle(JPanel panel, String title) {
         JLabel gameTitle = new JLabel(title);
@@ -98,10 +98,9 @@ public class Elements {
      * Reward Label and Count (JPanel: Shows how many Rewards the Player gained
      * throughout the game)
      *
-     * @param panel        JPanel to be added to
-     * @param numOfRewards Number of Rewards the player gained throughout the game
+     * @param panel JPanel to be added toS
      */
-    public static void addRewardPanel(JPanel panel, int numOfRewards) {
+    public static void addRewardPanel(JPanel panel) {
         // Reward Panel
         JPanel rewardPanel = new JPanel();
         rewardPanel.setLayout(new BoxLayout(rewardPanel, BoxLayout.X_AXIS));

@@ -11,11 +11,8 @@ import ui.Screens.TitleScreen;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static ui.GameUI.*;
-import static ui.GameUI.revalidateMainScreen;
 import static ui.components.UIUtils.buttonLayout;
 import static utilities.Constants.playerListSize;
 
@@ -34,14 +31,11 @@ public class Buttons {
      */
     public static void addPlayButton(JPanel panel, String buttonName) {
         JButton playButton = new JButton(buttonName);
-        playButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getFrame().remove(panel);
-                mainFrameRefocus();
-                addGamePlayScreen();
-                revalidateMainScreen();
-            }
+        playButton.addActionListener(e -> {
+            getFrame().remove(panel);
+            mainFrameRefocus();
+            addGamePlayScreen();
+            revalidateMainScreen();
         });
         buttonLayout(playButton);
         panel.add(playButton);
@@ -57,18 +51,15 @@ public class Buttons {
      */
     public static void addPlayAgainButton(JPanel panel, String buttonName) {
         JButton playButton = new JButton(buttonName);
-        playButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getSubFrame().remove(panel);
-                getSubFrame().setVisible(false);
-                getFrame().setEnabled(true);
-                GameController.getInstance().setRunning(false);
-                mainFrameRefocus();
-                removeGamePlayScreen();
-                addGamePlayScreen();
-                revalidateMainScreen();
-            }
+        playButton.addActionListener(e -> {
+            getSubFrame().remove(panel);
+            getSubFrame().setVisible(false);
+            getFrame().setEnabled(true);
+            GameController.getInstance().setRunning(false);
+            mainFrameRefocus();
+            removeGamePlayScreen();
+            addGamePlayScreen();
+            revalidateMainScreen();
         });
         buttonLayout(playButton);
         panel.add(playButton);
@@ -82,13 +73,10 @@ public class Buttons {
      */
     public static void addExitGameButton(JPanel panel, String buttonName) {
         JButton exitGameButton = new JButton(buttonName);
-        exitGameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Leaderboard.getInstance().writeToFile();
-                getFrame().dispose();
-                System.exit(0);
-            }
+        exitGameButton.addActionListener(e -> {
+            Leaderboard.getInstance().writeToFile();
+            getFrame().dispose();
+            System.exit(0);
         });
         buttonLayout(exitGameButton);
         panel.add(exitGameButton);
@@ -103,13 +91,10 @@ public class Buttons {
      */
     public static void addInstructionButton(JPanel panel, String buttonName) {
         JButton instructionButton = new JButton(buttonName);
-        instructionButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getFrame().remove(panel);
-                addInstructionScreen();
-                revalidateMainScreen();
-            }
+        instructionButton.addActionListener(e -> {
+            getFrame().remove(panel);
+            addInstructionScreen();
+            revalidateMainScreen();
         });
         buttonLayout(instructionButton);
         panel.add(instructionButton);
@@ -124,20 +109,17 @@ public class Buttons {
      */
     public static void addQuitButton(JPanel panel, String buttonName) {
         JButton quitButton = new JButton(buttonName);
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getSubFrame().remove(panel);
-                getSubFrame().setVisible(false);
-                getFrame().setEnabled(true);
-                GameController.getInstance().setRunning(false);
-                GameController.getInstance().unpauseGame();
-                GameController.getInstance().setQuit();
-                removeGamePlayScreen();
-                addTitleScreen();
-                revalidateMainScreen();
-                mainFrameRefocus();
-            }
+        quitButton.addActionListener(e -> {
+            getSubFrame().remove(panel);
+            getSubFrame().setVisible(false);
+            getFrame().setEnabled(true);
+            GameController.getInstance().setRunning(false);
+            GameController.getInstance().unpauseGame();
+            GameController.getInstance().setQuit();
+            removeGamePlayScreen();
+            addTitleScreen();
+            revalidateMainScreen();
+            mainFrameRefocus();
         });
         buttonLayout(quitButton);
         panel.add(quitButton);
@@ -152,13 +134,10 @@ public class Buttons {
      */
     public static void addBackButton(JPanel panel, String buttonName) {
         JButton quitButton = new JButton(buttonName);
-        quitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getFrame().remove(panel);
-                addTitleScreen();
-                revalidateMainScreen();
-            }
+        quitButton.addActionListener(e -> {
+            getFrame().remove(panel);
+            addTitleScreen();
+            revalidateMainScreen();
         });
         buttonLayout(quitButton);
         panel.add(quitButton);
@@ -176,17 +155,14 @@ public class Buttons {
      */
     public static void addSubmitNameButton(JPanel panel, String buttonName, JTextField nameTextField, int score) {
         JButton submitNameButton = new JButton(buttonName);
-        submitNameButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String name = nameTextField.getText();
-                if (!name.contains("#")) {
-                    PlayerScore playerScore = new PlayerScore(name, score);
-                    getSubFrame().remove(panel);
-                    addLeaderboardScreen(playerScore);
-                    revalidateSubScreen();
-                    revalidateMainScreen();
-                }
+        submitNameButton.addActionListener(e -> {
+            String name = nameTextField.getText();
+            if (!name.contains("#")) {
+                PlayerScore playerScore = new PlayerScore(name, score);
+                getSubFrame().remove(panel);
+                addLeaderboardScreen(playerScore);
+                revalidateSubScreen();
+                revalidateMainScreen();
             }
         });
         buttonLayout(submitNameButton);
@@ -205,20 +181,17 @@ public class Buttons {
      */
     public static void addContinueButton(JPanel panel, String buttonName, int score) {
         JButton continueButton = new JButton(buttonName);
-        continueButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (score < Leaderboard.getInstance().getMinimumScore()
-                        && Leaderboard.getInstance().getLeaderboardSize() >= playerListSize) {
-                    getSubFrame().remove(panel);
-                    addLeaderboardScreen(null);
-                } else {
-                    getSubFrame().remove(panel);
-                    addNewHighScoreScreen(score);
-                }
-                revalidateSubScreen();
-                revalidateMainScreen();
+        continueButton.addActionListener(e -> {
+            if (score < Leaderboard.getInstance().getMinimumScore()
+                    && Leaderboard.getInstance().getLeaderboardSize() >= playerListSize) {
+                getSubFrame().remove(panel);
+                addLeaderboardScreen(null);
+            } else {
+                getSubFrame().remove(panel);
+                addNewHighScoreScreen(score);
             }
+            revalidateSubScreen();
+            revalidateMainScreen();
         });
         buttonLayout(continueButton);
         panel.add(continueButton);
@@ -236,16 +209,13 @@ public class Buttons {
         JButton resumeButton = new JButton(buttonName);
         buttonLayout(resumeButton);
         resumeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        resumeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                getSubFrame().remove(panel);
-                getSubFrame().setVisible(false);
-                getFrame().setEnabled(true);
-                GameController.getInstance().unpauseGame();
-                revalidateMainScreen();
-                mainFrameRefocus();
-            }
+        resumeButton.addActionListener(e -> {
+            getSubFrame().remove(panel);
+            getSubFrame().setVisible(false);
+            getFrame().setEnabled(true);
+            GameController.getInstance().unpauseGame();
+            revalidateMainScreen();
+            mainFrameRefocus();
         });
         panel.add(resumeButton);
     }

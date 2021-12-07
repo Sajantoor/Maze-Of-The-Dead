@@ -51,9 +51,9 @@ class EntitiesGeneratorTest {
     @Test
     void generateBonusReward() {
         // Before generating bonus rewards
-        assertTrue(entities.getNumBonusRewards() == 0);
+        assertEquals(0, entities.getNumBonusRewards());
         EG.generateBonusReward();
         // After generating bonus rewards
-        assertFalse(entities.getNumBonusRewards() == 0);
+        assertNotEquals(0, entities.getNumBonusRewards());
     }
 }

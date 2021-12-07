@@ -15,17 +15,11 @@ public class Trap extends Reward {
 
     public Trap(Position position, TrapType trapType) {
         super(position);
-        int points;
-        switch (trapType) {
-            case BOOBYTRAP:
-                points = Constants.boobyTrapDmg;
-                break;
-            case TRAPFALL:
-                points = Constants.trapFallDmg;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid TrapType");
-        }
+        int points = switch (trapType) {
+            case BOOBYTRAP -> Constants.boobyTrapDmg;
+            case TRAPFALL -> Constants.trapFallDmg;
+            default -> throw new IllegalArgumentException("Invalid TrapType");
+        };
 
         this.setPoints(points);
         this.trapType = trapType;

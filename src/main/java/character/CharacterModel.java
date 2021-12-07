@@ -55,20 +55,12 @@ public class CharacterModel {
 
     public void move(Movement direction) {
         switch (direction) {
-            case UP:
-                position.setY(position.getY() - 1);
-                break;
-            case DOWN:
-                position.setY(position.getY() + 1);
-                break;
-            case LEFT:
-                position.setX(position.getX() - 1);
-                break;
-            case RIGHT:
-                position.setX(position.getX() + 1);
-                break;
-            default:
-                break;
+            case UP -> position.setY(position.getY() - 1);
+            case DOWN -> position.setY(position.getY() + 1);
+            case LEFT -> position.setX(position.getX() - 1);
+            case RIGHT -> position.setX(position.getX() + 1);
+            default -> {
+            }
         }
     }
 

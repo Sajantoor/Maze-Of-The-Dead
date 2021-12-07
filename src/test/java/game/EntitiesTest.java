@@ -1,22 +1,20 @@
 package game;
 
-import character.Player;
 import maze.Maze;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import character.Enemy;
-import org.junit.jupiter.api.BeforeEach;
 import reward.*;
 import utilities.Position;
 
 import static org.junit.Assert.*;
 
 public class EntitiesTest {
-    private Entities entities = Entities.getInstance();
-    Position testPos = new Position(10, 10);
-    Position testPos2 = new Position(20, 20);
+    private final Entities entities = Entities.getInstance();
+    final Position testPos = new Position(10, 10);
+    final Position testPos2 = new Position(20, 20);
 
     @Test
     public void getInstance() {
