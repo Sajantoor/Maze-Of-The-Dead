@@ -10,6 +10,7 @@ CMPT 276 D100 Fall 2021: Group 19 Project
   - [How To Build](#how-to-build)
   - [How To Run](#how-to-run)
   - [How To Test](#how-to-test)
+  - [Generate Javadocs](#generate-javadocs)
 - [Creators](#creators)
 
 ## Maze of the Dead
@@ -47,6 +48,8 @@ Build the project running the following maven command:
 
 `mvn package`
 
+This generates a jar file located in the `target` directory.
+
 ### How to Run
 
 After following [how to build](#how-to-build), you can run the game by running the following command:
@@ -65,6 +68,15 @@ After following [how to build](#how-to-build), you can test the game by running
 the following command:
 
 `mvn test`
+
+### Generate Javadocs
+
+To generate Javadocs for the project, run the following command:
+
+`mvn javadoc:javadoc`
+
+The Javadocs are located in the `target/site/apidocs` directory and can be viewed
+by opening the `index.html` file in your browser.
 
 ## Creators
 
