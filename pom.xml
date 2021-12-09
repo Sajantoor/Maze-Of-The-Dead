@@ -23,6 +23,7 @@
     </dependency>
   </dependencies>
 
+
   <build>
     <plugins>
       <!-- Build an executable JAR -->
@@ -45,6 +46,16 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <!-- JUnit 5 requires Surefire version 2.22.0 or higher -->
         <version>2.22.0</version>
+      </plugin>
+
+      <!-- Javadoc -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <show>public</show>
+        </configuration>
       </plugin>
 
 
