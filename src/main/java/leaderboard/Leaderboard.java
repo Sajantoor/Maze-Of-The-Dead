@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import static utilities.Constants.playerListSize;
+import static utilities.Constants.leaderboardCapacity;
 
 /**
  * Creates a leaderboard with the top 5 players of the game
@@ -21,7 +21,7 @@ public class Leaderboard {
     private static Leaderboard leaderboardInstance = null;
 
     private Leaderboard() {
-        this.playerScores = new ArrayList<PlayerScore>();
+        this.playerScores = new ArrayList<>();
         readFromFile();
     }
 
@@ -55,7 +55,7 @@ public class Leaderboard {
             return;
         }
 
-        if (playerScores.size() < playerListSize) {
+        if (playerScores.size() < leaderboardCapacity) {
             boolean inserted = false;
             int i = 0;
             while (!inserted && i < playerScores.size()) {
@@ -87,7 +87,7 @@ public class Leaderboard {
         }
 
         // remove the last element(s) if the leaderboard is full
-        for (int i = playerListSize; i < getLeaderboardSize(); i++) {
+        for (int i = leaderboardCapacity; i < getLeaderboardSize(); i++) {
             playerScores.remove(i);
         }
     }
@@ -102,7 +102,7 @@ public class Leaderboard {
     public PlayerScore getPlayerScore(int index) {
         // Out of bounds also we don't want to expose anything outside of size of the
         // leaderboard to the public, just in case playerScores.size() > size
-        if (index < 0 || index >= playerListSize) {
+        if (index < 0 || index >= leaderboardCapacity) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -126,11 +126,12 @@ public class Leaderboard {
      * @see PlayerScore
      */
     public void writeToFile() {
+        FileWriter fileW = null;
         // creating a file
         try {
             File file = new File(Constants.leaderboardFile);
             file.createNewFile();
-            FileWriter fileW = new FileWriter(file);
+            fileW = new FileWriter(file);
 
             // outputting to the file
             fileW.write(this.toString());
@@ -138,8 +139,15 @@ public class Leaderboard {
             // closing the file
             fileW.close();
         } catch (IOException e) {
-            System.out.println("There was an error.");
+            System.out.println("I/O error");
             e.printStackTrace();
+        } finally {
+            //make sure that fileW is closed
+            try {
+                if (fileW != null) fileW.close();
+            } catch (IOException e) {
+                System.out.println("Cannot close the file");
+            }
         }
     }
 
@@ -149,6 +157,7 @@ public class Leaderboard {
      * @see Constants
      */
     private void readFromFile() {
+        Scanner fileReader = null;
         try {
             File file = new File(Constants.leaderboardFile);
             // if a file doesn't exist
@@ -156,8 +165,8 @@ public class Leaderboard {
                 file.createNewFile();
 
             // reading from the file
-            Scanner fileReader = new Scanner(file);
-            ArrayList<PlayerScore> leaderboardData = new ArrayList<PlayerScore>();
+            fileReader = new Scanner(file);
+            ArrayList<PlayerScore> leaderboardData = new ArrayList<>();
 
             while (fileReader.hasNextLine()) {
                 String data = fileReader.nextLine();
@@ -173,8 +182,11 @@ public class Leaderboard {
             fileReader.close();
             this.playerScores = leaderboardData;
         } catch (IOException e) {
-            System.out.println("There was an error.");
+            System.out.println("I/O error");
             e.printStackTrace();
+        } finally {
+            //make sure fileReader is closed
+            if (fileReader != null) fileReader.close();
         }
     }
 
@@ -208,14 +220,8 @@ public class Leaderboard {
         this.playerScores = playerScores;
     }
 
-    /**
-     * returns a clone of the leaderboard
-     * 
-     * @return a clone of the leaderboard
-     */
     public static Leaderboard Clone() {
-        ArrayList<PlayerScore> playerScores = new ArrayList<PlayerScore>();
-        Leaderboard l = new Leaderboard(playerScores);
-        return l;
+        ArrayList<PlayerScore> playerScores = new ArrayList<>();
+        return new Leaderboard(playerScores);
     }
 }

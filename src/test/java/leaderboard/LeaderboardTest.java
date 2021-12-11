@@ -11,7 +11,6 @@ public class LeaderboardTest {
         // testing if the instance is not null
         assertNotNull(instance1);
         Leaderboard instance2 = Leaderboard.getInstance();
-        instance1.addPlayerScore(new PlayerScore("Jeff", 200));
         // testing if the two instances point to a singleton object
         assertSame(instance1, instance2);
     }

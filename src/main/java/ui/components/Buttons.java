@@ -14,7 +14,7 @@ import java.awt.*;
 
 import static ui.GameUI.*;
 import static ui.components.UIUtils.buttonLayout;
-import static utilities.Constants.playerListSize;
+import static utilities.Constants.leaderboardCapacity;
 
 /**
  * Represents UI Button Components
@@ -183,7 +183,7 @@ public class Buttons {
         JButton continueButton = new JButton(buttonName);
         continueButton.addActionListener(e -> {
             if (score < Leaderboard.getInstance().getMinimumScore()
-                    && Leaderboard.getInstance().getLeaderboardSize() >= playerListSize) {
+                    && Leaderboard.getInstance().getLeaderboardSize() >= leaderboardCapacity) {
                 getSubFrame().remove(panel);
                 addLeaderboardScreen(null);
             } else {

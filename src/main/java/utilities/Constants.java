@@ -48,7 +48,7 @@ public class Constants {
     /**
      * The number of spaces in the leaderboard
      */
-    public static final int playerListSize = 5;
+    public static final int leaderboardCapacity = 5;
     /**
      * The file location of the current leaderboard
      */
