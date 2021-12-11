@@ -55,13 +55,15 @@ public class UIUtils {
     }
 
     /**
-     * Returns a string format the collected reward out of the total number of rewards
+     * Returns a string format the collected reward out of the total number of
+     * rewards
      *
-     * @param maxReward the max rewards generated for the game
-     * @param rewardCollected the number of rewards collected
-     * @param numBonusReward the total number of bonus rewards
+     * @param maxReward            the max rewards generated for the game
+     * @param rewardCollected      the number of rewards collected
+     * @param numBonusReward       the total number of bonus rewards
      * @param bonusRewardCollected the number of bonus rewards collected
-     * @return a string format the collected reward out of the total number of rewards
+     * @return a string format the collected reward out of the total number of
+     *         rewards
      */
     public static String formatRewardCount(int maxReward, int rewardCollected, int numBonusReward,
             int bonusRewardCollected) {

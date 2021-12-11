@@ -90,7 +90,7 @@ public class GameUI {
     /**
      * Displays the GameOver screen
      *
-     * @param score the score that the player accumulated in the game
+     * @param score         the score that the player accumulated in the game
      * @param timeInSeconds the amount of time the player spent playing the game
      */
     public static void addGameWonScreen(int score, long timeInSeconds) {

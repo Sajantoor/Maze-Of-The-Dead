@@ -210,6 +210,7 @@ public class Leaderboard {
 
     /**
      * returns a clone of the leaderboard
+     * 
      * @return a clone of the leaderboard
      */
     public static Leaderboard Clone() {

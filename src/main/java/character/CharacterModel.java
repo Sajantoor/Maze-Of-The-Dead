@@ -55,6 +55,7 @@ public class CharacterModel {
 
     /**
      * Moves the character model in the specified direction
+     * 
      * @param direction Defines how the character model will move
      */
     public void move(Movement direction) {

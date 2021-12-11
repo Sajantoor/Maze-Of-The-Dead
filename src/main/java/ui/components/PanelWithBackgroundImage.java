@@ -14,7 +14,8 @@ public class PanelWithBackgroundImage extends JPanel {
 
     /**
      * Constructor function for Panel with background image
-      * @param image Image to be set as background
+     * 
+     * @param image Image to be set as background
      */
     public PanelWithBackgroundImage(Image image) {
         this.image = image;

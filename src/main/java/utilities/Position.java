@@ -24,6 +24,7 @@ public class Position {
 
     /**
      * Constructor for position
+     * 
      * @param position the position to be stored
      */
     public Position(Position position) {

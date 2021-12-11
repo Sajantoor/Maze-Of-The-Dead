@@ -19,6 +19,7 @@ public class Enemy extends CharacterModel {
 
     /**
      * This represents the enemy for the game
+     * 
      * @param pos The position the enemy will start
      */
     public Enemy(Position pos) {
@@ -30,7 +31,7 @@ public class Enemy extends CharacterModel {
     private ArrayList<Position> generatePath() {
         Position player = Player.getInstance().getPosition();
         ArrayList<Position> generatedPath = null;
-        if(getPosition() != null)
+        if (getPosition() != null)
             generatedPath = getPath(getPosition(), player);
 
         if (generatedPath == null)

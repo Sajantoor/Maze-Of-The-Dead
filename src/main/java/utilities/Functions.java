@@ -2,6 +2,7 @@ package utilities;
 
 /**
  * The class stores helper methods for the game
+ * 
  * @author Sajan Toor
  */
 public class Functions {

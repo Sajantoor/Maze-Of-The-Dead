@@ -15,6 +15,7 @@ public class Trap extends Reward {
 
     /**
      * Represents the
+     * 
      * @param position the position where the trap will be placed
      * @param trapType Type of the trap (Boobytrap, Trapfall)
      */

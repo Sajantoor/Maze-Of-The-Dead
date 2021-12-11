@@ -55,11 +55,13 @@ public class Constants {
     public static final String leaderboardFile = "src/main/java/leaderboard/leaderBoard.txt";
     // Entities related
     /**
-     * The number of points that will be removed by the player in they step on a booby trap
+     * The number of points that will be removed by the player in they step on a
+     * booby trap
      */
     public static final int boobyTrapDmg = -10;
     /**
-     * The number of points that will be removed by the player in they step on a trap fall
+     * The number of points that will be removed by the player in they step on a
+     * trap fall
      */
     public static final int trapFallDmg = -20;
     /**
@@ -91,7 +93,8 @@ public class Constants {
      */
     public static final int bonusRewardPoints = 50;
     /**
-     * The shortest amount of time that bonus reward will stay on the maze in seconds
+     * The shortest amount of time that bonus reward will stay on the maze in
+     * seconds
      */
     public static final int bonusRewardTimeLower = 10;
     /**
