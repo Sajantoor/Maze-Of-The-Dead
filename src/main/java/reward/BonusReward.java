@@ -15,6 +15,7 @@ public class BonusReward extends Reward {
      * BonusReward class constructor function
      *
      * @param position Position of the bonus reward
+     * @param points The point value of the bonus reward
      * @param endTime  Time when the bonus reward disappears
      * @see Position
      */

@@ -6,5 +6,8 @@ package ui.components;
  * @author Dylan Young
  */
 public class FontPathString {
+    /**
+     * The directory of the Great Fighter Font
+     */
     public static final String GREAT_FIGHTER_FONT_LOCATION = "src/main/java/ui/GameFonts/GreatFighter-pKK1.ttf";
 }

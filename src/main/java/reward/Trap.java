@@ -13,6 +13,11 @@ import utilities.Position;
 public class Trap extends Reward {
     private TrapType trapType;
 
+    /**
+     * Represents the
+     * @param position the position where the trap will be placed
+     * @param trapType Type of the trap (Boobytrap, Trapfall)
+     */
     public Trap(Position position, TrapType trapType) {
         super(position);
         int points = switch (trapType) {

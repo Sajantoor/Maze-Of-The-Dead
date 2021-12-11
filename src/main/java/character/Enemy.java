@@ -17,6 +17,10 @@ public class Enemy extends CharacterModel {
     ArrayList<Position> currentPath;
     ArrayList<Position> nextPath;
 
+    /**
+     * This represents the enemy for the game
+     * @param pos The position the enemy will start
+     */
     public Enemy(Position pos) {
         super(pos);
         currentPath = generatePath();

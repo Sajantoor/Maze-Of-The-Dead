@@ -10,6 +10,9 @@ import java.awt.*;
  * @author Dylan Young
  */
 public class GameFrame extends JFrame {
+    /**
+     * This represents the main frame for the game
+     */
     public GameFrame() {
         this.setTitle("Maze of The Dead");
         this.setLayout(new BorderLayout());

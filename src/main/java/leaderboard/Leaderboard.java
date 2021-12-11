@@ -95,7 +95,7 @@ public class Leaderboard {
     /**
      * Returns player name and score at the index argument
      *
-     * @param index
+     * @param index the position in the Player Score array to be retrieved
      * @return playerScore at the index argument
      * @see PlayerScore
      */
@@ -208,6 +208,10 @@ public class Leaderboard {
         this.playerScores = playerScores;
     }
 
+    /**
+     * returns a clone of the leaderboard
+     * @return a clone of the leaderboard
+     */
     public static Leaderboard Clone() {
         ArrayList<PlayerScore> playerScores = new ArrayList<PlayerScore>();
         Leaderboard l = new Leaderboard(playerScores);

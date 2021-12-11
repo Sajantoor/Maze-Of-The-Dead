@@ -23,7 +23,7 @@ public class GameOverScreen extends PanelWithBackgroundImage {
      * @param numOfBonusRewards The number of bonus rewards collected in the game.
      * @param image             The background image for the screen
      */
-    public GameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards, Image image) {
+    public GameOverScreen(int score, long timeInSeconds, int numOfBonusRewards, Image image) {
         super(image);
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
         addSpace(this, 0, 60);

@@ -22,6 +22,10 @@ public class Position {
         this.y = y;
     }
 
+    /**
+     * Constructor for position
+     * @param position the position to be stored
+     */
     public Position(Position position) {
         this.x = position.x;
         this.y = position.y;

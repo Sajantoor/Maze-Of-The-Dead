@@ -64,7 +64,9 @@ public class GameUI {
         revalidateMainScreen();
     }
 
-    // TOOD: javadoc
+    /**
+     * Removes the Game Play Screen from the main frame
+     */
     public static void removeGamePlayScreen() {
         frame.remove(gamePanel);
     }
@@ -87,6 +89,9 @@ public class GameUI {
 
     /**
      * Displays the GameOver screen
+     *
+     * @param score the score that the player accumulated in the game
+     * @param timeInSeconds the amount of time the player spent playing the game
      */
     public static void addGameWonScreen(int score, long timeInSeconds) {
         subPanel = new GameWonScreen(score, timeInSeconds, image);
@@ -105,7 +110,7 @@ public class GameUI {
      *                          the game
      */
     public static void addGameOverScreen(int score, long timeInSeconds, int numOfRewards, int numOfBonusRewards) {
-        subPanel = new GameOverScreen(score, timeInSeconds, numOfRewards, numOfBonusRewards, image);
+        subPanel = new GameOverScreen(score, timeInSeconds, numOfBonusRewards, image);
         subFrameFormat(700, 800);
         subFrame.add(subPanel);
     }

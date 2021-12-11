@@ -67,6 +67,12 @@ public class Maze {
         return getCell(position.getX(), position.getY());
     }
 
+    /**
+     * Returns if the cell is the end type
+     *
+     * @param position The position that is being checked
+     * @return if the cell is the end type
+     */
     public boolean isEnd(Position position) {
         return getCell(position).isEnd();
     }
@@ -155,6 +161,9 @@ public class Maze {
         connectEndToPath();
     }
 
+    /**
+     * This will create a new maze
+     */
     public void regenerateMaze() {
         Entities.getInstance().clear();
         generateMaze(Constants.mazeWidth, Constants.mazeHeight, Constants.mazeRooms);

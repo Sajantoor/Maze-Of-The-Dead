@@ -53,6 +53,10 @@ public class CharacterModel {
         this.position.setY(y);
     }
 
+    /**
+     * Moves the character model in the specified direction
+     * @param direction Defines how the character model will move
+     */
     public void move(Movement direction) {
         switch (direction) {
             case UP -> position.setY(position.getY() - 1);

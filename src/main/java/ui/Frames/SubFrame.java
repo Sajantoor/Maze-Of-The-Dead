@@ -9,6 +9,9 @@ import javax.swing.*;
  * @author Dylan Young
  */
 public class SubFrame extends JFrame {
+    /**
+     * this represent the sub frame.
+     */
     public SubFrame() {
         this.setLocationRelativeTo(null);
         this.setAutoRequestFocus(true);

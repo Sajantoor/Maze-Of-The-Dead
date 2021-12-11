@@ -26,6 +26,12 @@ public class Reward {
         this.points = points;
     }
 
+    /**
+     * Reward constructor function
+     *
+     * @param position Position of the reward
+     * @see Position
+     */
     public Reward(Position position) {
         this.position = position;
         this.points = Constants.regularRewardPoints;

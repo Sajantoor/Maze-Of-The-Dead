@@ -1,5 +1,9 @@
 package utilities;
 
+/**
+ * The class stores helper methods for the game
+ * @author Sajan Toor
+ */
 public class Functions {
     /**
      * Update position based off movement enum
@@ -81,7 +85,8 @@ public class Functions {
 
     /**
      * Checks if a given position is in the maze
-     * 
+     *
+     * @param position the position to be validated
      * @return true if the position is in the maze, false otherwise
      */
     public static boolean validatePosition(Position position) {
